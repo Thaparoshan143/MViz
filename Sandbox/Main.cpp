@@ -1,8 +1,11 @@
+
 #include <iostream>
 
-#include"../platforms/OpenGL_Base/OpenGL_App.h"
+#include"./Application.hpp"
 
 using namespace Sandbox;
+using Application = Sandbox_App;
+using Window = Sandbox_Window;
 
 // #define SCR_WIDTH 800
 // #define SCR_HEIGHT 600
@@ -40,7 +43,7 @@ int main(int argc, char *arg[])
 
 	// ApplicationInfo sandboxInfo(SCR_WIDTH, SCR_HEIGHT, "Sandbox APP Yo");
 	ApplicationInfo appInfo(screenWidth, screenHeight, appName);
-	OpenGL_App *mainApplication = new OpenGL_App(appInfo);
+	Application *mainApplication = new Application(appInfo);
 
 	mainApplication->Initialize();
 	mainApplication->Loop();

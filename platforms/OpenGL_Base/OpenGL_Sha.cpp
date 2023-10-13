@@ -1,7 +1,7 @@
 
 #include"OpenGL_Sha.h"
 
-namespace Sandbox
+namespace OpenGL
 {
 	OpenGL_Sha::OpenGL_Sha() 
 	{

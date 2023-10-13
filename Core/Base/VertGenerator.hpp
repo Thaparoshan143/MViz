@@ -1,5 +1,8 @@
 #ifdef TESTING_MODE
 
+#ifndef VERTGENERATOR_HPP
+#define VERTGENERATOR_HPP
+
 #include<iostream>
 
 #include "../../includes/GLM/glm/glm.hpp"
@@ -130,4 +133,6 @@ namespace Util
 		return temp;
 	}
 }
+#endif
+
 #endif

@@ -6,26 +6,29 @@
 #include"./OpenGL_Sha.h"
 #include"./OpenGL_VertBuff.h"
 
-namespace Sandbox
+#define TESTING_MODE
+#include"../../Core/Base/VertGenerator.hpp"
+
+struct ApplicationInfo
 {
-	struct ApplicationInfo
+	int width, height;
+	String name;
+
+	ApplicationInfo() {}
+	ApplicationInfo(int w, int h, String n): width(w), height(h), name(n) {}	
+
+	ApplicationInfo operator=(const ApplicationInfo &appInfo)
 	{
-		int width, height;
-		String name;
+		this->width = appInfo.width;
+		this->height = appInfo.height;
+		this->name = appInfo.name;
 
-		ApplicationInfo() {}
-		ApplicationInfo(int w, int h, String n): width(w), height(h), name(n) {}	
+		return *this;
+	}	
+};
 
-		ApplicationInfo operator=(const ApplicationInfo &appInfo)
-		{
-			this->width = appInfo.width;
-			this->height = appInfo.height;
-			this->name = appInfo.name;
-
-			return *this;
-		}	
-	};
-
+namespace OpenGL
+{
 	class OpenGL_App : private Abs::Application
 	{
 		public:
@@ -40,7 +43,7 @@ namespace Sandbox
 
 		inline ApplicationInfo GetAppInfo();
 
-		private:
+		public:
 		OpenGL_Win *m_mainWindow;
 		ApplicationInfo m_appInfo;
 

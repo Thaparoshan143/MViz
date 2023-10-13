@@ -1,6 +1,6 @@
 #include"OpenGL_Win.h"
 
-namespace Sandbox
+namespace OpenGL
 {
 	OpenGL_Win::OpenGL_Win()
 	{

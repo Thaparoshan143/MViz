@@ -6,7 +6,7 @@
 #include"../../Core/Base/Window.h"
 
 
-namespace Sandbox
+namespace OpenGL
 {
 	class OpenGL_Win : private Abs::Window
 	{
@@ -22,7 +22,7 @@ namespace Sandbox
 		inline bool ShouldCloseWindow() override {	return glfwWindowShouldClose(this->m_window);	};
 		void SwapFrameBuffer() override;
 
-		private:
+		public:
 		GLFWwindow *m_window;
 
 		void initializeOpenGLWindow(int w, int h, String t);

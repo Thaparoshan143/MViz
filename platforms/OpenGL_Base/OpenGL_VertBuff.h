@@ -5,7 +5,7 @@
 
 #include"../../Core/Base/VertexBuffer.h"
 
-namespace Sandbox
+namespace OpenGL
 {
 	class OpenGL_VertBuff : private Abs::VertexBuffer
 	{

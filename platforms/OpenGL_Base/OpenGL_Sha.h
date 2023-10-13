@@ -11,7 +11,7 @@
 
 typedef glm::fmat4 fMat4;
 
-namespace Sandbox
+namespace OpenGL
 {
 	class OpenGL_Sha : private Abs::Shader
 	{

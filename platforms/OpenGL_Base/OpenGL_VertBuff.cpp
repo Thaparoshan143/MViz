@@ -1,6 +1,6 @@
 #include"OpenGL_VertBuff.h"
 
-namespace Sandbox
+namespace OpenGL
 {
 	OpenGL_VertBuff::OpenGL_VertBuff(uint size) : VertexBuffer(size)
 	{
