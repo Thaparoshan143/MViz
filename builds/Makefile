@@ -15,8 +15,13 @@ FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj Vert
 
 MAC_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_MAC}
 
+WIN_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_WIN}
+
 mac_m: ${FILE_DEPENDENCIES}
 	${MAC_COMMAND}
+
+win_m: ${FILE_DEPENDENCIES}
+	$(WIN_COMMAND)
 
 main.obj: ${SRC_OFF}main.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/main.obj ${SRC_OFF}main.cpp
