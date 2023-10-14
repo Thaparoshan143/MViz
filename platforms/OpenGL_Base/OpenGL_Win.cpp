@@ -4,12 +4,14 @@ namespace OpenGL
 {
 	OpenGL_Win::OpenGL_Win()
 	{
-		initializeOpenGLWindow(500, 500, "Opengl Window");
+		this->m_wi = WindowInfo(800, 600, "OpenGL Window");
+		initializeOpenGLWindow(500, 500, "OpenGL Window");
 	}
 
-	OpenGL_Win::OpenGL_Win(int w, int h, String t)
+	OpenGL_Win::OpenGL_Win(WindowInfo &wi)
 	{
-		initializeOpenGLWindow(w, h, t);
+		this->m_wi = wi;
+		initializeOpenGLWindow(wi.width, wi.height, wi.title);
 	}
 
 	OpenGL_Win::~OpenGL_Win()
@@ -36,6 +38,7 @@ namespace OpenGL
 
 	void OpenGL_Win::initializeOpenGLWindow(int w, int h, String t)
 	{
+		std::cout << "I am OpenGL Window !!";
 		// loading basic glfw library and more
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

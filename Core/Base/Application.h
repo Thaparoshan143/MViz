@@ -1,6 +1,8 @@
+#pragma once
+
 #include<iostream>
 
-typedef std::string String;
+#include"./Types.h"
 
 namespace Abs
 {
@@ -11,8 +13,5 @@ namespace Abs
 
         virtual void Initialize() = 0;
         virtual void Loop() = 0;
-
-        protected:
-        String m_name;
     };
 }

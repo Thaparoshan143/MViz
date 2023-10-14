@@ -1,3 +1,5 @@
+#pragma once
+
 #include<iostream>
 
 #include"../../includes/GLM/glm/glm.hpp"

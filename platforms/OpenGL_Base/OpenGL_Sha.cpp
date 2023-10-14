@@ -1,18 +1,15 @@
-
 #include"OpenGL_Sha.h"
 
 namespace OpenGL
 {
-	OpenGL_Sha::OpenGL_Sha() 
+	OpenGL_Sha::OpenGL_Sha()
 	{
 		m_programID = 0;
-		m_dirPath = "../res/Shaders/";
 	}
 
-	OpenGL_Sha::OpenGL_Sha(String path) 
+	OpenGL_Sha::OpenGL_Sha(String path) : Shader(path)
 	{
 		m_programID = 0;
-		m_dirPath = path;
 	}
 
 	OpenGL_Sha::~OpenGL_Sha()
@@ -41,11 +38,6 @@ namespace OpenGL
 		glDeleteShader(fs);
 		
 		return m_programID;
-	}
-
-	void OpenGL_Sha::UpdatePath(String path)
-	{
-		this->m_dirPath = path;
 	}
 
 	void OpenGL_Sha::DeleteProgram()

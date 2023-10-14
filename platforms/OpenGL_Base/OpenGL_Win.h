@@ -5,14 +5,13 @@
 
 #include"../../Core/Base/Window.h"
 
-
 namespace OpenGL
 {
-	class OpenGL_Win : private Abs::Window
+	class OpenGL_Win : public Abs::Window
 	{
 		public:
 		OpenGL_Win();
-		OpenGL_Win(int w, int h, String t);
+		OpenGL_Win(WindowInfo &wi);
 
 		~OpenGL_Win();
 		
@@ -22,7 +21,6 @@ namespace OpenGL
 		inline bool ShouldCloseWindow() override {	return glfwWindowShouldClose(this->m_window);	};
 		void SwapFrameBuffer() override;
 
-		public:
 		GLFWwindow *m_window;
 
 		void initializeOpenGLWindow(int w, int h, String t);

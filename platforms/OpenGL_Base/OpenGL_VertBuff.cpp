@@ -18,16 +18,6 @@ namespace OpenGL
 		glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
 		glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), data, loadMode);
 	}
-	
-	void OpenGL_VertBuff::Append(float *data, uint count)
-	{
-		this->m_data.Append(data, count);
-	}
-
-	void OpenGL_VertBuff::Clear()
-	{
-		this->m_data.Clear();
-	}
 
 	void OpenGL_VertBuff::Bind()
 	{

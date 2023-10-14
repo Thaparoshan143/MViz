@@ -9,27 +9,12 @@
 #define TESTING_MODE
 #include"../../Core/Base/VertGenerator.hpp"
 
-struct ApplicationInfo
-{
-	int width, height;
-	String name;
-
-	ApplicationInfo() {}
-	ApplicationInfo(int w, int h, String n): width(w), height(h), name(n) {}	
-
-	ApplicationInfo operator=(const ApplicationInfo &appInfo)
-	{
-		this->width = appInfo.width;
-		this->height = appInfo.height;
-		this->name = appInfo.name;
-
-		return *this;
-	}	
-};
+// using same info mode for both, contains width, height and the title of window
+typedef WindowInfo ApplicationInfo;
 
 namespace OpenGL
 {
-	class OpenGL_App : private Abs::Application
+	class OpenGL_App : public Abs::Application
 	{
 		public:
 		OpenGL_App();
@@ -38,14 +23,12 @@ namespace OpenGL
 		~OpenGL_App();
 
 		// might not be necessary once actual application is made out for the application based working...
-		void Initialize() override;
-		void Loop() override;
+		void InitializeOpenGL();
 
 		inline ApplicationInfo GetAppInfo();
 
 		public:
 		OpenGL_Win *m_mainWindow;
-		ApplicationInfo m_appInfo;
 
 		// helper function for initalizing application class
 		void initializeApp(ApplicationInfo &appInfo);

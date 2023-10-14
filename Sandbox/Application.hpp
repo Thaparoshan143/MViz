@@ -1,10 +1,10 @@
 #pragma once
 #include"../platforms/OpenGL_Base/OpenGL_App.h"
 
-#include"./Window.hpp"
-
 #define FREQ_COUNT 5
+// it is the total no of vertex count in single sine wave #note: hgher the number more better the curve
 #define SINE_RES 20
+#define SINE_AMP_Y 0.6
 
 namespace Sandbox 
 {
@@ -12,10 +12,10 @@ namespace Sandbox
     {
         public:
         Sandbox_App() : OpenGL::OpenGL_App() {}
-        Sandbox_App(ApplicationInfo &ai) : OpenGL::OpenGL_App(ai) {}
+        Sandbox_App(ApplicationInfo &ai) : OpenGL::OpenGL_App(ai) { }
 
-        void Initialize();
-        void Loop();
+        void Initialize() override;
+        void Loop() override;
     };
 
     void Sandbox_App::Loop()
@@ -24,7 +24,6 @@ namespace Sandbox
 
         // const int TRIANGLE_COUNT = 18;
         OpenGL_Sha sh("../res/Shaders/");
-        sh.CreateProgram();
         sh.UseProgram();
         fMat4 temp;
         temp = glm::translate(fMat4(1.0), glm::fvec3(-1.0, 0, 0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
@@ -33,7 +32,7 @@ namespace Sandbox
 
         float i=0.0f;
         // temporary right now here later move to the actual inherted applications..
-        while (!this->m_mainWindow->ShouldCloseWindow())
+        while (!m_mainWindow->ShouldCloseWindow())
         {
             i+=0.001f;
             if(i>1)
@@ -68,7 +67,7 @@ namespace Sandbox
         // };
 
         float *boxVert = Util::_get_rect_ver3_col<float>(Util::fVec3(0), Util::fVec3(0.8), Util::fVec3(0.6));
-        float *sineVert = Util::_get_sine_ver2(FREQ_COUNT);
+        float *sineVert = Util::_get_sine_ver2(FREQ_COUNT, SINE_RES, SINE_AMP_Y);
 
         for(int i=0;i<=SINE_RES*FREQ_COUNT*1;i++)
         {

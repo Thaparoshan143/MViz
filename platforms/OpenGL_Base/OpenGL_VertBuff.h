@@ -14,8 +14,6 @@ namespace OpenGL
 		
 		void LoadBuffer(uint loadMode = GL_DYNAMIC_DRAW) override;
 		void DirectLoad(float *data, uint count, uint loadMode = GL_DYNAMIC_DRAW);
-		void Append(float *data, uint count) override;
-		void Clear() override;
 		void Bind() override;
 		void Unbind() override;
 		float* GetVertexData() {	return m_data.GetData();	}

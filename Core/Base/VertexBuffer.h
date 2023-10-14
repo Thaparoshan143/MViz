@@ -2,7 +2,7 @@
 
 #include<iostream>
 
-#include"../../includes/GLM/glm/glm.hpp"
+#include"./Types.h"
 #include"./SVec.hpp"
 
 namespace Abs
@@ -13,8 +13,8 @@ namespace Abs
         VertexBuffer(uint size = 2) : m_data(size) {}
 
         virtual void LoadBuffer(uint loadMode) = 0;
-        virtual void Append(float *data, uint count) = 0;
-        virtual void Clear() = 0;
+        virtual void Append(float *data, uint count) {  m_data.Append(data, count); };
+        void Clear() {  m_data.Clear(); };
         virtual void Bind() = 0;
         virtual void Unbind() = 0;
 

@@ -3,6 +3,8 @@
 #ifndef VERTGENERATOR_HPP
 #define VERTGENERATOR_HPP
 
+#pragma once
+
 #include<iostream>
 
 #include "../../includes/GLM/glm/glm.hpp"
@@ -12,9 +14,6 @@
 #define VERT3_RGB_SIZE 18
 
 #define PI 3.1415926535
-// it is the total no of vertex count in single sine wave #note: hgher the number more better the curve
-#define SINE_RES 20
-#define AMP_Y 0.6
 
 namespace Util
 {
@@ -110,22 +109,22 @@ namespace Util
 		return temp;
     }
 
-	float* _get_sine_ver2(int freq)
+	float* _get_sine_ver2(int freq, int res, double amp)
 	{
-		float *temp = new float[SINE_RES*(freq*2+2)];
+		float *temp = new float[res*(freq*2+2)];
 		float startPoint = -1.0f;
 		float cycleOff = 2.0/freq;
-		float xOff = cycleOff/SINE_RES;
+		float xOff = cycleOff/res;
 
 		std::cout << "Cycle Offset " << cycleOff << " and XOffs is : " << xOff << std::endl;
 
 		for(int i=0;i<freq;i++)
 		{
 			std::cout << "Starting Point is : " << startPoint << std::endl;
-			for(int j=0;j<=SINE_RES;j++)
+			for(int j=0;j<=res;j++)
 			{
-				*(temp+2*i*SINE_RES+2*j) = startPoint+xOff*j;
-				*(temp+2*i*SINE_RES+2*j+1) = abs(sin(2*PI*xOff*j/cycleOff) * AMP_Y)<0.0001f?0.0:(sin(2*PI*xOff*j/cycleOff) * AMP_Y);
+				*(temp+2*i*res+2*j) = startPoint+xOff*j;
+				*(temp+2*i*res+2*j+1) = abs(sin(2*PI*xOff*j/cycleOff) * amp)<0.0001f?0.0:(sin(2*PI*xOff*j/cycleOff) * amp);
 			}
 			startPoint+=cycleOff;
  		}

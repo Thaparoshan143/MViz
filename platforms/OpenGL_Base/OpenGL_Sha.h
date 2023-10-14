@@ -13,7 +13,7 @@ typedef glm::fmat4 fMat4;
 
 namespace OpenGL
 {
-	class OpenGL_Sha : private Abs::Shader
+	class OpenGL_Sha : public Abs::Shader
 	{
 		public:
 		OpenGL_Sha();
@@ -22,8 +22,6 @@ namespace OpenGL
 		~OpenGL_Sha();
 
 		uint CreateProgram() override;
-		void UpdatePath(String path) override;
-		inline uint GetProgramID() override {	return m_programID;	};
 		void DeleteProgram() override;
 		void UseProgram() override;
 		void SetUniformInt(String name, int value);
@@ -32,8 +30,6 @@ namespace OpenGL
 		void SetUniformMat4(String name, fMat4 value);
 
 		private:
-		uint m_programID;
-
 		// It could have been squized in the abstract class if shader parsing remains same for all platform..
 		uint compileShader(uint t);
 		String parseShader(String sha);

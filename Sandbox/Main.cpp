@@ -3,12 +3,11 @@
 
 #include"./Application.hpp"
 
-using namespace Sandbox;
-using Application = Sandbox_App;
-using Window = Sandbox_Window;
+// using namespace Sandbox;
+using Application = Sandbox::Sandbox_App;
 
-// #define SCR_WIDTH 800
-// #define SCR_HEIGHT 600
+#define SCR_WIDTH 800
+#define SCR_HEIGHT 600
 
 int GetIntFromCharPtr(const char *c)
 {
@@ -32,8 +31,8 @@ int GetIntFromCharPtr(const char *c)
 
 int main(int argc, char *arg[])
 {
-	int screenWidth = (GetIntFromCharPtr(arg[1]) && argc!=1) ? GetIntFromCharPtr(arg[1]) : 800;
-	int screenHeight = (GetIntFromCharPtr(arg[2]) && argc!=1) ? GetIntFromCharPtr(arg[2]) : 600;
+	int screenWidth = (GetIntFromCharPtr(arg[1]) && argc!=1) ? GetIntFromCharPtr(arg[1]) : SCR_WIDTH;
+	int screenHeight = (GetIntFromCharPtr(arg[2]) && argc!=1) ? GetIntFromCharPtr(arg[2]) : SCR_HEIGHT;
 	String appName = (String(arg[3]) != "" && argc!=1) ? String(arg[3]): String("Default");
 
 	std::cout << "==> Application Info <==" << std::endl;
@@ -44,7 +43,6 @@ int main(int argc, char *arg[])
 	// ApplicationInfo sandboxInfo(SCR_WIDTH, SCR_HEIGHT, "Sandbox APP Yo");
 	ApplicationInfo appInfo(screenWidth, screenHeight, appName);
 	Application *mainApplication = new Application(appInfo);
-
 	mainApplication->Initialize();
 	mainApplication->Loop();
 

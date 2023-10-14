@@ -1,6 +1,8 @@
 #ifndef SVEC_HPP
 #define SVEC_HPP
 
+#pragma once
+
 #include<iostream>
 
 namespace Abs

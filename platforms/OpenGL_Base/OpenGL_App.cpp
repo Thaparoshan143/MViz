@@ -24,25 +24,20 @@ namespace OpenGL
 
 	ApplicationInfo OpenGL_App::GetAppInfo()
 	{
-		return m_appInfo;
+		return m_mainWindow->GetWindowInfo();
 	}
 
 	void OpenGL_App::initializeApp(ApplicationInfo &appInfo)
 	{
-		this->m_appInfo = appInfo;
-		this->m_mainWindow = new OpenGL_Win(m_appInfo.width, m_appInfo.height, m_appInfo.name);
+		this->m_mainWindow = new OpenGL_Win(appInfo);
+		this->m_mainWindow->m_wi = appInfo;
+		InitializeOpenGL();
 	}
 
-	void OpenGL_App::Initialize()
+	void OpenGL_App::InitializeOpenGL()
 	{
 		glEnable(GL_BLEND);
 		glEnable(GL_BACK);
 		glEnable(GL_LINE_SMOOTH);
-
-	}
-
-	void OpenGL_App::Loop()
-	{
-
 	}
 }
