@@ -42,5 +42,9 @@ VertexBuffer.obj: ${DIR_OFF}OpenGL_VertBuff.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/VertexBuffer.obj ${DIR_OFF}OpenGL_VertBuff.cpp
 
 
-clean:
+clean_win:
+	del -f *.obj
+
+clean_mac:
 	rm -f *.obj
+	
