@@ -1,3 +1,4 @@
 builds/Exe/test
+builds/Exe/test.exe
 .vscode
 builds/*.obj
