@@ -4,6 +4,11 @@
 #include"../../includes/GLFW/glfw3.h"
 
 #include"../../Core/Base/Window.h"
+#include"../../Core/Base/Event.h"
+#include"../../Core/Base/MouseEvent.h"
+
+
+
 
 namespace OpenGL
 {
@@ -21,8 +26,11 @@ namespace OpenGL
 		inline bool ShouldCloseWindow() override {	return glfwWindowShouldClose(this->m_window);	};
 		void SwapFrameBuffer() override;
 
+
 		GLFWwindow *m_window;
 
 		void initializeOpenGLWindow(int w, int h, String t);
+		
 	};
 }
+

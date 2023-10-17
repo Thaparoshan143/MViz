@@ -80,7 +80,7 @@ namespace Abs
 
         void copy(T *des, T *src, uint count)
         {
-            for(int i=0;i<count;i++)
+            for(uint i=0;i<count;i++)
             {
                 *(des+i) = *(src+i);
             }

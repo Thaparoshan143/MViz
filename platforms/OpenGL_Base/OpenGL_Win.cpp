@@ -22,6 +22,24 @@ namespace OpenGL
 	void OpenGL_Win::SetActive()
 	{
 		glfwMakeContextCurrent(this->m_window);
+
+		glfwSetCursorPosCallback(this->m_window, [](GLFWwindow* window, double xpos, double ypos) {
+			
+		});
+
+		glfwSetMouseButtonCallback(this->m_window, [](GLFWwindow* window, int button, int action, int mods) {
+			
+			switch (action) {
+				case GLFW_PRESS: {
+					
+					break;
+				}
+				case GLFW_RELEASE: {
+					
+					break;
+				}
+			}
+		});
 	}
 
 	void OpenGL_Win::SetColor(float r, float g, float b, float a)
