@@ -11,7 +11,7 @@ ABS_OFF = ../Core/
 
 ASSEMBLE_CMD = 	${CXX} ${CFLAGS} -c
 
-FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj VertexBuffer.obj
+FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj VertexBuffer.obj Input.obj
 
 MAC_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_MAC}
 
@@ -22,6 +22,12 @@ mac_m: ${FILE_DEPENDENCIES}
 
 win_m: ${FILE_DEPENDENCIES}
 	$(WIN_COMMAND)
+
+mac_all: 
+	${CXX} ${CFLAGS} -o ${BUILD_NAME} ${SRC_OFF}*.cpp ${DIR_OFF}*.cpp ${INC_PATH} ${LINKER_MAC}
+
+win_all: 
+	${CXX} ${CFLAGS} -o ${BUILD_NAME} ${SRC_OFF}*.cpp ${DIR_OFF}*.cpp ${INC_PATH} ${LINKER_WIN}
 
 main.obj: ${SRC_OFF}main.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/main.obj ${SRC_OFF}main.cpp
@@ -40,6 +46,9 @@ Application.obj: ${DIR_OFF}OpenGL_App.cpp
 
 VertexBuffer.obj: ${DIR_OFF}OpenGL_VertBuff.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/VertexBuffer.obj ${DIR_OFF}OpenGL_VertBuff.cpp
+
+Input.obj: ${DIR_OFF}OpenGL_Inp.cpp
+	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Input.obj ${DIR_OFF}OpenGL_Inp.cpp
 
 
 clean_win:
