@@ -10,12 +10,5 @@ typedef glm::ivec2 iVec2;
 typedef glm::dvec2 dVec2;
 typedef unsigned int uint;
 
-struct Point2 {
-    double x;
-    double y;
-};
-
-struct Size2 {
-    double width;
-    double height;
-};
+typedef dVec2 Point2;
+typedef dVec2 Size2;

@@ -21,25 +21,7 @@ namespace OpenGL
 
 	void OpenGL_Win::SetActive()
 	{
-		glfwMakeContextCurrent(this->m_window);
-
-		glfwSetCursorPosCallback(this->m_window, [](GLFWwindow* window, double xpos, double ypos) {
-			
-		});
-
-		glfwSetMouseButtonCallback(this->m_window, [](GLFWwindow* window, int button, int action, int mods) {
-			
-			switch (action) {
-				case GLFW_PRESS: {
-					
-					break;
-				}
-				case GLFW_RELEASE: {
-					
-					break;
-				}
-			}
-		});
+		glfwMakeContextCurrent(this->m_window);		
 	}
 
 	void OpenGL_Win::SetColor(float r, float g, float b, float a)
@@ -83,5 +65,54 @@ namespace OpenGL
 
 		// Setting user pointer is left to do properly
 		// glfwSetWindowUserPointer(this->m_window, this);
+
+		// Registering all the callbacks for mouse and keyboard (static method inside OpenGL_Inp)
+		glfwSetMouseButtonCallback(this->m_window, static_mouse_button_callback);
+		glfwSetCursorPosCallback(this->m_window, static_mouse_position_callback);
+		glfwSetScrollCallback(this->m_window, static_mouse_scroll_callback);
+		glfwSetKeyCallback(this->m_window, static_key_callback);
 	}
+
+
+	// All the static methods for input definition 
+	static void static_mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+    {
+        if(action == GLFW_PRESS)
+        {
+            Abs::MouseButtonPressedEvent mbpressed(Abs::MouseCode(button));
+            std::cout << "Mouse button pressed!!\n";
+        }
+        else if(action == GLFW_RELEASE)
+        {
+            Abs::MouseButtonReleasedEvent mbreleased(Abs::MouseCode(button));
+            std::cout << "Mouse button released!!\n";
+        }
+    }
+
+	static void static_mouse_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
+	{
+		std::cout << "Mouse scrolled : " << std::endl;
+		std::cout << "XOffset : " << xoffset << "\nYOffset : " << yoffset << std::endl;
+	}
+
+	static void static_mouse_position_callback(GLFWwindow *window, double xpos, double ypos)
+	{
+		std::cout << "Mouse moved : " << std::endl;
+		std::cout << "X : " << xpos << "\nY : " << ypos << std::endl;
+	}
+
+	static void static_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+	{
+		if(action == GLFW_PRESS)
+		{
+			Abs::KeyButtonPressedEvent kbpressed(key);
+			std::cout << "Key pressed!! - " << char(key) << std::endl;
+		}
+		else if(action == GLFW_RELEASE)
+		{
+			Abs::KeyButtonReleasedEvent kbreleased(key);
+			std::cout << "Key released!! - " << char(key) << std::endl;
+		}
+	}
+
 }
