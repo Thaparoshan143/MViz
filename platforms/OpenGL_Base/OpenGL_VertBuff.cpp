@@ -19,9 +19,10 @@ namespace OpenGL
 		glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), data, loadMode);
 	}
 
-	void OpenGL_VertBuff::Bind()
+	uint OpenGL_VertBuff::Bind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
+		return this->m_id;
 	}
 
 	void OpenGL_VertBuff::Unbind()

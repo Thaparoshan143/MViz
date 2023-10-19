@@ -4,6 +4,7 @@
 
 #include"./OpenGL_Win.h"
 #include"./OpenGL_Sha.h"
+#include"./OpenGL_Text.h"
 #include"./OpenGL_VertBuff.h"
 
 #define TESTING_MODE

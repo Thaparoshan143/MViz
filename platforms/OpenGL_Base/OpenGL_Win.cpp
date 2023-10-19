@@ -64,13 +64,15 @@ namespace OpenGL
 		}
 
 		// Setting user pointer is left to do properly
-		// glfwSetWindowUserPointer(this->m_window, this);
+		glfwSetWindowUserPointer(this->m_window, this);
 
 		// Registering all the callbacks for mouse and keyboard (static method inside OpenGL_Inp)
 		glfwSetMouseButtonCallback(this->m_window, static_mouse_button_callback);
 		glfwSetCursorPosCallback(this->m_window, static_mouse_position_callback);
 		glfwSetScrollCallback(this->m_window, static_mouse_scroll_callback);
 		glfwSetKeyCallback(this->m_window, static_key_callback);
+
+		glfwSetFramebufferSizeCallback(this->m_window, static_framesize_callback);
 	}
 
 
@@ -80,25 +82,33 @@ namespace OpenGL
         if(action == GLFW_PRESS)
         {
             Abs::MouseButtonPressedEvent mbpressed(Abs::MouseCode(button));
+			#if DEBUG_LOG
             std::cout << "Mouse button pressed!!\n";
+			#endif
         }
         else if(action == GLFW_RELEASE)
         {
             Abs::MouseButtonReleasedEvent mbreleased(Abs::MouseCode(button));
+			#if DEBUG_LOG
             std::cout << "Mouse button released!!\n";
+			#endif
         }
     }
 
 	static void static_mouse_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 	{
+		#if DEBUG_LOG
 		std::cout << "Mouse scrolled : " << std::endl;
 		std::cout << "XOffset : " << xoffset << "\nYOffset : " << yoffset << std::endl;
+		#endif
 	}
 
 	static void static_mouse_position_callback(GLFWwindow *window, double xpos, double ypos)
 	{
+		#if DEBUG_LOG
 		std::cout << "Mouse moved : " << std::endl;
 		std::cout << "X : " << xpos << "\nY : " << ypos << std::endl;
+		#endif
 	}
 
 	static void static_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -106,13 +116,24 @@ namespace OpenGL
 		if(action == GLFW_PRESS)
 		{
 			Abs::KeyButtonPressedEvent kbpressed(key);
+			#if DEBUG_LOG
 			std::cout << "Key pressed!! - " << char(key) << std::endl;
+			#endif
 		}
 		else if(action == GLFW_RELEASE)
 		{
 			Abs::KeyButtonReleasedEvent kbreleased(key);
+			#if DEBUG_LOG
 			std::cout << "Key released!! - " << char(key) << std::endl;
+			#endif
 		}
 	}
 
+	static void static_framesize_callback(GLFWwindow *window, int width, int height)
+	{
+		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
+
+		win->m_wi.width = width;
+		win->m_wi.height = height;
+	}
 }

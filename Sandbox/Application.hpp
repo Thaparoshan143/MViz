@@ -21,9 +21,12 @@ namespace Sandbox
     void Sandbox_App::Loop()
     {
         using namespace OpenGL;
+        // FreetypeText tempString(*this->m_mainWindow, "Text");
 
         // const int TRIANGLE_COUNT = 18;
         OpenGL_Sha sh("../res/Shaders/");
+        OpenGL_Sha shText("../res/Shaders/Text/");
+        shText.CreateProgram();
         sh.UseProgram();
         fMat4 temp;
         temp = glm::translate(fMat4(1.0), glm::fvec3(-1.0, 0, 0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
@@ -34,12 +37,13 @@ namespace Sandbox
         utemp = glm::translate(fMat4(1.0), glm::fvec3(1.0, 0.0, 0.0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
 
         float i=0.0f;
-        float d_i = 0.001f;
+        float d_i = 0.005f;
 
         
         // temporary right now here later move to the actual inherted applications..
         while (!m_mainWindow->ShouldCloseWindow())
         {
+            sh.UseProgram();
             i += d_i;
             if (i > 1) {
                 d_i = -d_i;
@@ -62,6 +66,8 @@ namespace Sandbox
             // glDrawArrays(GL_TRIANGLES, 0, TRIANGLE_COUNT);
             glLineWidth(1.0f);
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
+
+            // tempString.RenderText(shText, 0, 0, 1, dVec3(1,0.5,0.2));
 
             m_mainWindow->SwapFrameBuffer();
             glfwPollEvents();
