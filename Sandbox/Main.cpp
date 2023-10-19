@@ -33,9 +33,9 @@ int main(int argc, char *arg[])
 {
 	int screenWidth = (GetIntFromCharPtr(arg[1]) && argc!=1) ? GetIntFromCharPtr(arg[1]) : SCR_WIDTH;
 	int screenHeight = (GetIntFromCharPtr(arg[2]) && argc!=1) ? GetIntFromCharPtr(arg[2]) : SCR_HEIGHT;
-	String appName = (String(arg[3]) != "" && argc!=1) ? String(arg[3]): String("Default");
+	String appName = (String(arg[3]) != "" && argc!=1) ? String(arg[3]): String("Default App");
 
-	std::cout << "==> Application Info <==" << std::endl;
+	std::cout << "==>  Application Info <==" << std::endl;
 	std::cout << "Screen Width : " << screenWidth << std::endl;
 	std::cout << "Screen Height : " << screenHeight << std::endl;
 	std::cout << "App Name : " << appName << std::endl;

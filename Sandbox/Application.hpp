@@ -21,10 +21,10 @@ namespace Sandbox
     void Sandbox_App::Loop()
     {
         using namespace OpenGL;
-        // FreetypeText tempString(*this->m_mainWindow, "Text");
+        // FreetypeText tempString;
 
         // const int TRIANGLE_COUNT = 18;
-        OpenGL_Sha sh("../res/Shaders/");
+        OpenGL_Sha sh("../res/shaders/");
         OpenGL_Sha shText("../res/Shaders/Text/");
         shText.CreateProgram();
         sh.UseProgram();
@@ -37,7 +37,7 @@ namespace Sandbox
         utemp = glm::translate(fMat4(1.0), glm::fvec3(1.0, 0.0, 0.0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
 
         float i=0.0f;
-        float d_i = 0.005f;
+        float d_i = 0.0001f;
 
         
         // temporary right now here later move to the actual inherted applications..
@@ -62,6 +62,8 @@ namespace Sandbox
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
             temp = glm::rotate(fMat4(), glm::radians(i*360.0f), glm::fvec3(1.0, 0.0, 0.0));
+
+            sh.SetUniformMat4("modal", temp);
 
             // glDrawArrays(GL_TRIANGLES, 0, TRIANGLE_COUNT);
             glLineWidth(1.0f);

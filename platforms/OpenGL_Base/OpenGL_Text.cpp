@@ -122,6 +122,12 @@ namespace OpenGL
 			glBindBuffer(GL_ARRAY_BUFFER, VBO.Bind());
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
 
+\
+
+
+
+
+
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			// render quad
 			glDrawArrays(GL_TRIANGLES, 0, 6);
