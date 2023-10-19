@@ -9,6 +9,20 @@ DIR_OFF = ../platforms/OpenGL_Base/
 SRC_OFF = ../Sandbox/
 ABS_OFF = ../Core/
 
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Linux) #LINUX
+	ECHO_MESSAGE = "Linux"
+endif
+
+ifeq ($(UNAME_S), Darwin) #APPLE
+	ECHO_MESSAGE = "MAC OS"
+endif
+
+ifeq ($(OS), Windows_NT) #WINDOWS
+	ECHO_MESSAGE = "Windows"
+endif
+
 ASSEMBLE_CMD = 	${CXX} ${CFLAGS} -c
 
 FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj VertexBuffer.obj Text.obj Input.obj
@@ -17,19 +31,21 @@ MAC_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${
 
 WIN_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_WIN}
 
-mac_m: ${FILE_DEPENDENCIES}
+build_m: ${FILE_DEPENDENCIES}
+ifeq (${UNAME_S}, Darwin)
 	${MAC_COMMAND}
-
-win_m: ${FILE_DEPENDENCIES}
+else
 	$(WIN_COMMAND)
+endif
 
-mac_all: 
+build_all:
+ifeq (${UNAME_S}, Darwin)
 	${CXX} ${CFLAGS} -o ${BUILD_NAME} ${SRC_OFF}*.cpp ${DIR_OFF}*.cpp ${INC_PATH} ${LINKER_MAC}
-
-win_all: 
+else
 	${CXX} ${CFLAGS} -o ${BUILD_NAME} ${SRC_OFF}*.cpp ${DIR_OFF}*.cpp ${INC_PATH} ${LINKER_WIN}
+endif
 
-main.obj: ${SRC_OFF}main.cpp
+main.obj: ${SRC_OFF}main.cpp ${SRC_OFF}Application.hpp 
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/main.obj ${INC_PATH} ${SRC_OFF}main.cpp
 
 glad.obj: ${SRC_OFF}glad.cpp
@@ -53,10 +69,9 @@ Text.obj: ${DIR_OFF}OpenGL_Text.cpp
 Input.obj: ${DIR_OFF}OpenGL_Inp.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Input.obj ${DIR_OFF}OpenGL_Inp.cpp
 
-
-clean_win:
-	del -f *.obj
-
-clean_mac:
+clean:
+ifeq (${UNAME_S}, Darwin)
 	rm -f *.obj
-	
+else
+	del -f *.obj
+endif
