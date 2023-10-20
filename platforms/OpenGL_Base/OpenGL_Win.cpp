@@ -5,7 +5,7 @@ namespace OpenGL
 	OpenGL_Win::OpenGL_Win()
 	{
 		this->m_wi = WindowInfo(800, 600, "OpenGL Window");
-		initializeOpenGLWindow(500, 500, "OpenGL Window");
+		initializeOpenGLWindow(800, 600, "OpenGL Window");
 	}
 
 	OpenGL_Win::OpenGL_Win(WindowInfo &wi)
@@ -133,7 +133,9 @@ namespace OpenGL
 	{
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
 
-		win->m_wi.width = width;
-		win->m_wi.height = height;
+		// for the initialize window the provided size is different that the size later provided by callback so required adjustment..
+		// Screen size has to be halfed for proper functining, once take a look why? for now leave it..
+		win->m_wi.width = width/2;
+		win->m_wi.height = height/2;
 	}
 }

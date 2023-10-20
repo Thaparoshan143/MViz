@@ -21,7 +21,18 @@ namespace Sandbox
     void Sandbox_App::Loop()
     {
         using namespace OpenGL;
-        // FreetypeText tempString;
+
+        float *sineVert = Util::_get_sine_ver2(FREQ_COUNT, SINE_RES, SINE_AMP_Y);
+
+        uint sine_VAO;
+        OpenGL_VertBuff sine_VBO;
+        glGenVertexArrays(1, &sine_VAO);
+        glBindVertexArray(sine_VAO);
+        sine_VBO.DirectLoad(sineVert, SINE_RES*(FREQ_COUNT*2+2));
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0);
+        glEnableVertexAttribArray(0);
+
+        FreetypeText tempText(*this->m_mainWindow, "Render Text");
 
         // const int TRIANGLE_COUNT = 18;
         OpenGL_Sha sh("../res/shaders/");
@@ -37,12 +48,12 @@ namespace Sandbox
         utemp = glm::translate(fMat4(1.0), glm::fvec3(1.0, 0.0, 0.0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
 
         float i=0.0f;
-        float d_i = 0.0001f;
+        float d_i = 0.001f;
 
-        
         // temporary right now here later move to the actual inherted applications..
         while (!m_mainWindow->ShouldCloseWindow())
         {
+            glBindVertexArray(sine_VAO);
             sh.UseProgram();
             i += d_i;
             if (i > 1) {
@@ -69,7 +80,7 @@ namespace Sandbox
             glLineWidth(1.0f);
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
-            // tempString.RenderText(shText, 0, 0, 1, dVec3(1,0.5,0.2));
+            tempText.RenderText(shText, 400, 300, 1, dVec3(0, 0, 0));
 
             m_mainWindow->SwapFrameBuffer();
             glfwPollEvents();
@@ -78,36 +89,6 @@ namespace Sandbox
 
     void Sandbox_App::Initialize()
     {
-        using namespace OpenGL;
-            // float boxVert[] = {
-        // 	0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,		//0
-        // 	-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,	//1	
-        // 	0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,	//2
-        // 	// 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,		//0
-        // 	// -0.8f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,	//1	
-        // 	// 0.9f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,	//2
-        // };
-
-        float *boxVert = Util::_get_rect_ver3_col<float>(Util::fVec3(0), Util::fVec3(0.8), Util::fVec3(0.6));
-        float *sineVert = Util::_get_sine_ver2(FREQ_COUNT, SINE_RES, SINE_AMP_Y);
-
-        for(int i=0;i<=SINE_RES*FREQ_COUNT*1;i++)
-        {
-            std::cout << "x : " << *(sineVert+2*i) << "\t\t || y : " << *(sineVert+2*i+1) << std::endl;
-        }
-
-        uint VAO;
-        OpenGL_VertBuff boxVertices;
-        glGenVertexArrays(1, &VAO);
-        glBindVertexArray(VAO);
-        // boxVertices.Bind();
-        // boxVertices.Append(boxVert, 18);
-        // boxVertices.LoadBuffer();
-        boxVertices.DirectLoad(sineVert, SINE_RES*(FREQ_COUNT*2+2));
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (const void*)0);
-        glEnableVertexAttribArray(0);
-        // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (const void*)(sizeof(float)*3));
-        // glEnableVertexAttribArray(1);
-        free(boxVert);
+        
     }
 }

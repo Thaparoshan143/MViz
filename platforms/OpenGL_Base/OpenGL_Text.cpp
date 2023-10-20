@@ -72,7 +72,6 @@ namespace OpenGL
 		glBindVertexArray(VAO);
         VBO.Bind();
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -88,8 +87,12 @@ namespace OpenGL
 
         OpenGL_Win *targetWindow = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.m_window);
         iVec2 winDim = iVec2(targetWindow->m_wi.width, targetWindow->m_wi.height);
+		// std::cout << "X : " << winDim.x << " || Y : " << winDim.y << std::endl;
+
         // Reducing to half size 
         winDim = winDim/2;
+
+		// std::cout << "X : " << winDim.x << " || Y : " << winDim.y << std::endl;
 
 		// iterate through all characters
 		std::string::const_iterator c;
@@ -97,11 +100,11 @@ namespace OpenGL
 		{
 			Abs::Character ch = Characters[*c];
 
-			float xpos = ((x + ch.Bearing.x * scale)-(winDim.x))/(winDim.x);
-			float ypos = ((-y - (ch.Size.y - ch.Bearing.y) * scale)+(winDim.y))/(winDim.y);
+			float xpos = ((x + ch.Bearing.x * scale * BASE_FONT_SIZE)-(winDim.x))/(winDim.x);
+			float ypos = ((-y - (ch.Size.y - ch.Bearing.y) * scale * BASE_FONT_SIZE)+(winDim.y))/(winDim.y);
 
-			float w = (ch.Size.x * scale)/(winDim.x);
-			float h = (ch.Size.y * scale)/(winDim.y);
+			float w = (ch.Size.x * scale * BASE_FONT_SIZE)/(winDim.x);
+			float h = (ch.Size.y * scale * BASE_FONT_SIZE)/(winDim.y);
 
 			// std::cout << "Character : " << *c <<std::endl;
 			// std::cout << "Normalize Position (x,y) : " << xpos << ", " << ypos << " || " << x << " , " << y << std::endl;
@@ -121,18 +124,11 @@ namespace OpenGL
 			// update content of VBO memory
 			glBindBuffer(GL_ARRAY_BUFFER, VBO.Bind());
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
-
-\
-
-
-
-
-
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			// render quad
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 			// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-			x += ((ch.Advance >> 6) * scale); // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+			x += ((ch.Advance >> 6) * scale * BASE_FONT_SIZE); // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 		}
 		glBindVertexArray(0);
 		glBindTexture(GL_TEXTURE_2D, 0);
