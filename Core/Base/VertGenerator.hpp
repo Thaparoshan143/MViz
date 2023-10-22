@@ -7,6 +7,7 @@
 
 #include<iostream>
 
+#include"./Types.h"
 #include "../../includes/GLM/glm/glm.hpp"
 
 #define VERT2_SIZE 8
@@ -17,11 +18,6 @@
 
 namespace Util
 {
-    typedef glm::ivec2 iVec2;
-    typedef glm::fvec2 fVec2;
-    typedef glm::ivec3 iVec3;
-    typedef glm::fvec3 fVec3;
-
     //this generated vertex is for the index based draw call
     template<typename T>
     T* _get_rect_vert2(fVec2 pos, fVec2 dim)
@@ -82,18 +78,6 @@ namespace Util
 			*(temp+6*i+5) = col.z;
 		}
 
-		// float hw = dim.x/2.0;
-		// float hh = dim.y/2.0;
-
-		// *(temp+0) = pos.x + hw;
-		// *(temp+1) = pos.y + hh;
-
-		// *(temp+6) = pos.x - hw;
-		// *(temp+7) = pos.y - hh;
-
-		// *(temp+12) = pos.x + hw;
-		// *(temp+13) = pos.y - hh;
-
 		float hw = dim.x/2;
 		float hh = dim.y/2;
 
@@ -130,6 +114,87 @@ namespace Util
  		}
 
 		return temp;
+	}
+
+	template<typename T>
+	T _random_num(T start = 0, T end = 1)
+	{
+		T random = ((T) rand()) / (T) RAND_MAX;
+		return start + (end - start) * random;
+	}
+
+	template<typename T>
+	T _print_ptr(T *data, uint c)
+	{
+		for(uint i=0;i<c;i++)
+		{
+			std::cout << i+1 << " - " << *(data+c) << std::endl;
+		}
+	}
+
+	template<typename T>
+	T* _allocate_block(uint s)
+	{
+		return new T[s];
+	}
+
+	template<typename T>
+	void _copy_block(T *des, T *src, uint s)
+	{
+		if(des == nullptr || src == nullptr)
+		{
+			std::cout << "Either pointer is NULL" << std::endl;
+			exit(0);
+		}
+		for(uint i=0;i<s;i++)
+		{
+			*(des+i) = *(src+i);
+		}
+	}
+
+		template<typename T>
+	void _copy_block_offset(T *des, T* src, uint s, uint eoff)
+	{
+		if(des==nullptr || src==nullptr)
+		{
+			std::cout << "Pointer is NULL" << std::endl;
+			exit(0);
+		}
+		for(uint i=0;i<s;i++)
+		{
+			*(des+i*(eoff+1))=*(src+i);
+		}
+	}
+
+	template<typename T>
+	void _copy_block_f(T *des, T* src, uint s, uint *ods, bool (*fptr)(int))
+	{
+		if(des==nullptr || src==nullptr)
+		{
+			std::cout << "Pointer is NULL" << std::endl;
+			exit(0);
+		}
+		int desCount=0;
+		for(uint i=0;i<s;i++)
+		{
+			if(fptr(*(src+i)))
+			{
+				*(des+desCount)=*(src+i);
+				desCount++;
+			}
+		}
+		*(ods)=desCount;
+	}
+
+	void _print_string(const char *s)
+	{
+		std::cout << s << std::endl;
+ 	}
+
+	template<typename T>
+	void _print_tval(const char *s, T n)
+	{
+		std::cout << s << n << std::endl;
 	}
 }
 #endif

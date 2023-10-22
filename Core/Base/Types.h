@@ -8,8 +8,12 @@
 typedef std::string String;
 typedef glm::ivec2 iVec2;
 typedef glm::dvec2 dVec2;
+typedef glm::fvec2 fVec2;
 typedef glm::ivec3 iVec3;
 typedef glm::dvec3 dVec3;
+typedef glm::fvec3 fVec3;
+typedef dVec3 Color;
+
 typedef unsigned int uint;
 
 typedef dVec2 Point2;

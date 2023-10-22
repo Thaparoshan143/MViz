@@ -3,9 +3,7 @@
 #include"../../Core/Base/Application.h"
 
 #include"./OpenGL_Win.h"
-#include"./OpenGL_Sha.h"
-#include"./OpenGL_Text.h"
-#include"./OpenGL_VertBuff.h"
+#include"./OpenGL_Graph.h"
 
 #define TESTING_MODE
 #include"../../Core/Base/VertGenerator.hpp"

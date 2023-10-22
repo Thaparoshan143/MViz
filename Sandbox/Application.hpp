@@ -25,7 +25,7 @@ namespace Sandbox
         float *sineVert = Util::_get_sine_ver2(FREQ_COUNT, SINE_RES, SINE_AMP_Y);
 
         uint sine_VAO;
-        OpenGL_VertBuff sine_VBO;
+        OpenGL_VertBuffObj sine_VBO;
         glGenVertexArrays(1, &sine_VAO);
         glBindVertexArray(sine_VAO);
         sine_VBO.DirectLoad(sineVert, SINE_RES*(FREQ_COUNT*2+2));
@@ -80,7 +80,7 @@ namespace Sandbox
             glLineWidth(1.0f);
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
-            tempText.RenderText(shText, 400, 300, 1, dVec3(0, 0, 0));
+            tempText.RenderText(shText, 0, 16, 1, dVec3(0, 0, 0));
 
             m_mainWindow->SwapFrameBuffer();
             glfwPollEvents();

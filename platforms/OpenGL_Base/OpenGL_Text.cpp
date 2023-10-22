@@ -78,7 +78,7 @@ namespace OpenGL
 		glBindVertexArray(0);
     }
 
-    void FreetypeText::RenderText(OpenGL_Sha &shader, float x, float y, float scale, dVec3 color)
+    void FreetypeText::RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color)
     {
         shader.UseProgram();
 		glUniform3f(glGetUniformLocation(shader.GetProgramID(), "textColor"), color.x, color.y, color.z);

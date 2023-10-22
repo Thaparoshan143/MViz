@@ -25,7 +25,7 @@ endif
 
 ASSEMBLE_CMD = 	${CXX} ${CFLAGS} -c
 
-FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj VertexBuffer.obj Text.obj Input.obj
+FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj BufferObject.obj Graph.obj Text.obj Input.obj
 
 MAC_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_MAC}
 
@@ -60,8 +60,11 @@ Window.obj: ${DIR_OFF}OpenGL_Win.cpp
 Application.obj: ${DIR_OFF}OpenGL_App.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Application.obj ${INC_PATH} ${DIR_OFF}OpenGL_App.cpp
 
-VertexBuffer.obj: ${DIR_OFF}OpenGL_VertBuff.cpp
-	${ASSEMBLE_CMD} -o ${OBJ_PATH}/VertexBuffer.obj ${DIR_OFF}OpenGL_VertBuff.cpp
+BufferObject.obj: ${DIR_OFF}OpenGL_Buff.cpp
+	${ASSEMBLE_CMD} -o ${OBJ_PATH}/BufferObject.obj ${DIR_OFF}OpenGL_Buff.cpp
+
+Graph.obj: ${DIR_OFF}OpenGL_Graph.cpp
+	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Graph.obj ${INC_PATH} ${DIR_OFF}OpenGL_Graph.cpp
 
 Text.obj: ${DIR_OFF}OpenGL_Text.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Text.obj ${INC_PATH} ${DIR_OFF}OpenGL_Text.cpp
