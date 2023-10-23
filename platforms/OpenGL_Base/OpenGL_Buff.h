@@ -7,16 +7,37 @@
 
 namespace OpenGL
 {
-	class OpenGL_VertBuffObj : public Abs::VertexBufferObject
+	class OpenGL_VertBuffObj : public Abs::VertexBufferObject<float>
 	{
 		public:
 		OpenGL_VertBuffObj(uint size = 2);
 		
 		void LoadBuffer(uint loadMode = GL_DYNAMIC_DRAW) override;
 		void DirectLoad(float *data, uint count, uint loadMode = GL_DYNAMIC_DRAW);
+		// Here the size mentioned for reserve buffer will later be multiplied by sizeof(float) so make sure to pass by count reference
+		void ReserveBuffer(uint size, uint loadMode = GL_DYNAMIC_DRAW);
+		void LoadSubBuffer(uint size, float *data);
 		uint Bind() override;
 		void Unbind() override;
 		float* GetVertexData() {	return m_data.GetData();	}
+
+		private:
+		uint m_id;
+	};
+
+	// Since the Index buffer almost matches with the vertex buffer so, currently reusing the exisiting buffer, if needed we can change later
+	class OpenGL_IndBuffObj : public Abs::VertexBufferObject<int>
+	{
+		public:
+		OpenGL_IndBuffObj(uint size = 2);
+		
+		void LoadBuffer(uint loadMode = GL_DYNAMIC_DRAW) override;
+		void DirectLoad(float *data, uint count, uint loadMode = GL_DYNAMIC_DRAW);
+		void ReserveBuffer(uint size, uint loadMode = GL_DYNAMIC_DRAW);
+		void LoadSubBuffer(uint size, int *data);
+		uint Bind() override;
+		void Unbind() override;
+		int* GetVertexData() {	return m_data.GetData();	}
 
 		private:
 		uint m_id;
@@ -29,7 +50,9 @@ namespace OpenGL
 
 		uint Bind() override;
 		void Unbind() override;
-
+		void EnableVertexAttrib();
+		// This is just the interface for the specific purpose, (text rendering..) might not be useful for all
+		void EnableVertexAttribMan(uint count);
 
 		private:
 		uint m_id;

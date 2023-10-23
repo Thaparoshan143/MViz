@@ -23,7 +23,7 @@ namespace OpenGL
         private:
         void initFreetypeFont();
         OpenGL_VertBuffObj VBO;
-        uint VAO;
+        OpenGL_VertArrObj VAO;
         // target window to render text, required for getting user pointer..
         OpenGL_Win &m_target;
         // yet to implement the font directory/ to load..

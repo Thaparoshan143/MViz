@@ -14,7 +14,8 @@ namespace OpenGL
 
         protected:
         OpenGL_VertArrObj m_VAO;
-        FreetypeText *m_text;
+        OpenGL_VertBuffObj m_VBO;
+        OpenGL_Sha m_graphSha;
         OpenGL_Win &m_target;
     };
 }

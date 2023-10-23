@@ -59,7 +59,7 @@ namespace OpenGL
 					texture,
 					iVec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
 					iVec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
-					static_cast<unsigned int>(face->glyph->advance.x)
+					static_cast<uint>(face->glyph->advance.x)
 				};
 				Characters.insert(std::pair<char, Abs::Character>(c, character));
 			}
@@ -68,22 +68,23 @@ namespace OpenGL
 
 		FT_Done_Face(face);
 		FT_Done_FreeType(ft);
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
+		VAO.Bind();
         VBO.Bind();
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+		// For text rendering we require only position (x,y) and texture (u,v).. for 6*4 (i.e using two triangle method to draw quad to draw text on top)
+		VBO.ReserveBuffer(6*4, GL_DYNAMIC_DRAW);
+		// Here 4 is the total vertex buffer size i.e two position and two texture data 
+		VAO.EnableVertexAttribMan(4);
+		// unbinding is not manditory, optional
+		VAO.Unbind();
+		VBO.Unbind();
     }
 
     void FreetypeText::RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color)
     {
         shader.UseProgram();
-		glUniform3f(glGetUniformLocation(shader.GetProgramID(), "textColor"), color.x, color.y, color.z);
+		shader.SetUniformVec3("textColor", color);
 		glActiveTexture(GL_TEXTURE0);
-		glBindVertexArray(VAO);
+		VAO.Bind();
 
         OpenGL_Win *targetWindow = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.m_window);
         iVec2 winDim = iVec2(targetWindow->m_wi.width, targetWindow->m_wi.height);
@@ -117,20 +118,19 @@ namespace OpenGL
 
 				{ xpos,     ypos + h,   0.0f, 0.0f },
 				{ xpos + w, ypos,       1.0f, 1.0f },
-				{ xpos + w, ypos + h,   1.0f, 0.0f }           
+				{ xpos + w, ypos + h,   1.0f, 0.0f }
 			};
 			// render glyph texture over quad
 			glBindTexture(GL_TEXTURE_2D, ch.TextureID);
 			// update content of VBO memory
-			glBindBuffer(GL_ARRAY_BUFFER, VBO.Bind());
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			VBO.LoadSubBuffer(6*4, *vertices);
+			VBO.Unbind();
 			// render quad
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 			// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 			x += ((ch.Advance >> 6) * scale * BASE_FONT_SIZE); // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 		}
-		glBindVertexArray(0);
+		VAO.Unbind();
 		glBindTexture(GL_TEXTURE_2D, 0);
     }
 }

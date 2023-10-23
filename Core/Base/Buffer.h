@@ -33,19 +33,20 @@ namespace Abs
 	#define BUFFER_MASKRGB 0x00000038
 	#define BUFFER_MASKTEX 0x000001C0
 
+	template<typename T>
     class VertexBufferObject
     {
         public:
         VertexBufferObject(uint size = 2) : m_data(size) {}
 
         virtual void LoadBuffer(uint loadMode) = 0;
-        virtual void Append(float *data, uint count) {  m_data.Append(data, count); };
+        virtual void Append(T *data, uint count) {  m_data.Append(data, count); };
         void Clear() {  m_data.Clear(); };
-        virtual uint Bind() = 0;
-        virtual void Unbind() = 0;
+		virtual uint Bind() = 0;
+		virtual void Unbind() = 0;
 
         protected:
-        SfVec m_data;
+        SVec<T> m_data;
     };
 
     class VertexArrayObject
@@ -53,8 +54,8 @@ namespace Abs
         public:
         VertexArrayObject(BufferFormat bf = PP) {	m_format = bf;	}
         
-        virtual uint Bind() = 0;
-        virtual void Unbind() = 0;
+		virtual uint Bind() = 0;
+		virtual void Unbind() = 0;
         void UpdateFormat(BufferFormat bf) {    m_format = bf;  }
 
         protected:

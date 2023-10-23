@@ -43,7 +43,7 @@ namespace Sandbox
         temp = glm::translate(fMat4(1.0), glm::fvec3(-1.0, 0, 0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
         sh.SetUniformMat4("modal", temp);
         sh.SetUniformVec3("fColor", glm::fvec3(1.0, 0.5, 0.2));
-
+ 
         fMat4 utemp;
         utemp = glm::translate(fMat4(1.0), glm::fvec3(1.0, 0.0, 0.0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
 

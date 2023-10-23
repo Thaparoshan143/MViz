@@ -65,7 +65,7 @@ namespace OpenGL
 		glUniform1f(location, value);
 	}
 
-	void OpenGL_Sha::SetUniformVec3(String name, glm::fvec3 value)
+	void OpenGL_Sha::SetUniformVec3(String name, fVec3 value)
 	{
 		uint location = glGetUniformLocation(this->m_programID, name.c_str());
 		glUniform3f(location, value.r, value.g, value.b);

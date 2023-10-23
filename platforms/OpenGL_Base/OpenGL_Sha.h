@@ -26,7 +26,7 @@ namespace OpenGL
 		void UseProgram() override;
 		void SetUniformInt(String name, int value);
 		void SetUniformFloat(String name, float value);
-		void SetUniformVec3(String name, glm::fvec3 value);
+		void SetUniformVec3(String name, fVec3 value);
 		void SetUniformMat4(String name, fMat4 value);
 
 		private:

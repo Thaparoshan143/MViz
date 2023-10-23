@@ -13,27 +13,33 @@ namespace Abs
         BOTTOM_LEFT = 4
     };
 
+    enum NumeringInfo
+    {
+        CONCISE = 1,
+        NORMAL = 2,
+        EXTEND = 4                
+    };
+
     #define DEFAULT_DIM iVec2(600, 400)
-    #define DEFAULT_RES iVec2(20, 20)
 
     struct GraphInfo
     {
         public:
-        GraphInfo() : title("-Graph-"), dim(DEFAULT_DIM), resolution(DEFAULT_RES), screenpos(ScreenPosition::TOP_RIGHT) {}
-        GraphInfo(String t, iVec2 d, iVec2 r, ScreenPosition sp)
+        GraphInfo() : title("-Graph-"), dim(DEFAULT_DIM), screenpos(ScreenPosition::TOP_RIGHT), numinfo(NORMAL) {}
+        GraphInfo(String t, iVec2 d, ScreenPosition sp, NumeringInfo ni)
         {
             title = t;
             dim = d;
-            resolution = r;
             screenpos = sp;
+            numinfo = ni;
         }
 
-        protected:
         String title;
         // Here dim is, width and height
-        // rersolution menas the total graoh line in each axis i.e total line in x, total line in y
-        iVec2 dim, resolution;
+        iVec2 dim;
         ScreenPosition screenpos;
+        // Numering info will hold the resolution of the vertical/horizontal line for the graph
+        NumeringInfo numinfo;
     };
 
     class Graph
