@@ -28,8 +28,9 @@ namespace Abs
         fVec3 m_bgCol;
     };
 
-    class Panel : private BaseUI
+    class Panel : public BaseUI
     {
+        public:
         Panel()
         {
             this->m_pos = fVec2(0);
@@ -40,8 +41,9 @@ namespace Abs
 
     };
 
-    class Button : private BaseUI
+    class Button : public BaseUI
     {
+        public:
         Button()
         {
             this->m_pos = fVec2(0);
@@ -59,8 +61,9 @@ namespace Abs
 
     };
 
-    class InputField : private BaseUI
+    class InputField : public BaseUI
     {
+        public:
         InputField()
         {
             this->m_pos = fVec2(0);

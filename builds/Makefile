@@ -25,7 +25,7 @@ endif
 
 ASSEMBLE_CMD = 	${CXX} ${CFLAGS} -c
 
-FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj BufferObject.obj Graph.obj Text.obj Input.obj
+FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj BufferObject.obj Graph.obj Text.obj Input.obj UI.obj
 
 MAC_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_MAC}
 
@@ -71,6 +71,9 @@ Text.obj: ${DIR_OFF}OpenGL_Text.cpp
 
 Input.obj: ${DIR_OFF}OpenGL_Inp.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Input.obj ${DIR_OFF}OpenGL_Inp.cpp
+
+UI.obj: ${DIR_OFF}OpenGL_UI.cpp
+	${ASSEMBLE_CMD} -o ${OBJ_PATH}/UI.obj ${DIR_OFF}OpenGL_UI.cpp
 
 clean:
 ifeq (${UNAME_S}, Darwin)

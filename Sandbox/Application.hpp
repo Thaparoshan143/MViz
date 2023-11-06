@@ -53,10 +53,14 @@ namespace Sandbox
         Abs::GraphInfo graphInfo("Graph", m_mainWindow->GetWindowSize(), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingInfo::NORMAL);
         OpenGL_Graph mainGraph(*m_mainWindow, graphInfo);
 
+        OpenGL_Panel tempPanel;
+        OpenGL_Button tempButton;
+        OpenGL_InpField tempInputField;
+
         // temporary right now here later move to the actual inherted applications..
         while (!m_mainWindow->ShouldCloseWindow())
         {
-            // mainGraph.RenderGraph();
+            mainGraph.RenderGraph();
             
             // glBindVertexArray(sine_VAO);
             // sh.UseProgram();
@@ -88,7 +92,7 @@ namespace Sandbox
 
             // // tempText.RenderText(shText, 0, 16, 1, dVec3(0, 0, 0));
             mainGraph.RenderGraph();
-            
+
             m_mainWindow->SwapFrameBuffer();
             glfwPollEvents();
         }

@@ -4,6 +4,7 @@
 
 #include"./OpenGL_Win.h"
 #include"./OpenGL_Graph.h"
+#include"./OpenGL_UI.h"
 
 #define TESTING_MODE
 #include"../../Core/Base/VertGenerator.hpp"
