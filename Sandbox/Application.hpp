@@ -48,40 +48,47 @@ namespace Sandbox
         utemp = glm::translate(fMat4(1.0), glm::fvec3(1.0, 0.0, 0.0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
 
         float i=0.0f;
-        float d_i = 0.001f;
+        float d_i = 0.005f;
+
+        Abs::GraphInfo graphInfo("Graph", m_mainWindow->GetWindowSize(), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingInfo::NORMAL);
+        OpenGL_Graph mainGraph(*m_mainWindow, graphInfo);
 
         // temporary right now here later move to the actual inherted applications..
         while (!m_mainWindow->ShouldCloseWindow())
         {
-            glBindVertexArray(sine_VAO);
-            sh.UseProgram();
-            i += d_i;
-            if (i > 1) {
-                d_i = -d_i;
-            }
-            if (i < -1) {
-                d_i = -d_i;
-            }
+            // mainGraph.RenderGraph();
+            
+            // glBindVertexArray(sine_VAO);
+            // sh.UseProgram();
+            // i += d_i;
+            // if (i > 1) {
+            //     d_i = -d_i;
+            // }
+            // if (i < -1) {
+            //     d_i = -d_i;
+            // }
+
 
             // temp = glm::translate(fMat4(1.0), glm::fvec3(-1.0+i, 0, 0));
-            temp = glm::scale(fMat4(), glm::fvec3(1, i, 0));
-            sh.SetUniformMat4("modal", temp);
+            // temp = glm::scale(fMat4(), glm::fvec3(1, i, 0));
+            // sh.SetUniformMat4("modal", temp);
             m_mainWindow->SetColor(1, 1, 1, 1);
 
-            // glDrawArrays(GL_TRIANGLES, 0, TRIANGLE_COUNT);
-            glLineWidth(1.0f);
-            glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
+            // // glDrawArrays(GL_TRIANGLES, 0, TRIANGLE_COUNT);
+            // glLineWidth(1.0f);
+            // glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
-            temp = glm::rotate(fMat4(), glm::radians(i*360.0f), glm::fvec3(1.0, 0.0, 0.0));
+            // temp = glm::rotate(fMat4(), glm::radians(i*360.0f), glm::fvec3(1.0, 0.0, 0.0));
 
-            sh.SetUniformMat4("modal", temp);
+            // sh.SetUniformMat4("modal", temp);
 
-            // glDrawArrays(GL_TRIANGLES, 0, TRIANGLE_COUNT);
-            glLineWidth(1.0f);
-            glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
+            // // glDrawArrays(GL_TRIANGLES, 0, TRIANGLE_COUNT);
+            // glLineWidth(1.0f);
+            // glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
-            tempText.RenderText(shText, 0, 16, 1, dVec3(0, 0, 0));
-
+            // // tempText.RenderText(shText, 0, 16, 1, dVec3(0, 0, 0));
+            mainGraph.RenderGraph();
+            
             m_mainWindow->SwapFrameBuffer();
             glfwPollEvents();
         }

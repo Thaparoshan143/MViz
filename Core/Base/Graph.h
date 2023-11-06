@@ -13,7 +13,7 @@ namespace Abs
         BOTTOM_LEFT = 4
     };
 
-    enum NumeringInfo
+    enum NumberingInfo
     {
         CONCISE = 1,
         NORMAL = 2,
@@ -26,7 +26,7 @@ namespace Abs
     {
         public:
         GraphInfo() : title("-Graph-"), dim(DEFAULT_DIM), screenpos(ScreenPosition::TOP_RIGHT), numinfo(NORMAL) {}
-        GraphInfo(String t, iVec2 d, ScreenPosition sp, NumeringInfo ni)
+        GraphInfo(String t, iVec2 d, ScreenPosition sp, NumberingInfo ni)
         {
             title = t;
             dim = d;
@@ -39,7 +39,7 @@ namespace Abs
         iVec2 dim;
         ScreenPosition screenpos;
         // Numering info will hold the resolution of the vertical/horizontal line for the graph
-        NumeringInfo numinfo;
+        NumberingInfo numinfo;
     };
 
     class Graph

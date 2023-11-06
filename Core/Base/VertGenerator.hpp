@@ -152,7 +152,7 @@ namespace Util
 		}
 	}
 
-		template<typename T>
+	template<typename T>
 	void _copy_block_offset(T *des, T* src, uint s, uint eoff)
 	{
 		if(des==nullptr || src==nullptr)
