@@ -1,0 +1,4 @@
+#include "ast.h"
+
+// CONCRETE_ACCEPT_METHOD_IMPL(BinOp);
+// CONCRETE_ACCEPT_METHOD_IMPL(Num);

@@ -1,63 +1,55 @@
 #include "parser.h"
 
-void Parser::Consume(str tokenType) {
-    if (current_token.GetType() == tokenType) {
-        current_token = lexer.GetNextToken();
-    } else { Error(); }
+void Parser::Consume(TokenType type) {
+    if (current_token.GetType() == type) {
+        current_token = lexer->GetNextToken();
+    } else { 
+        std::cout << "Invalid Syntax: Unexpected Token!";
+        exit(1);
+     }
 }
 
-AST* Parser::Factor() {
-    Token token = current_token;
-    if (current_token.GetType() == INTEGER) {
-        Consume(INTEGER);
-        return new Num(token);
-    } else if (current_token.GetType() == LPAREN) {
-        Consume(LPAREN);
-        AST* node = Expr();
-        Consume(RPAREN);
-        return node;
+std::shared_ptr<Node> Parser::Number() {
+    auto token = current_token;
+
+    if (token.GetType() == TokenType::INTEGER) {
+        Consume(TokenType::INTEGER);
+        return std::make_shared<Num>(token);
+    } else { 
+        std::cout << "Invalid Syntax: Undefined Token!";
+        exit(1);
     }
+
     return nullptr;
+
 }
 
-AST* Parser::Term() {
-    AST* node = Factor();
+std::shared_ptr<Node> Parser::Expression() {
+    auto root = Number();
 
-    while (current_token.GetType() == MUL || current_token.GetType() == DIV) {
-        Token token = current_token;
-        if (token.GetType() == MUL) { 
-            Consume(MUL); 
-        } else if (token.GetType() == DIV) {
-            Consume(DIV);
-        }
+    while (current_token.GetType() == TokenType::PLUS || current_token.GetType() == TokenType::MINUS) {
+        auto token = current_token;
 
-        node = new Node(node, token, Factor());
-    }
-
-    return node;
-}
-
-AST* Parser::Expr() {
-    AST* node = Term();
-
-    while (current_token.GetType() == PLUS || current_token.GetType() == MINUS) {
-        Token token = current_token;
-        if (token.GetType() == PLUS) {
+        if (token.GetType() == TokenType::PLUS) {
             Consume(PLUS);
-        } else if (token.GetType() == MINUS) {
+        } else if (token.GetType() == TokenType::MINUS) {
             Consume(MINUS);
         }
-        
-        node = new Node(node, token, Term());
+
+
+        auto left = root;
+        auto right = Number();
+        root = std::make_shared<BinOp>(token);
+        root->AddChild(left);
+        root->AddChild(right);
     }
-    return node;
-}
 
-AST* Parser::Parse() {
-    return Expr();
-}
+    if (current_token.GetType() == TokenType::EOF_TYPE) {
+        printf("Accepted!\n");
+    } else { 
+        std::cout << "Invalid Syntax: Unexpected Token!"; 
+        exit(1);
+    }
 
-void Parser::Error() {
-    std::cout << "Invalid Syntax" << std::endl;
-    exit(1);
+    return root;
 }

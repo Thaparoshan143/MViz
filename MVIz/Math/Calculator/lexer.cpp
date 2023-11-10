@@ -1,6 +1,6 @@
 #include"lexer.h"
 
-Lexer::Lexer(str text) {
+Lexer::Lexer(std::string text) {
     this -> text = text;
     pos = 0;
     current_char = text[pos];
@@ -22,8 +22,8 @@ void Lexer::SkipWhitespace() {
     }
 }
 
-str Lexer::Integer() {
-    str result = "";
+std::string Lexer::Integer() {
+    std::string result = "";
     while (current_char != '\0' && isdigit(current_char)) {
         result += current_char;
         Advance();
@@ -39,19 +39,19 @@ Token Lexer::GetNextToken() {
             continue;
         } 
 
-        if (isdigit(current_char)) { return Token(INTEGER, Integer()); }
+        if (isdigit(current_char)) { return Token(TokenType::INTEGER, Integer()); }
         
         switch (current_char) {
-            case '+':           Advance();      return Token(PLUS, "+");
-            case '-':           Advance();      return Token(MINUS, "-");
-            case '*':           Advance();      return Token(MUL, "*");
-            case '/':           Advance();      return Token(DIV, "/");
-            case '(':           Advance();      return Token(LPAREN, "(");
-            case ')':           Advance();      return Token(RPAREN, ")");
+            case '+':           Advance();      return Token(TokenType::PLUS, "+");
+            case '-':           Advance();      return Token(TokenType::MINUS, "-");
+            case '*':           Advance();      return Token(TokenType::MUL, "*");
+            case '/':           Advance();      return Token(TokenType::DIV, "/");
+            case '(':           Advance();      return Token(TokenType::LPAREN, "(");
+            case ')':           Advance();      return Token(TokenType::RPAREN, ")");
             default:            Error();
         }
     }
-    return Token(EOT, "None");
+    return Token(TokenType::EOF_TYPE, "None");
 }
 
 void Lexer::Error() {

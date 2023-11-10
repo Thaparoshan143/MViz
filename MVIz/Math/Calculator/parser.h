@@ -1,52 +1,21 @@
 #pragma once
 
 #include "lexer.h"
-
-class AST {
-    public:
-        virtual ~AST() {}
-        virtual str GetNode() = 0;
-
-};
-
-class Node : public AST {
-    public:
-        Node(AST* left, Token op, AST* right) : 
-            left(left), 
-            op(op), 
-            right(right) {}
-        str GetNode() override { 
-            return "(" + left->GetNode() + ", " + op.GetValue() + ", " + right->GetNode() + ")"; 
-        }
-    private:
-        AST* left;
-        Token op;
-        AST* right;
-};
-
-class Num : public AST {
-    public:
-        Num(Token token) : 
-            token(token), 
-            value(token.GetValue()) {}
-        str GetNode() override { return value; }
-    private:
-        Token token;
-        str value;
-};
+#include "ast.h"
 
 class Parser {
     public:
-        Parser(Lexer lexer) : 
+        Parser(Lexer* lexer) : 
             lexer(lexer),
-            current_token(lexer.GetNextToken()) {}
-        void Consume(str tokenType);
-        AST* Factor();
-        AST* Term();
-        AST* Expr();
-        AST* Parse();
-        void Error();
+            current_token(lexer->GetNextToken()) {}
+
+        std::shared_ptr<Node> Expression();
+        std::shared_ptr<Node> Number();
+        void Consume(TokenType tokenType);
+
+        std::string GetNode() { return Expression().get()->token.GetValue(); }
+        
     private:
-        Lexer lexer;
+        Lexer* lexer;
         Token current_token;
 };

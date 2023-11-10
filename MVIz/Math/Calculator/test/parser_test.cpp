@@ -2,15 +2,16 @@
 #include "../lexer.cpp"
 
 int main() {
-    str text = "2 + (2 * 2)";
+    std::string text = "2 + 2";
     Lexer l(text);
-    Parser P(l);
+    Parser P(&l);
 
     std::cout << l.GetNextToken().GetToken() << std::endl;
     std::cout << l.GetNextToken().GetToken() << std::endl;
     std::cout << l.GetNextToken().GetToken() << std::endl;
 
-    P.Parse();
-    std::cout << P.Parse()->GetNode() << std::endl;
+    // std::cout << P.lexer.GetNextToken().GetToken() << std::endl;
+
+    std::cout << P.GetNode() << std::endl;
     return 0;
 }
