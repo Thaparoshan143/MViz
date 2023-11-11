@@ -4,13 +4,17 @@
 #include <iostream>
 
 int main() {
-    std::string text = "3 + 2 -9";
-    Lexer lexer(text);
-    Parser parser(&lexer);
-    auto ast = parser.Expression();
+    while(true) {
+        std::string text;
+        std::cout << "calc> ";
+        getline(std::cin, text);
+        Lexer lexer(text);
+        Parser parser(&lexer);
+        auto ast = parser.Expression();
 
-    Interpreter interpreter;
-    ast.get()->accept(&interpreter);
-    std::cout << "result: " << interpreter.Result() << std::endl;
+        Interpreter interpreter;
+        ast.get()->accept(&interpreter);
+        std::cout << "calc> " << interpreter.Result() << std::endl;
+    }
     return 0;
 }
