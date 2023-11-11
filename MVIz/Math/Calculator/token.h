@@ -9,6 +9,7 @@ enum TokenType {
     DIV,
     LPAREN,
     RPAREN,
+    TRIG,
     EOF_TYPE
 };
 
@@ -20,8 +21,13 @@ const char* TokenNames[] = {
     "DIV",
     "LPAREN",
     "RPAREN",
+    "TRIG",
     "EOF"
 };
+
+std::string ToString(TokenType type) {
+    return TokenNames[type];
+}
 
 class Token {
     public:
@@ -29,9 +35,6 @@ class Token {
         std::string GetToken() { return "Token(" + ToString(type) + ", " + value + ")"; }
         TokenType GetType() { return type; }
         std::string GetValue() { return value; }
-        std::string ToString(TokenType type) {
-            return TokenNames[type];
-        }
     private:
         TokenType type;
         std::string value;

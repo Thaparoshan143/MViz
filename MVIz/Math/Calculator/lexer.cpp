@@ -32,14 +32,28 @@ std::string Lexer::Integer() {
     return result;
 }
 
+std::string Lexer::Trig() {
+    std::string result = "";
+    while (current_char >= 97 && current_char <= 122) {
+        result += current_char;
+        Advance();
+    }
+
+    return result;
+}
+
 Token Lexer::GetNextToken() {
-    while (current_char != '\0') {
+        while (current_char != '\0') {
         if (current_char == ' ') {
             SkipWhitespace();
             continue;
         } 
 
         if (isdigit(current_char)) { return Token(TokenType::INTEGER, Integer()); }
+
+        if (current_char >= 97 && current_char <= 122) {
+            return Token(TokenType::TRIG, Trig());
+        }
         
         switch (current_char) {
             case '+':           Advance();      return Token(TokenType::PLUS, "+");

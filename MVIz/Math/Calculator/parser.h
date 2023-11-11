@@ -11,6 +11,7 @@ class Parser {
 
         std::shared_ptr<Node> Expression();
         std::shared_ptr<Node> Number();
+        std::shared_ptr<Node> Term();
         void Consume(TokenType tokenType);
 
         std::string GetNode() { return Expression().get()->token.GetValue(); }

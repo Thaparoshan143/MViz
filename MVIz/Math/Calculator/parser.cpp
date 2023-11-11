@@ -4,7 +4,9 @@ void Parser::Consume(TokenType type) {
     if (current_token.GetType() == type) {
         current_token = lexer->GetNextToken();
     } else { 
-        std::cout << "Invalid Syntax: Unexpected Token!";
+        std::cout << "Invalid Syntax: Unexpected Token!\nExpected " +
+                      ToString(current_token.GetType()) +
+                      "Got " + ToString(type);
         exit(1);
      }
 }
@@ -15,27 +17,42 @@ std::shared_ptr<Node> Parser::Number() {
     if (token.GetType() == TokenType::INTEGER) {
         Consume(TokenType::INTEGER);
         return std::make_shared<Num>(token);
-    } else { 
-        std::cout << "Invalid Syntax: Undefined Token!";
+    } else if (token.GetType() == TokenType::LPAREN) {
+        Consume(TokenType::LPAREN);
+        auto root = Expression();
+        Consume(TokenType::RPAREN);
+        std::cout << "Here";
+        return root;
+    } else if (token.GetType() == TokenType::TRIG) {
+        Consume(TokenType::TRIG);
+        Consume(TokenType::LPAREN);
+        auto angle = Expression();
+        auto root  = std::make_shared<TrigRatio>(token);
+        root->AddChild(angle);
+        Consume(TokenType::RPAREN);
+        return root;
+    }
+    else {
+        printf("Invalid Syntax: Unexpected Token!");
         exit(1);
     }
-
-    return nullptr;
-
 }
 
-std::shared_ptr<Node> Parser::Expression() {
+std::shared_ptr<Node> Parser::Term() {
     auto root = Number();
 
-    while (current_token.GetType() == TokenType::PLUS || current_token.GetType() == TokenType::MINUS) {
+    while (current_token.GetType() == TokenType::MUL
+            || current_token.GetType() == TokenType::DIV
+            || current_token.GetType() == TokenType::LPAREN) {
         auto token = current_token;
 
-        if (token.GetType() == TokenType::PLUS) {
-            Consume(PLUS);
-        } else if (token.GetType() == TokenType::MINUS) {
-            Consume(MINUS);
+        if (token.GetType() == TokenType::MUL) {
+            Consume(TokenType::MUL);
+        } else if (token.GetType() == TokenType::DIV) {
+            Consume(TokenType::DIV);
+        } else if (token.GetType() == TokenType::LPAREN) {
+            token = Token(TokenType::MUL, "*");
         }
-
 
         auto left = root;
         auto right = Number();
@@ -43,12 +60,28 @@ std::shared_ptr<Node> Parser::Expression() {
         root->AddChild(left);
         root->AddChild(right);
     }
+    
+    return root;
+}
 
-    if (current_token.GetType() == TokenType::EOF_TYPE) {
-        printf("Accepted!\n");
-    } else { 
-        std::cout << "Invalid Syntax: Unexpected Token!"; 
-        exit(1);
+std::shared_ptr<Node> Parser::Expression() {
+    auto root = Term();
+
+    while (current_token.GetType() == TokenType::PLUS || current_token.GetType() == TokenType::MINUS) {
+        auto token = current_token;
+
+        if (token.GetType() == TokenType::PLUS) {
+            Consume(TokenType::PLUS);
+        } else if (token.GetType() == TokenType::MINUS) {
+            Consume(TokenType::MINUS);
+        }
+
+
+        auto left = root;
+        auto right = Term();
+        root = std::make_shared<BinOp>(token);
+        root->AddChild(left);
+        root->AddChild(right);
     }
 
     return root;

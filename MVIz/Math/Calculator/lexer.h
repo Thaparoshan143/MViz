@@ -11,6 +11,7 @@ class Lexer {
         void Advance();
         void SkipWhitespace();
         std::string Integer();
+        std::string Trig();
         Token GetNextToken();
         void Error();
     private:

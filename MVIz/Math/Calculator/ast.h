@@ -44,6 +44,20 @@ class Num : public Node {
         void accept(Visitor* visitor) {
             return visitor->Visit(this);
         }
+
+        ~Num() {}
+};
+
+class TrigRatio : public Node {
+    public:
+        TrigRatio(Token token)
+            : Node(token) {}
+
+        void accept(Visitor* visitor) {
+            return visitor->Visit(this);
+        }
+
+        ~TrigRatio() {}
 };
 
 #endif
