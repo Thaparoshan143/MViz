@@ -22,9 +22,15 @@ void Lexer::SkipWhitespace() {
     }
 }
 
-std::string Lexer::Integer() {
+std::string Lexer::Number() {
     std::string result = "";
-    while (current_char != '\0' && isdigit(current_char)) {
+    int decimal_count = 0;
+    while ((current_char != '\0' && isdigit(current_char))
+            || current_char == '.') {
+        if (current_char == '.') { decimal_count += 1; }
+
+        if (decimal_count > 1) { Error(); }
+
         result += current_char;
         Advance();
     }
@@ -43,13 +49,18 @@ std::string Lexer::Trig() {
 }
 
 Token Lexer::GetNextToken() {
-        while (current_char != '\0') {
+    int decimal_count = 0;
+    while (current_char != '\0') {
         if (current_char == ' ') {
             SkipWhitespace();
             continue;
         } 
 
-        if (isdigit(current_char)) { return Token(TokenType::INTEGER, Integer()); }
+
+        if (isdigit(current_char)) { 
+            return Token(TokenType::NUM, Number()); 
+        }
+        decimal_count = 0;
 
         if (current_char >= 97 && current_char <= 122) {
             return Token(TokenType::TRIG, Trig());
@@ -69,6 +80,6 @@ Token Lexer::GetNextToken() {
 }
 
 void Lexer::Error() {
-    std::cout << "\nInvalid Character" << std::endl;
+    std::cout << "\nInvalid Character!";
     exit(1);
 }

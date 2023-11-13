@@ -2,7 +2,7 @@
 #include "../lexer.cpp"
 
 int main() {
-    std::string text = "2 * 2 + 2";
+    std::string text = "2 * 2";
     Lexer l(text);
     Parser P(&l);
 

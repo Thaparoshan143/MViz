@@ -10,7 +10,7 @@ class Lexer {
         Lexer(std::string text);
         void Advance();
         void SkipWhitespace();
-        std::string Integer();
+        std::string Number();
         std::string Trig();
         Token GetNextToken();
         void Error();

@@ -14,8 +14,8 @@ void Parser::Consume(TokenType type) {
 std::shared_ptr<Node> Parser::Number() {
     auto token = current_token;
 
-    if (token.GetType() == TokenType::INTEGER) {
-        Consume(TokenType::INTEGER);
+    if (token.GetType() == TokenType::NUM) {
+        Consume(TokenType::NUM);
         return std::make_shared<Num>(token);
     } else if (token.GetType() == TokenType::LPAREN) {
         Consume(TokenType::LPAREN);

@@ -2,7 +2,7 @@
 #include<string>
 
 enum TokenType {
-    INTEGER,
+    NUM,
     PLUS,
     MINUS,
     MUL,
@@ -14,7 +14,7 @@ enum TokenType {
 };
 
 const char* TokenNames[] = {
-    "INTEGER",
+    "NUM",
     "PLUS",
     "MINUS",
     "MUL",
