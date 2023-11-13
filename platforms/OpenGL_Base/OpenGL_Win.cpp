@@ -38,7 +38,7 @@ namespace OpenGL
 
 	void OpenGL_Win::initializeOpenGLWindow(int w, int h, String t)
 	{
-		std::cout << "I am OpenGL Window !!";
+		// std::cout << "I am OpenGL Window !!";
 		// loading basic glfw library and more
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

@@ -22,6 +22,6 @@ namespace OpenGL
         uint graphVBO, graphVAO;
 
         void initializeGraph();
-        float* getGraphVert(iVec2 stripeCount);
+        float* getGraphVert(iVec2 stripeCount, float height);
     };
 }

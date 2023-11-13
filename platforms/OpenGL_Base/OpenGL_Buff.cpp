@@ -102,12 +102,14 @@ namespace OpenGL
 
 	void OpenGL_VertArrObj::EnableVertexAttribMan(uint count)
 	{
+		glBindVertexArray(this->m_id);
 		glVertexAttribPointer(0, count, GL_FLOAT, GL_FALSE, count * sizeof(float), 0);
 		glEnableVertexAttribArray(0);
 	}
 
 	void OpenGL_VertArrObj::EnableVertexAttrib()
 	{
+		glBindVertexArray(this->m_id);
 		// taking all the vertex data and organizing for the shader use case.. first position, color, uv texture, 
 		int verStride = getVBOStride();
 		glVertexAttribPointer(0, getMask(BUFFER_MASKPPP), GL_FLOAT, GL_FALSE, sizeof(float)*verStride, (const void*)0);
