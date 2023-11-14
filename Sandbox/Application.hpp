@@ -8,6 +8,37 @@
 
 namespace Sandbox 
 {
+    // This are just temporary functions for test...
+    void s_btnEvent1(dVec2 mouPos, int mouCode)
+    {
+        static int count = 0;
+        if(mouPos.x>100 && mouPos.y>100 && mouPos.x<300 && mouPos.y<200 && mouCode==MOUSE_BUTTON_RIGHT)
+        {
+            count++;
+            std::cout << "I am btn 1 event and triggered : " << count << std::endl;
+        }
+    }
+
+    void s_btnEvent2(dVec2 mouPos, int mouCode)
+    {
+        static int count = 0;
+        if(mouPos.x>500 && mouPos.y>400 && mouPos.x<800 && mouPos.y<600 && mouCode==MOUSE_BUTTON_LEFT)
+        {
+            count++;
+            std::cout << "I am btn 2 event and triggered : " << count << std::endl;
+        }
+    }
+
+    void s_btnEvent3(dVec2 mouPos, int mouCode)
+    {
+        static int count = 0;
+        if(mouPos.x>500 && mouPos.y>400 && mouPos.x<800 && mouPos.y<600 && mouCode==MOUSE_BUTTON_RIGHT)
+        {
+            count++;
+            std::cout << "I am btn 3 event and triggered : " << count << std::endl;
+        }
+    }
+
     class Sandbox_App : private OpenGL::OpenGL_App 
     {
         public:
@@ -54,11 +85,16 @@ namespace Sandbox
         // OpenGL_Panel tempPanel;
         // OpenGL_Button tempButton;
         // OpenGL_InpField tempInputField;
+        m_mainWindow->m_mouEventQueue.AddEvent(s_btnEvent1);
+        m_mainWindow->m_mouEventQueue.AddEvent(s_btnEvent2);
+        m_mainWindow->m_mouEventQueue.AddEvent(s_btnEvent3);
 
         // temporary right now here later move to the actual inherted applications..
         while (!m_mainWindow->ShouldCloseWindow())
         {
             m_mainWindow->SetColor(1, 1, 1, 1);
+            // dVec2 mouPos = m_mainWindow->GetMousePos();
+            // std::cout << mouPos.x << " | " << mouPos.y << std::endl;
             sine_VAO.Bind();
             sh.UseProgram();
             i += d_i;
@@ -83,6 +119,7 @@ namespace Sandbox
             glfwPollEvents();
         }
     }
+
 
     void Sandbox_App::Initialize()
     {
