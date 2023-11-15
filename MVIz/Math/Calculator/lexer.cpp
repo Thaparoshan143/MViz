@@ -29,7 +29,7 @@ std::string Lexer::Number() {
             || current_char == '.') {
         if (current_char == '.') { decimal_count += 1; }
 
-        if (decimal_count > 1) { Error(); }
+        if (decimal_count > 1) { Error("More than one decimals."); }
 
         result += current_char;
         Advance();
@@ -45,7 +45,14 @@ std::string Lexer::Trig() {
         Advance();
     }
 
-    return result;
+    for (int i = 0; i < 12; i++) {
+        if (result == ratios[i]){
+            return result;
+        }
+    }
+
+    Error(result);
+    return "";
 }
 
 Token Lexer::GetNextToken() {
@@ -79,7 +86,7 @@ Token Lexer::GetNextToken() {
     return Token(TokenType::EOF_TYPE, "None");
 }
 
-void Lexer::Error() {
-    std::cout << "\nInvalid Character!";
+void Lexer::Error(std::string msg) {
+    std::cout << "\nInvalid Character! " + msg;
     exit(1);
 }

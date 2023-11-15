@@ -13,9 +13,24 @@ class Lexer {
         std::string Number();
         std::string Trig();
         Token GetNextToken();
-        void Error();
+        void Error(std::string msg = "");
     private:
         std::string text;
         int pos;
         char current_char;
+};
+
+const char* ratios[] = {
+    "sin",
+    "cos",
+    "tan",
+    "asin",
+    "acos",
+    "atan",
+    "sinh",
+    "cosh",
+    "tanh",
+    "asinh",
+    "acosh",
+    "atanh"
 };
