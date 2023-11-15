@@ -9,14 +9,9 @@
 namespace Sandbox 
 {
     // This are just temporary functions for test...
-    void s_btnEvent1(dVec2 mouPos, int mouCode)
+    void s_btnEvent1()
     {
-        static int count = 0;
-        if(mouPos.x>100 && mouPos.y>100 && mouPos.x<300 && mouPos.y<200 && mouCode==MOUSE_BUTTON_RIGHT)
-        {
-            count++;
-            std::cout << "I am btn 1 event and triggered : " << count << std::endl;
-        }
+        std::cout << "I am btn " << std::endl;
     }
 
     void s_btnEvent2(dVec2 mouPos, int mouCode)
@@ -85,9 +80,12 @@ namespace Sandbox
         // OpenGL_Panel tempPanel;
         // OpenGL_Button tempButton;
         // OpenGL_InpField tempInputField;
-        m_mainWindow->m_mouEventQueue.AddEvent(s_btnEvent1);
+        // m_mainWindow->m_mouEventQueue.AddEvent(s_btnEvent1);
         m_mainWindow->m_mouEventQueue.AddEvent(s_btnEvent2);
         m_mainWindow->m_mouEventQueue.AddEvent(s_btnEvent3);
+        Abs::ButtonProps btnInfo1(fVec2(0), fVec2(0.3), fVec3(1), "Button 1");
+        OpenGL_Button testBtn(btnInfo1, s_btnEvent1);
+
 
         // temporary right now here later move to the actual inherted applications..
         while (!m_mainWindow->ShouldCloseWindow())
