@@ -38,7 +38,7 @@ namespace OpenGL
 
 	void OpenGL_Win::initializeOpenGLWindow(int w, int h, String t)
 	{
-		std::cout << "I am OpenGL Window !!";
+		// std::cout << "I am OpenGL Window !!";
 		// loading basic glfw library and more
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -79,9 +79,11 @@ namespace OpenGL
 	// All the static methods for input definition 
 	static void static_mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
     {
+		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
         if(action == GLFW_PRESS)
         {
             Abs::MouseButtonPressedEvent mbpressed(Abs::MouseCode(button));
+			win->m_mouEventQueue.DispatchEvents(win->m_mouPos, button);
 			#if DEBUG_LOG
             std::cout << "Mouse button pressed!!\n";
 			#endif
@@ -105,6 +107,8 @@ namespace OpenGL
 
 	static void static_mouse_position_callback(GLFWwindow *window, double xpos, double ypos)
 	{
+		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
+		win->m_mouPos = dVec2(xpos, ypos);
 		#if DEBUG_LOG
 		std::cout << "Mouse moved : " << std::endl;
 		std::cout << "X : " << xpos << "\nY : " << ypos << std::endl;
