@@ -36,5 +36,24 @@ void Interpreter::Visit(TrigRatio* trig) {
         result = cos(angle);
     } else if (trig->token.GetValue() == "tan") {
         result = tan(angle);
-    } 
+    } else if (trig->token.GetValue() == "sinh") {
+        result = sinh(angle);
+    } else if (trig->token.GetValue() == "cosh") {
+        result = cosh(angle);
+    } else if (trig->token.GetValue() == "tanh") {
+        result = tanh(angle);
+    } else if (trig->token.GetValue() == "asin") {
+        result = asin(angle);
+    } else if (trig->token.GetValue() == "acos") {
+        result = acos(angle);
+    } else if (trig->token.GetValue() == "atan") {
+        result = atan(angle);
+    } else if (trig->token.GetValue() == "asinh") {
+        result = asinh(angle);
+    } else if (trig->token.GetValue() == "acosh") {
+        result = acosh(angle);
+    } else if (trig->token.GetValue() == "atanh") {
+        result = atanh(angle);
+    }
+
 }
