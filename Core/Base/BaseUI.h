@@ -4,12 +4,13 @@
 
 #include"../../includes/GLM/glm/glm.hpp"
 
+typedef void (*ClickEventCallback)();
+
 namespace Abs
 {
     typedef std::string String;
     typedef glm::fvec2 fVec2;
     typedef glm::fvec3 fVec3;
-    typedef void (*ClickEventCallback)();
 
     struct ButtonProps
     {

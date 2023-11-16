@@ -15,9 +15,9 @@ namespace Abs
 
     enum NumberingInfo
     {
-        CONCISE = 1,
-        NORMAL = 2,
-        EXTEND = 4                
+        CONCISE = 11,
+        NORMAL = 21,
+        EXTEND = 41                
     };
 
     #define DEFAULT_DIM iVec2(600, 400)
@@ -38,7 +38,7 @@ namespace Abs
         // Here dim is, width and height
         iVec2 dim;
         ScreenPosition screenpos;
-        // Numering info will hold the resolution of the vertical/horizontal line for the graph
+        // Numering info will hold the resolution of the vertical/horizontal (used same for now..) line for the graph
         NumberingInfo numinfo;
     };
 

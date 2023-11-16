@@ -18,10 +18,13 @@ namespace OpenGL
         OpenGL_VertArrObj m_VAO;
         OpenGL_VertBuffObj m_VBO;
         OpenGL_Sha m_graphSha;
+        OpenGL_Sha m_textSha;
         OpenGL_Win &m_target;
         uint graphVBO, graphVAO;
+        // std::vector<FreetypeText> m_number;
 
         void initializeGraph();
         float* getGraphVert(iVec2 stripeCount, float height);
+        void renderNumbering();
     };
 }

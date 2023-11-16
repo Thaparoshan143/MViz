@@ -9,7 +9,7 @@ namespace OpenGL
     }
 
     // button implementation
-    OpenGL_Button::OpenGL_Button(Abs::ButtonProps btnInfo, Abs::ClickEventCallback btnCallback)
+    OpenGL_Button::OpenGL_Button(Abs::ButtonProps btnInfo, ClickEventCallback btnCallback)
     {
         this->m_pos = btnInfo._pos;
         this->m_dim = btnInfo._dim;
@@ -37,7 +37,7 @@ namespace OpenGL
     }
 
     // InputField implementation
-    OpenGL_InpField::OpenGL_InpField(Abs::InputFieldProps inpFieldInfo, Abs::ClickEventCallback inpFieldCallback)
+    OpenGL_InpField::OpenGL_InpField(Abs::InputFieldProps inpFieldInfo, ClickEventCallback inpFieldCallback)
     {
         this->m_pos = inpFieldInfo._pos;
         this->m_dim = inpFieldInfo._dim;

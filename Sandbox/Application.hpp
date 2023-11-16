@@ -56,8 +56,6 @@ namespace Sandbox
         sine_VBO.DirectLoad(sineVert, SINE_RES*(FREQ_COUNT*2+2));
         sine_VAO.EnableVertexAttribMan(2);
 
-        FreetypeText tempText(*this->m_mainWindow, "0");
-
         // const int TRIANGLE_COUNT = 18;
         OpenGL_Sha sh("../res/shaders/");
         OpenGL_Sha shText("../res/Shaders/Text/");
@@ -110,7 +108,7 @@ namespace Sandbox
             glLineWidth(1.0f);
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
-            tempText.RenderText(shText, 380, 320, 0.7, dVec3(0, 0, 0));
+            // tempText.RenderText(shText, 380, 320, 0.7, dVec3(0, 0, 0));
             mainGraph.RenderGraph();
 
             m_mainWindow->SwapFrameBuffer();

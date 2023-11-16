@@ -1,8 +1,5 @@
 #include"./OpenGL_Graph.h"
 
-#define HOR_LINE_COUNT 21
-#define VER_LINE_COUNT 21
-
 namespace OpenGL
 {
     OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_graphSha("../res/Shaders/Graph/Plane/"), m_VAO(Abs::BufferFormat::PPP_RGB)
@@ -16,20 +13,23 @@ namespace OpenGL
         m_VAO.Bind();
         m_VBO.Bind();
 		glLineWidth(1.0f);
-        glDrawArrays(GL_LINES, 0, (HOR_LINE_COUNT+VER_LINE_COUNT)*2);
+        glDrawArrays(GL_LINES, 0, (this->m_gi.numinfo+this->m_gi.numinfo)*2);
 		glLineWidth(0.3f);
-        glDrawArrays(GL_LINES, (HOR_LINE_COUNT+VER_LINE_COUNT)*2, (HOR_LINE_COUNT+VER_LINE_COUNT)*4);
+        glDrawArrays(GL_LINES, (this->m_gi.numinfo)*2, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
+		// renderNumbering();
     }
 
     void OpenGL_Graph::initializeGraph()
     {
-        float *graphVert = getGraphVert(iVec2(HOR_LINE_COUNT, VER_LINE_COUNT), 1);
-        float *graphVertScale = getGraphVert(iVec2(HOR_LINE_COUNT, VER_LINE_COUNT), 0.02);
+        float *graphVert = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 1);
+        float *graphVertScale = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 0.02);
 
-		m_VBO.Append(graphVertScale, (HOR_LINE_COUNT+VER_LINE_COUNT)*4);
-		m_VBO.Append(graphVert, (HOR_LINE_COUNT+VER_LINE_COUNT)*4);
+		m_VBO.Append(graphVertScale, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
+		m_VBO.Append(graphVert, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
 		m_VBO.LoadBuffer();
 		m_VAO.EnableVertexAttribMan(2);
+		m_textSha.UpdatePath("../res/Shaders/Text/");
+		m_textSha.CreateProgram();
     }
 
 	float* OpenGL_Graph::getGraphVert(iVec2 stripeCount, float height)
@@ -57,4 +57,62 @@ namespace OpenGL
 
 		return tempVert;
 	}
+
+	// NOT WORKING.. CURRENTLY
+	// find the way to store the render text at once or to use vector for freetype...then it might work.. 
+	// void OpenGL_Graph::renderNumbering()
+	// {
+	// 	// Populating the text first...
+	// 	String textCount;
+	// 	float numCount = -10;
+	// 	float offset = 20.0/(this->m_gi.numinfo-1);
+
+	// 	// X-axis numbering 
+	// 	for(int i=0;i<this->m_gi.numinfo;i++)
+	// 	{
+	// 		textCount = std::to_string(numCount);
+	// 		m_number.push_back(FreetypeText(m_target, textCount));
+	// 		numCount += offset;
+	// 	}
+
+	// 	numCount = -10;
+	// 	// Y-axis numbering
+	// 	for(int i=0;i<this->m_gi.numinfo;i++)
+	// 	{
+	// 		textCount = std::to_string(numCount);
+	// 		m_number.push_back(FreetypeText(m_target, textCount));
+	// 		numCount += offset;
+	// 	}
+
+	// 	float numberingScale = 0.8f;
+	// 	// black color text
+	// 	fVec3 numberCol = fVec3(0);
+	// 	float xOffset = 0, yOffset = 0, xIncrement, yIncrement;
+	// 	OpenGL_Win *mainWin = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.m_window);
+	// 	iVec2 screenSize = mainWin->GetWindowSize();
+	// 	// X render
+	// 	yOffset = screenSize.y/2 + 20;
+	// 	xIncrement = screenSize.x / this->m_gi.numinfo;
+	// 	for(int i=0;i<m_number.size()/2+1;i++)
+	// 	{
+	// 		xOffset += xIncrement;
+	// 		if(xOffset == screenSize.x/2)
+	// 		{
+	// 			xOffset += xIncrement;
+	// 		}
+	// 		m_number[i].RenderText(m_textSha, xOffset, yOffset, numberingScale, numberCol);
+	// 	}
+	// 	// Y render
+	// 	xOffset = screenSize.x/2 - 20;
+	// 	yOffset = 0;
+	// 	for(int i=m_number.size()/2+1;i<m_number.size();i++)
+	// 	{
+	// 		yOffset += yIncrement;
+	// 		if(yOffset == screenSize.y/2)
+	// 		{
+	// 			yOffset += yIncrement;
+	// 		}
+	// 		m_number[i].RenderText(m_textSha, xOffset, yOffset, numberingScale, numberCol);
+	// 	}
+	// }
 }
