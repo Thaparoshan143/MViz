@@ -78,6 +78,7 @@ Token Lexer::GetNextToken() {
             case '-':           Advance();      return Token(TokenType::MINUS, "-");
             case '*':           Advance();      return Token(TokenType::MUL, "*");
             case '/':           Advance();      return Token(TokenType::DIV, "/");
+            case '^':           Advance();      return Token(TokenType::POW, "^");
             case '(':           Advance();      return Token(TokenType::LPAREN, "(");
             case ')':           Advance();      return Token(TokenType::RPAREN, ")");
             default:            Error();

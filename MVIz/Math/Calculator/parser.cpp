@@ -21,7 +21,6 @@ std::shared_ptr<Node> Parser::Number() {
         Consume(TokenType::LPAREN);
         auto root = Expression();
         Consume(TokenType::RPAREN);
-        std::cout << "Here";
         return root;
     } else if (token.GetType() == TokenType::TRIG) {
         Consume(TokenType::TRIG);
@@ -43,10 +42,13 @@ std::shared_ptr<Node> Parser::Term() {
 
     while (current_token.GetType() == TokenType::MUL
             || current_token.GetType() == TokenType::DIV
-            || current_token.GetType() == TokenType::LPAREN) {
+            || current_token.GetType() == TokenType::LPAREN
+            || current_token.GetType() == TokenType::POW) {
         auto token = current_token;
 
-        if (token.GetType() == TokenType::MUL) {
+        if (token.GetType() == TokenType::POW) {
+            Consume(TokenType::POW);
+        } else if (token.GetType() == TokenType::MUL) {
             Consume(TokenType::MUL);
         } else if (token.GetType() == TokenType::DIV) {
             Consume(TokenType::DIV);

@@ -8,14 +8,16 @@ void Interpreter::Visit(BinOp* exp) {
     exp->children[1]->accept(this);
     double right = result;
 
-    if (exp->token.GetType() == PLUS) {
+    if (exp->token.GetType() == TokenType::PLUS) {
         result = left + right;
-    } else if (exp->token.GetType() == MINUS) {
+    } else if (exp->token.GetType() == TokenType::MINUS) {
         result = left - right;
-    } else if (exp->token.GetType() == MUL) {
+    } else if (exp->token.GetType() == TokenType::MUL) {
         result = left * right;
-    } else if (exp->token.GetType() == DIV) {
+    } else if (exp->token.GetType() == TokenType::DIV) {
         result = left / right;
+    } else if (exp->token.GetType() == TokenType::POW) {
+        result = pow(left, right);
     } else {
         printf("Undefined Operation!");
         exit(1);

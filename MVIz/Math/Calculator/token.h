@@ -9,6 +9,7 @@ enum TokenType {
     DIV,
     LPAREN,
     RPAREN,
+    POW,
     TRIG,
     EOF_TYPE
 };
@@ -21,6 +22,7 @@ const char* TokenNames[] = {
     "DIV",
     "LPAREN",
     "RPAREN",
+    "POW",
     "TRIG",
     "EOF"
 };
