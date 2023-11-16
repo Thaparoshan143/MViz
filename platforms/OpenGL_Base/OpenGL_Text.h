@@ -13,7 +13,7 @@ namespace OpenGL
     // defining the base starting size for font using constant varient
     #define BASE_FONT_SIZE 1/2.0
 
-    class FreetypeText : Abs::Text
+    class FreetypeText : public Abs::Text
     {
         public:
         FreetypeText(OpenGL_Win &target, String text = "Untitled");
