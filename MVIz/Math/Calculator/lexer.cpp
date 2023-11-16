@@ -38,15 +38,15 @@ std::string Lexer::Number() {
     return result;
 }
 
-std::string Lexer::Trig() {
+std::string Lexer::fn() {
     std::string result = "";
     while (current_char >= 97 && current_char <= 122) {
         result += current_char;
         Advance();
     }
 
-    for (int i = 0; i < 12; i++) {
-        if (result == ratios[i]){
+    for (int i = 0; i < 13; i++) {
+        if (result == fn_names[i]){
             return result;
         }
     }
@@ -69,8 +69,13 @@ Token Lexer::GetNextToken() {
         }
         decimal_count = 0;
 
+        if (current_char == 'e') { 
+            Advance();
+            return Token(TokenType::NUM, std::to_string(exp(1))); 
+        }
+
         if (current_char >= 97 && current_char <= 122) {
-            return Token(TokenType::TRIG, Trig());
+            return Token(TokenType::FUNCTION, fn());
         }
         
         switch (current_char) {

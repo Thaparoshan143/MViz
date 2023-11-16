@@ -28,34 +28,36 @@ void Interpreter::Visit(Num* num) {
     result = std::atof(num->token.GetValue().c_str());
 }
 
-void Interpreter::Visit(TrigRatio* trig) {
-    trig->children[0]->accept(this);
-    double angle = result;
+void Interpreter::Visit(Function* func) {
+    func->children[0]->accept(this);
+    double param = result;
 
-    if (trig->token.GetValue() == "sin") {
-        result = sin(angle);
-    } else if (trig->token.GetValue() == "cos") {
-        result = cos(angle);
-    } else if (trig->token.GetValue() == "tan") {
-        result = tan(angle);
-    } else if (trig->token.GetValue() == "sinh") {
-        result = sinh(angle);
-    } else if (trig->token.GetValue() == "cosh") {
-        result = cosh(angle);
-    } else if (trig->token.GetValue() == "tanh") {
-        result = tanh(angle);
-    } else if (trig->token.GetValue() == "asin") {
-        result = asin(angle);
-    } else if (trig->token.GetValue() == "acos") {
-        result = acos(angle);
-    } else if (trig->token.GetValue() == "atan") {
-        result = atan(angle);
-    } else if (trig->token.GetValue() == "asinh") {
-        result = asinh(angle);
-    } else if (trig->token.GetValue() == "acosh") {
-        result = acosh(angle);
-    } else if (trig->token.GetValue() == "atanh") {
-        result = atanh(angle);
+    if (func->token.GetValue() == "log") {
+        result = log(param);
+    } else if (func->token.GetValue() == "sin") {
+        result = sin(param);
+    } else if (func->token.GetValue() == "cos") {
+        result = cos(param);
+    } else if (func->token.GetValue() == "tan") {
+        result = tan(param);
+    } else if (func->token.GetValue() == "sinh") {
+        result = sinh(param);
+    } else if (func->token.GetValue() == "cosh") {
+        result = cosh(param);
+    } else if (func->token.GetValue() == "tanh") {
+        result = tanh(param);
+    } else if (func->token.GetValue() == "asin") {
+        result = asin(param);
+    } else if (func->token.GetValue() == "acos") {
+        result = acos(param);
+    } else if (func->token.GetValue() == "atan") {
+        result = atan(param);
+    } else if (func->token.GetValue() == "asinh") {
+        result = asinh(param);
+    } else if (func->token.GetValue() == "acosh") {
+        result = acosh(param);
+    } else if (func->token.GetValue() == "atanh") {
+        result = atanh(param);
     }
 
 }

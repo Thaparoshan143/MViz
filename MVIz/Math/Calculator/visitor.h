@@ -3,13 +3,13 @@
 
 class BinOp;
 class Num;
-class TrigRatio;
+class Function;
 
 class Visitor {
     public:
         virtual void Visit(BinOp*) = 0;
         virtual void Visit(Num*) = 0;
-        virtual void Visit(TrigRatio*) = 0;
+        virtual void Visit(Function*) = 0;
 };
 
 #endif

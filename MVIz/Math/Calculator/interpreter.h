@@ -4,7 +4,7 @@ class Interpreter : public Visitor {
     public:
         void Visit(BinOp*);
         void Visit(Num*);
-        void Visit(TrigRatio*);
+        void Visit(Function*);
 
         double Result() { return result; }
 

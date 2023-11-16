@@ -10,7 +10,7 @@ enum TokenType {
     LPAREN,
     RPAREN,
     POW,
-    TRIG,
+    FUNCTION,
     EOF_TYPE
 };
 
@@ -23,7 +23,7 @@ const char* TokenNames[] = {
     "LPAREN",
     "RPAREN",
     "POW",
-    "TRIG",
+    "FUNCTION",
     "EOF"
 };
 

@@ -6,7 +6,7 @@ void Parser::Consume(TokenType type) {
     } else { 
         std::cout << "Invalid Syntax: Unexpected Token!\nExpected " +
                       ToString(current_token.GetType()) +
-                      "Got " + ToString(type);
+                      " got " + ToString(type);
         exit(1);
      }
 }
@@ -22,12 +22,12 @@ std::shared_ptr<Node> Parser::Number() {
         auto root = Expression();
         Consume(TokenType::RPAREN);
         return root;
-    } else if (token.GetType() == TokenType::TRIG) {
-        Consume(TokenType::TRIG);
+    } else if (token.GetType() == TokenType::FUNCTION) {
+        Consume(TokenType::FUNCTION);
         Consume(TokenType::LPAREN);
-        auto angle = Expression();
-        auto root  = std::make_shared<TrigRatio>(token);
-        root->AddChild(angle);
+        auto param = Expression();
+        auto root  = std::make_shared<Function>(token);
+        root->AddChild(param);
         Consume(TokenType::RPAREN);
         return root;
     }

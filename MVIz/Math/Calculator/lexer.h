@@ -2,6 +2,7 @@
 
 #include<string.h>
 #include <iostream>
+#include <math.h>
 
 #include "token.h"
 
@@ -11,7 +12,7 @@ class Lexer {
         void Advance();
         void SkipWhitespace();
         std::string Number();
-        std::string Trig();
+        std::string fn();
         Token GetNextToken();
         void Error(std::string msg = "");
     private:
@@ -20,7 +21,8 @@ class Lexer {
         char current_char;
 };
 
-const char* ratios[] = {
+const char* fn_names[] = {
+    "log",
     "sin",
     "cos",
     "tan",

@@ -48,16 +48,16 @@ class Num : public Node {
         ~Num() {}
 };
 
-class TrigRatio : public Node {
+class Function : public Node {
     public:
-        TrigRatio(Token token)
+        Function(Token token)
             : Node(token) {}
 
         void accept(Visitor* visitor) {
             return visitor->Visit(this);
         }
 
-        ~TrigRatio() {}
+        ~Function() {}
 };
 
 #endif
