@@ -5,6 +5,10 @@
 #include"./Types.h"
 #include"./SVec.hpp"
 
+// This defines the vertices count in the buffer format..
+#define PP_RGB_COUNT 5
+#define PPP_RGB_COUNT 6
+
 namespace Abs
 {
 	// VBO storage format PPP.. - position..color..uv
@@ -45,7 +49,6 @@ namespace Abs
 		virtual uint Bind() = 0;
 		virtual void Unbind() = 0;
 
-        protected:
         SVec<T> m_data;
     };
 
@@ -58,7 +61,6 @@ namespace Abs
 		virtual void Unbind() = 0;
         void UpdateFormat(BufferFormat bf) {    m_format = bf;  }
 
-        protected:
 		BufferFormat m_format;
 
 		uint getMask(uint maskFormat) { return m_format & maskFormat;   }

@@ -20,6 +20,7 @@ namespace OpenGL
 	{
 		// free all the heap allocated block for this
 		delete[] this->m_mainWindow;
+		delete[] this->m_mainUI;
 	}
 
 	ApplicationInfo OpenGL_App::GetAppInfo()
@@ -31,6 +32,8 @@ namespace OpenGL
 	{
 		this->m_mainWindow = new OpenGL_Win(appInfo);
 		this->m_mainWindow->m_wi = appInfo;
+		UIProps UIInfo;
+		this->m_mainUI = new OpenGL_UI(*this->m_mainWindow, UIInfo);
 		InitializeOpenGL();
 	}
 

@@ -24,7 +24,7 @@ namespace OpenGL
 
 		EventQueue<dVec2, int> m_mouEventQueue;
 		GLFWwindow *m_window;
-
+		
 		void initializeOpenGLWindow(int w, int h, String t);
 	};
 

@@ -29,6 +29,7 @@ namespace OpenGL
 
 		public:
 		OpenGL_Win *m_mainWindow;
+		OpenGL_UI *m_mainUI;
 
 		// helper function for initalizing application class
 		void initializeApp(ApplicationInfo &appInfo);

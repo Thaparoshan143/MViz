@@ -55,7 +55,8 @@ namespace OpenGL
         OpenGL_UI(OpenGL_Win &target, UIProps UIInfo);
 
         // Callback yet to be attached to the Button Props... later on, remove first argument and only pass button props when adding new button...
-        void AddElement(OpenGL_Button btn, Abs::ButtonProps);
+        void AddElement(OpenGL_Button btn, Abs::ButtonProps btnInfo);
+        void RenderUI();
 
         private:
         std::vector<OpenGL_Button*> m_btnList;
@@ -63,6 +64,10 @@ namespace OpenGL
         // Better option might be using map system, like for btn, input field and so on... we can use mapping for individual VBO...
         OpenGL_VertBuffObj m_UIVBO;
         OpenGL_Sha m_UIShader;
-        OpenGL_Win &target;
+        OpenGL_Win &m_target;
+        uint m_triangleCount;
+
+        void initializeUIBuffer();
+        float* getButtonVertices(fVec2 pos, fVec2 dim, fVec3 col);
     };
 }

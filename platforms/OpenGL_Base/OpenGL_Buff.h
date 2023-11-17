@@ -54,11 +54,11 @@ namespace OpenGL
 		// This is just the interface for the specific purpose, (text rendering..) might not be useful for all
 		void EnableVertexAttribMan(uint count);
 
+		uint StrideCount() {	return getVBOStride();	}		
 		private:
 		uint m_id;
 		// uint m_usage;
 		// OpenGL_VertBuffObj *m_VBO;
-
 		uint getVBOStride();
 	};
 

@@ -97,7 +97,7 @@ namespace Sandbox
             if (i > 1) {
                 d_i = -d_i;
             }
-            if (i < -1) {
+            if (i < -1) {       
                 d_i = -d_i;
             }
 
@@ -108,8 +108,9 @@ namespace Sandbox
             glLineWidth(1.0f);
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
+            m_mainUI->RenderUI();
             // tempText.RenderText(shText, 380, 320, 0.7, dVec3(0, 0, 0));
-            mainGraph.RenderGraph();
+            // mainGraph.RenderGraph();
 
             m_mainWindow->SwapFrameBuffer();
             glfwPollEvents();
