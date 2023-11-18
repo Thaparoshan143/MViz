@@ -40,9 +40,8 @@ namespace OpenGL
 	void OpenGL_App::InitializeOpenGL()
 	{
 		glEnable(GL_BLEND);
-		glEnable(GL_BACK);
+		// glEnable(GL_BACK);
 		glEnable(GL_LINE_SMOOTH); 
-		glEnable(GL_CULL_FACE);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }
