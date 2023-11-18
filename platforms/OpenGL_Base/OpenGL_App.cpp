@@ -23,6 +23,26 @@ namespace OpenGL
 		delete[] this->m_mainUI;
 	}
 
+	void* OpenGL_App::GetReference(Abs::AppRef appRef)
+	{
+		if(appRef==Abs::AppRef::SELF)
+		{
+			return (OpenGL_App*)this;
+		}
+		else if(appRef==Abs::AppRef::WINDOW)
+		{
+			return (OpenGL_Win*)this->m_mainWindow;
+		}
+		else if(appRef==Abs::AppRef::UI)
+		{
+			return (OpenGL_UI*)this->m_mainUI;
+		}
+		else
+		{
+			std::cout << "Error while passing references..." << std::endl;
+		}
+	}
+
 	ApplicationInfo OpenGL_App::GetAppInfo()
 	{
 		return m_mainWindow->GetWindowInfo();
@@ -30,7 +50,7 @@ namespace OpenGL
 
 	void OpenGL_App::initializeApp(ApplicationInfo &appInfo)
 	{
-		this->m_mainWindow = new OpenGL_Win(appInfo);
+		this->m_mainWindow = new OpenGL_Win(appInfo, this);
 		this->m_mainWindow->m_wi = appInfo;
 		UIProps UIInfo;
 		this->m_mainUI = new OpenGL_UI(*this->m_mainWindow, UIInfo);
@@ -40,9 +60,8 @@ namespace OpenGL
 	void OpenGL_App::InitializeOpenGL()
 	{
 		glEnable(GL_BLEND);
-		glEnable(GL_BACK);
+		// glEnable(GL_BACK);
 		glEnable(GL_LINE_SMOOTH); 
-		glEnable(GL_CULL_FACE);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }

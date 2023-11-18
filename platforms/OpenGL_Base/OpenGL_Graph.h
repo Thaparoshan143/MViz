@@ -17,14 +17,13 @@ namespace OpenGL
         protected:
         OpenGL_VertArrObj m_VAO;
         OpenGL_VertBuffObj m_VBO;
-        OpenGL_Sha m_graphSha;
-        OpenGL_Sha m_textSha;
+        uint m_textShaderID, m_graphShaderID;
         OpenGL_Win &m_target;
-        uint graphVBO, graphVAO;
-        // std::vector<FreetypeText> m_number;
+        FreetypeText m_number;
 
         void initializeGraph();
         float* getGraphVert(iVec2 stripeCount, float height);
-        void renderNumbering();
+        // void renderNumbering();
+        void renderLabeling();
     };
 }

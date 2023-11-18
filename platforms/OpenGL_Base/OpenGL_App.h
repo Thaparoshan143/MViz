@@ -22,6 +22,8 @@ namespace OpenGL
 
 		~OpenGL_App();
 
+		void* GetReference(Abs::AppRef appRef);
+
 		// might not be necessary once actual application is made out for the application based working...
 		void InitializeOpenGL();
 

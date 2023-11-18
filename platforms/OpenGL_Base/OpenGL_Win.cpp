@@ -1,14 +1,9 @@
 #include"OpenGL_Win.h"
+#include"./OpenGL_UI.h"
 
 namespace OpenGL
 {
-	OpenGL_Win::OpenGL_Win()
-	{
-		this->m_wi = WindowInfo(800, 600, "OpenGL Window");
-		initializeOpenGLWindow(800, 600, "OpenGL Window");
-	}
-
-	OpenGL_Win::OpenGL_Win(WindowInfo &wi)
+	OpenGL_Win::OpenGL_Win(WindowInfo &wi, Abs::Application *targetApp) : m_targetApp(targetApp)
 	{
 		this->m_wi = wi;
 		initializeOpenGLWindow(wi.width, wi.height, wi.title);
@@ -35,10 +30,20 @@ namespace OpenGL
 		glfwSwapBuffers(this->m_window);
 	}
 
+	uint OpenGL_Win::GetShaderID(String path)
+	{
+		if(m_shaderList.count(path)==0)
+		{
+			m_shaderList.insert({path, OpenGL_Sha(path)});
+			m_shaderList[path].CreateProgram();
+		}
+
+		return m_shaderList[path].GetProgramID();
+	}
+
 
 	void OpenGL_Win::initializeOpenGLWindow(int w, int h, String t)
 	{
-		// std::cout << "I am OpenGL Window !!";
 		// loading basic glfw library and more
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -80,10 +85,12 @@ namespace OpenGL
 	static void static_mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
     {
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
+		OpenGL_UI *UI = (OpenGL_UI*)win->m_targetApp->GetReference(Abs::AppRef::UI);
         if(action == GLFW_PRESS)
         {
             Abs::MouseButtonPressedEvent mbpressed(Abs::MouseCode(button));
-			win->m_mouEventQueue.DispatchEvents(win->m_mouPos, button);
+			UI->DispatchMouseEvents(win->m_mouPos, button);
+			// win->m_mouEventQueue.DispatchEvents(win->m_mouPos, button);
 			#if DEBUG_LOG
             std::cout << "Mouse button pressed!!\n";
 			#endif

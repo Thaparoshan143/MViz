@@ -1,18 +1,21 @@
 #pragma once
 
+#include<map>
+
 #include"../../includes/GLAD/glad.h"
 #include"../../includes/GLFW/glfw3.h"
 
 #include"../../Core/Base/Window.h"
+#include"../../Core/Base/Application.h"
 #include"./OpenGL_Inp.h"
+#include"./OpenGL_Sha.h"
 
 namespace OpenGL
 {
 	class OpenGL_Win : public Abs::Window
 	{
 		public:
-		OpenGL_Win();
-		OpenGL_Win(WindowInfo &wi);
+		OpenGL_Win(WindowInfo &wi, Abs::Application *targetApp);
 
 		~OpenGL_Win();
 		
@@ -21,9 +24,12 @@ namespace OpenGL
 		void SetColor(float r, float g, float b, float a = 1.0) override;
 		inline bool ShouldCloseWindow() override {	return glfwWindowShouldClose(this->m_window);	};
 		void SwapFrameBuffer() override;
+		uint GetShaderID(String path);
 
-		EventQueue<dVec2, int> m_mouEventQueue;
+		// EventQueue<dVec2, int> m_mouEventQueue;
 		GLFWwindow *m_window;
+		Abs::Application *m_targetApp;
+		std::map<String, OpenGL_Sha> m_shaderList;
 		
 		void initializeOpenGLWindow(int w, int h, String t);
 	};

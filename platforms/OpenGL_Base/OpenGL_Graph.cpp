@@ -2,20 +2,23 @@
 
 namespace OpenGL
 {
-    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_graphSha("../res/Shaders/Graph/Plane/"), m_VAO(Abs::BufferFormat::PPP_RGB)
+    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_VAO(Abs::BufferFormat::PPP_RGB), m_number(target, "0")
     {
         initializeGraph();
     }
 
     void OpenGL_Graph::RenderGraph()
     {
-        m_graphSha.UseProgram();
+		glUseProgram(m_graphShaderID);
         m_VAO.Bind();
         m_VBO.Bind();
+		glLineWidth(0.5f);
+        glDrawArrays(GL_LINES, (this->m_gi.numinfo)*2, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
 		glLineWidth(1.0f);
         glDrawArrays(GL_LINES, 0, (this->m_gi.numinfo+this->m_gi.numinfo)*2);
-		glLineWidth(0.3f);
-        glDrawArrays(GL_LINES, (this->m_gi.numinfo)*2, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
+		glLineWidth(2.0f);
+        glDrawArrays(GL_LINES, (this->m_gi.numinfo+this->m_gi.numinfo)*4, (this->m_gi.numinfo+this->m_gi.numinfo)*4 + 8);
+		renderLabeling();
 		// renderNumbering();
     }
 
@@ -23,13 +26,15 @@ namespace OpenGL
     {
         float *graphVert = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 1);
         float *graphVertScale = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 0.02);
+		float graphAxis[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
 		m_VBO.Append(graphVertScale, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
 		m_VBO.Append(graphVert, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
+		m_VBO.Append(graphAxis, 8);
 		m_VBO.LoadBuffer();
 		m_VAO.EnableVertexAttribMan(2);
-		m_textSha.UpdatePath("../res/Shaders/Text/");
-		m_textSha.CreateProgram();
+		m_textShaderID = m_target.GetShaderID("../res/Shaders/Text/");
+		m_graphShaderID = m_target.GetShaderID("../res/Shaders/Graph/Plane/");
     }
 
 	float* OpenGL_Graph::getGraphVert(iVec2 stripeCount, float height)
@@ -56,6 +61,15 @@ namespace OpenGL
 		}
 
 		return tempVert;
+	}
+
+	// for now just rendering the origin i.e 0 below contains the required for all labeling but has scaling problem in vector find alternative...
+	void OpenGL_Graph::renderLabeling()
+	{
+		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.GetWindow());
+		iVec2 winSize = win->GetWindowSize();
+
+		m_number.RenderText(m_textShaderID, (winSize.x/2)-20, (winSize.y/2)+20, 0.8, fVec3(0));
 	}
 
 	// NOT WORKING.. CURRENTLY

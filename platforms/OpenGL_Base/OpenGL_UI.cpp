@@ -3,6 +3,17 @@
 namespace OpenGL
 {
     #define BTN_TRI_COUNT 6
+
+    static void _submit_btn()
+    {
+        std::cout << "Hellow there i am submit button" << std::endl;
+    }
+
+    static void _cancel_btn()
+    {
+        std::cout << "Hellow there i am cancel button" << std::endl;
+    }
+
     // panel implementation
     OpenGL_Panel::OpenGL_Panel(Abs::PanelProps panelInfo) : Panel(panelInfo)
     {
@@ -19,8 +30,6 @@ namespace OpenGL
         // m_label.m_text = btnInfo._label;
         m_eventOnClick = btnCallback;
         m_isClickable = true;
-
-        std::cout << "I am inside the constructor Button OpenGL" << std::endl;
     }
 
     void OpenGL_Button::OnClick(dVec2 mouPos, int mouCode)
@@ -34,7 +43,7 @@ namespace OpenGL
 
     bool OpenGL_Button::withinBoundary(fVec4 border, fVec2 pos)
     {
-        return border.x < pos.x && border.z > pos.x && border.y < pos.y && border.w > pos.y;
+        return border.x < pos.x && border.z > pos.x && border.y > pos.y && border.w < pos.y;
     }
 
     // InputField implementation
@@ -51,44 +60,57 @@ namespace OpenGL
         std::cout << "I am inside the constructor Input Field OpenGL" << std::endl;
     }
 
-    OpenGL_UI::OpenGL_UI(OpenGL_Win &target, UIProps UIInfo) : m_target(target), m_UIShader("../res/Shaders/UI/")
+    OpenGL_UI::OpenGL_UI(OpenGL_Win &target, UIProps UIInfo) : m_target(target)
     {
         this->initializeUIBuffer();
     }
 
-    void OpenGL_UI::AddElement(OpenGL_Button btn, Abs::ButtonProps btnInfo)
+    void OpenGL_UI::AddElement(Abs::ButtonProps btnInfo, ClickEventCallback btnCallback)
     {
+        OpenGL_Button *newBtn = new OpenGL_Button(btnInfo, btnCallback);
+        m_btnList.push_back(newBtn);
+        m_UIVBO.Append(getButtonVertices(btnInfo._pos, btnInfo._dim, btnInfo._bgCol), PP_RGB_COUNT*BTN_TRI_COUNT);
+        this->m_UIVBO.LoadBuffer(GL_DYNAMIC_DRAW);
 
+        m_triangleCount = this->m_UIVBO.m_data.GetCount()/(m_UIVAO.StrideCount());
     }
 
     void OpenGL_UI::RenderUI()
     {
         this->m_UIVAO.Bind();
         this->m_UIVBO.Bind();
-        this->m_UIShader.UseProgram();
+        glUseProgram(m_UIShaderID);
         glDrawArrays(GL_TRIANGLES, 0, m_triangleCount);
+    }
+
+    void OpenGL_UI::DispatchMouseEvents(dVec2 mouRef, int keyCode)
+    {
+        // Normalize mouseRefernce position
+		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.GetWindow());
+        iVec2 winSize = win->GetWindowSize();
+
+        dVec2 normalizeMouPos = dVec2((mouRef.x-(winSize.x/2.0))/(winSize.x/2.0),(-mouRef.y+(winSize.y/2.0))/(winSize.y/2.0));
+
+        // m_mouseEventQueue.DispatchEvents(mouRef, keyCode);
+        for(int i=0;i<m_btnList.size();i++)
+        {
+            m_btnList[i]->OnClick(normalizeMouPos, keyCode);
+        }
     }
 
     // All the code to load buffer and also create submodule to facilitate the total ui creation here..
     void OpenGL_UI::initializeUIBuffer()
     {
-        m_UIShader.CreateProgram();
         this->m_UIVAO.UpdateFormat(Abs::BufferFormat::PP_RGB);
-        this->m_UIVBO.Append(getButtonVertices(fVec2(-0.5, -0.5), fVec2(0.2), fVec3(1,0.5,0.2)), PP_RGB_COUNT*BTN_TRI_COUNT);
-        this->m_UIVBO.Append(getButtonVertices(fVec2(-0.5, 0), fVec2(0.2), fVec3(1,0.5,0.2)), PP_RGB_COUNT*BTN_TRI_COUNT);
-        this->m_UIVBO.Append(getButtonVertices(fVec2(-0.5, 0.5), fVec2(0.2), fVec3(1,0.5,0.2)), PP_RGB_COUNT*BTN_TRI_COUNT);
-        // float *temp = m_UIVBO.m_data.GetData();
-        // std::cout << "BTN BUFFER TEST" << std::endl;
-        // for(int i=0;i<m_UIVBO.m_data.GetCount();i++)
-        // {
-        //     std::cout << i+1 << " : " << *(temp+i) << std::endl;
-        // }
-        this->m_UIVBO.LoadBuffer(GL_STATIC_DRAW);
+        m_UIShaderID = m_target.GetShaderID("../res/Shaders/UI/");
+        Abs::ButtonProps submitBtn(fVec2(0.5), fVec2(0.2), fVec3(0, 1, 0), "Submit");
+        Abs::ButtonProps cancelBtn(fVec2(-0.5), fVec2(0.2), fVec3(1, 0, 0), "Cancel");
+        AddElement(cancelBtn, _cancel_btn);
+        AddElement(submitBtn, _submit_btn);
         this->m_UIVAO.EnableVertexAttrib();
 
         // At last finding the total triangle count to render on screen.
         m_triangleCount = this->m_UIVBO.m_data.GetCount()/(m_UIVAO.StrideCount());
-        // std::cout << "Button tirangle count : " << m_triangleCount << std::endl;
     }
 
     float* OpenGL_UI::getButtonVertices(fVec2 pos, fVec2 dim, fVec3 col)
@@ -118,17 +140,6 @@ namespace OpenGL
 
         temp[25] = pos.x + hw;
 		temp[26] = pos.y + hh;
-
-        // for(int i=0;i<30;i++)
-        // {
-        //     int count = -1;
-        //     if(i%2==0)
-        //     {
-        //         count *= -1;
-        //     }
-        //     temp[i] = (i * count)/((i+1)/1.5);
-
-        // }
 
 		return temp;
     }
