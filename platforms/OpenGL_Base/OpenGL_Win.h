@@ -1,11 +1,14 @@
 #pragma once
 
+#include<map>
+
 #include"../../includes/GLAD/glad.h"
 #include"../../includes/GLFW/glfw3.h"
 
 #include"../../Core/Base/Window.h"
 #include"../../Core/Base/Application.h"
 #include"./OpenGL_Inp.h"
+#include"./OpenGL_Sha.h"
 
 namespace OpenGL
 {
@@ -25,6 +28,7 @@ namespace OpenGL
 		EventQueue<dVec2, int> m_mouEventQueue;
 		GLFWwindow *m_window;
 		Abs::Application *m_targetApp;
+		std::map<String, OpenGL_Sha> m_shaderList;
 		
 		void initializeOpenGLWindow(int w, int h, String t);
 	};

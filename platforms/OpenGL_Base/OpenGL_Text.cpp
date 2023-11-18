@@ -79,21 +79,18 @@ namespace OpenGL
 		VBO.Unbind();
     }
 
-    void FreetypeText::RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color)
+    void FreetypeText::RenderText(uint shaderID, float x, float y, float scale, Color color)
     {
-        shader.UseProgram();
-		shader.SetUniformVec3("textColor", color);
+		glUseProgram(shaderID);
+		uint location = glGetUniformLocation(shaderID, "textColor");
+		glUniform3f(location, color.r, color.g, color.b);
 		glActiveTexture(GL_TEXTURE0);
 		VAO.Bind();
 
         OpenGL_Win *targetWindow = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.m_window);
         iVec2 winDim = iVec2(targetWindow->m_wi.width, targetWindow->m_wi.height);
-		// std::cout << "X : " << winDim.x << " || Y : " << winDim.y << std::endl;
-
         // Reducing to half size 
         winDim = winDim/2;
-
-		// std::cout << "X : " << winDim.x << " || Y : " << winDim.y << std::endl;
 
 		// iterate through all characters
 		std::string::const_iterator c;
@@ -106,10 +103,6 @@ namespace OpenGL
 
 			float w = (ch.Size.x * scale * BASE_FONT_SIZE)/(winDim.x);
 			float h = (ch.Size.y * scale * BASE_FONT_SIZE)/(winDim.y);
-
-			// std::cout << "Character : " << *c <<std::endl;
-			// std::cout << "Normalize Position (x,y) : " << xpos << ", " << ypos << " || " << x << " , " << y << std::endl;
-			// std::cout << "Normalize Width, Height : " << w << ", " << h << std::endl;
 
 			float vertices[6][4] = {
 				{ xpos,     ypos + h,   0.0f, 0.0f },            
@@ -133,4 +126,9 @@ namespace OpenGL
 		VAO.Unbind();
 		glBindTexture(GL_TEXTURE_2D, 0);
     }
+
+	void FreetypeText::RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color)
+	{
+		this->RenderText(shader.GetProgramID(), x, y, scale, color);
+	}
 }

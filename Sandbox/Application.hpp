@@ -31,17 +31,12 @@ namespace Sandbox
         sine_VAO.EnableVertexAttribMan(2);
 
         OpenGL_Sha sh("../res/shaders/");
-        OpenGL_Sha shText("../res/Shaders/Text/");
-        shText.CreateProgram();
         sh.UseProgram();
         fMat4 temp;
         temp = glm::translate(fMat4(1.0), glm::fvec3(-1.0, 0, 0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
         sh.SetUniformMat4("modal", temp);
         sh.SetUniformVec3("fColor", glm::fvec3(1, 0.5, 0.2));
  
-        fMat4 utemp;
-        utemp = glm::translate(fMat4(1.0), glm::fvec3(1.0, 0.0, 0.0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));
-
         float i = 0.0f;
         float d_i = 0.005f;
 

@@ -24,7 +24,10 @@ namespace OpenGL
 			std::cout << "Program already created!!" << std::endl;
 			return this->m_programID;
 		}
-		m_programID = glCreateProgram();
+		else
+		{
+			m_programID = glCreateProgram();
+		}
 
 		uint vs = compileShader(GL_VERTEX_SHADER);
 		uint fs = compileShader(GL_FRAGMENT_SHADER);
