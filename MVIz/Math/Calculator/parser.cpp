@@ -14,7 +14,9 @@ void Parser::Consume(TokenType type) {
 std::shared_ptr<Node> Parser::Number() {
     auto token = current_token;
 
+    // Create a node of type Num
     if (token.GetType() == TokenType::NUM) {
+        std::cout << "token: " << token.GetToken() << std::endl;
         Consume(TokenType::NUM);
         return std::make_shared<Num>(token);
     } else if (token.GetType() == TokenType::LPAREN) {
@@ -30,6 +32,42 @@ std::shared_ptr<Node> Parser::Number() {
         root->AddChild(param);
         Consume(TokenType::RPAREN);
         return root;
+    } else if (token.GetType() == TokenType::PLUS) {
+        // for cases like (+4).
+
+        Consume(TokenType::PLUS);
+
+        // If the PLUS operator is repeated successively, 
+        // throw an error message.
+        if (current_token.GetType() == TokenType::PLUS
+            || current_token.GetType() == TokenType::MINUS) {
+            std::cout << "Invalid Syntax: Consider not using two operators in succession.";
+            exit(1);
+        }
+        
+        auto root = Expression();
+        return root;
+    } else if (token.GetType() == TokenType::MINUS) {
+        // for cases like (-4).
+
+        Consume(TokenType::MINUS);
+        auto root = std::make_shared<BinOp>(token);
+        auto l_token = Token(TokenType::NUM, "0");
+        auto left = std::make_shared<Num>(l_token);
+
+        // If the MINUS operator is repeated successively, 
+        // throw an error message.
+        if (current_token.GetType() == TokenType::MINUS
+            || current_token.GetType() == TokenType::PLUS) {
+            std::cout << "Invalid Syntax: Consider not using two operators in succession.";
+            exit(1);
+        }
+
+        auto right = Number();
+        root -> AddChild(left);
+        root -> AddChild(right);
+        return root;
+    
     }
     else {
         printf("Invalid Syntax: Unexpected Token!");

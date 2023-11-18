@@ -57,6 +57,7 @@ std::string Lexer::fn() {
 
 Token Lexer::GetNextToken() {
     int decimal_count = 0;
+    char last_char;
     while (current_char != '\0') {
         if (current_char == ' ') {
             SkipWhitespace();
@@ -65,6 +66,7 @@ Token Lexer::GetNextToken() {
 
 
         if (isdigit(current_char)) { 
+            last_char = current_char;
             return Token(TokenType::NUM, Number()); 
         }
         decimal_count = 0;
@@ -79,13 +81,27 @@ Token Lexer::GetNextToken() {
         }
         
         switch (current_char) {
-            case '+':           Advance();      return Token(TokenType::PLUS, "+");
-            case '-':           Advance();      return Token(TokenType::MINUS, "-");
-            case '*':           Advance();      return Token(TokenType::MUL, "*");
-            case '/':           Advance();      return Token(TokenType::DIV, "/");
-            case '^':           Advance();      return Token(TokenType::POW, "^");
-            case '(':           Advance();      return Token(TokenType::LPAREN, "(");
-            case ')':           Advance();      return Token(TokenType::RPAREN, ")");
+            case '+':
+                Advance();      
+                return Token(TokenType::PLUS, "+");
+            case '-':  
+                Advance();      
+                return Token(TokenType::MINUS, "-");
+            case '*':      
+                Advance();      
+                return Token(TokenType::MUL, "*");
+            case '/':
+                Advance();      
+                return Token(TokenType::DIV, "/");
+            case '^':          
+                Advance();      
+                return Token(TokenType::POW, "^");
+            case '(':           
+                Advance();      
+                return Token(TokenType::LPAREN, "(");
+            case ')':           
+                Advance();      
+                return Token(TokenType::RPAREN, ")");
             default:            Error();
         }
     }
