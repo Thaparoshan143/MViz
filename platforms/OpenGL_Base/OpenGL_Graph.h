@@ -17,10 +17,8 @@ namespace OpenGL
         protected:
         OpenGL_VertArrObj m_VAO;
         OpenGL_VertBuffObj m_VBO;
-        OpenGL_Sha m_graphSha;
-        OpenGL_Sha m_textSha;
+        uint m_textShaderID, m_graphShaderID;
         OpenGL_Win &m_target;
-        uint graphVBO, graphVAO;
         FreetypeText m_number;
 
         void initializeGraph();

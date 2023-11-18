@@ -24,6 +24,7 @@ namespace OpenGL
 		void SetColor(float r, float g, float b, float a = 1.0) override;
 		inline bool ShouldCloseWindow() override {	return glfwWindowShouldClose(this->m_window);	};
 		void SwapFrameBuffer() override;
+		uint GetShaderID(String path);
 
 		EventQueue<dVec2, int> m_mouEventQueue;
 		GLFWwindow *m_window;

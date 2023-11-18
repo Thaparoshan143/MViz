@@ -51,7 +51,7 @@ namespace OpenGL
         std::cout << "I am inside the constructor Input Field OpenGL" << std::endl;
     }
 
-    OpenGL_UI::OpenGL_UI(OpenGL_Win &target, UIProps UIInfo) : m_target(target), m_UIShader("../res/Shaders/UI/")
+    OpenGL_UI::OpenGL_UI(OpenGL_Win &target, UIProps UIInfo) : m_target(target)
     {
         this->initializeUIBuffer();
     }
@@ -65,14 +65,14 @@ namespace OpenGL
     {
         this->m_UIVAO.Bind();
         this->m_UIVBO.Bind();
-        this->m_UIShader.UseProgram();
+        glUseProgram(m_UIShaderID);
         glDrawArrays(GL_TRIANGLES, 0, m_triangleCount);
     }
 
     // All the code to load buffer and also create submodule to facilitate the total ui creation here..
     void OpenGL_UI::initializeUIBuffer()
     {
-        m_UIShader.CreateProgram();
+        m_UIShaderID = m_target.GetShaderID("../res/Shaders/UI/");
         this->m_UIVAO.UpdateFormat(Abs::BufferFormat::PP_RGB);
         this->m_UIVBO.Append(getButtonVertices(fVec2(-0.5, -0.5), fVec2(0.2), fVec3(1,0.5,0.2)), PP_RGB_COUNT*BTN_TRI_COUNT);
         this->m_UIVBO.LoadBuffer(GL_STATIC_DRAW);

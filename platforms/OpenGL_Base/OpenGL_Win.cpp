@@ -29,6 +29,17 @@ namespace OpenGL
 		glfwSwapBuffers(this->m_window);
 	}
 
+	uint OpenGL_Win::GetShaderID(String path)
+	{
+		if(m_shaderList.count(path)==0)
+		{
+			m_shaderList.insert({path, OpenGL_Sha(path)});
+			m_shaderList[path].CreateProgram();
+		}
+
+		return m_shaderList[path].GetProgramID();
+	}
+
 
 	void OpenGL_Win::initializeOpenGLWindow(int w, int h, String t)
 	{

@@ -63,7 +63,7 @@ namespace OpenGL
         OpenGL_VertArrObj m_UIVAO;
         // Better option might be using map system, like for btn, input field and so on... we can use mapping for individual VBO...
         OpenGL_VertBuffObj m_UIVBO;
-        OpenGL_Sha m_UIShader;
+        uint m_UIShaderID;
         OpenGL_Win &m_target;
         uint m_triangleCount;
 

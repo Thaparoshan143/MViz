@@ -30,7 +30,7 @@ namespace Sandbox
         sine_VBO.DirectLoad(sineVert, SINE_RES*(FREQ_COUNT*2+2));
         sine_VAO.EnableVertexAttribMan(2);
 
-        OpenGL_Sha sh("../res/shaders/");
+        OpenGL_Sha sh("../res/Shaders/");
         sh.UseProgram();
         fMat4 temp;
         temp = glm::translate(fMat4(1.0), glm::fvec3(-1.0, 0, 0)) * glm::scale(fMat4(), glm::fvec3(2.0, 1.0, 1.0));

@@ -100,11 +100,11 @@ namespace Util
 		float cycleOff = 2.0/freq;
 		float xOff = cycleOff/res;
 
-		std::cout << "Cycle Offset " << cycleOff << " and XOffs is : " << xOff << std::endl;
+		// std::cout << "Cycle Offset " << cycleOff << " and XOffs is : " << xOff << std::endl;
 
 		for(int i=0;i<freq;i++)
 		{
-			std::cout << "Starting Point is : " << startPoint << std::endl;
+			// std::cout << "Starting Point is : " << startPoint << std::endl;
 			for(int j=0;j<=res;j++)
 			{
 				*(temp+2*i*res+2*j) = startPoint+xOff*j;
