@@ -1,0 +1,14 @@
+2023/11/18 20:21:06    [INFO]    Initializing Calculator
+
+2023/11/18 20:21:06    [INFO]    Calculator Data
+
+	Input Expression: 2 + 2
+	Output: 4.000000
+
+2023/11/18 20:21:59    [INFO]    Initializing Calculator
+
+2023/11/18 20:21:59    [INFO]    Calculator Data
+
+	Input Expression: 2 + 2
+	Output: 4.000000
+

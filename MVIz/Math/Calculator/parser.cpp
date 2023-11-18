@@ -16,7 +16,6 @@ std::shared_ptr<Node> Parser::Number() {
 
     // Create a node of type Num
     if (token.GetType() == TokenType::NUM) {
-        std::cout << "token: " << token.GetToken() << std::endl;
         Consume(TokenType::NUM);
         return std::make_shared<Num>(token);
     } else if (token.GetType() == TokenType::LPAREN) {
