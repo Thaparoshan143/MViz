@@ -2,7 +2,7 @@
 
 namespace OpenGL
 {
-    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_graphSha("../res/Shaders/Graph/Plane/"), m_VAO(Abs::BufferFormat::PPP_RGB)
+    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_graphSha("../res/Shaders/Graph/Plane/"), m_VAO(Abs::BufferFormat::PPP_RGB), m_number(target, "0")
     {
         initializeGraph();
     }
@@ -16,6 +16,7 @@ namespace OpenGL
         glDrawArrays(GL_LINES, 0, (this->m_gi.numinfo+this->m_gi.numinfo)*2);
 		glLineWidth(0.3f);
         glDrawArrays(GL_LINES, (this->m_gi.numinfo)*2, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
+		renderLabeling();
 		// renderNumbering();
     }
 
@@ -56,6 +57,12 @@ namespace OpenGL
 		}
 
 		return tempVert;
+	}
+
+	// for now just rendering the origin i.e 0 below contains the required for all labeling but has scaling problem in vector find alternative...
+	void OpenGL_Graph::renderLabeling()
+	{
+		m_number.RenderText(m_textSha, 380, 320, 0.8, fVec3(0));
 	}
 
 	// NOT WORKING.. CURRENTLY

@@ -30,7 +30,7 @@ namespace OpenGL
 
 	void OpenGL_App::initializeApp(ApplicationInfo &appInfo)
 	{
-		this->m_mainWindow = new OpenGL_Win(appInfo);
+		this->m_mainWindow = new OpenGL_Win(appInfo, this);
 		this->m_mainWindow->m_wi = appInfo;
 		UIProps UIInfo;
 		this->m_mainUI = new OpenGL_UI(*this->m_mainWindow, UIInfo);

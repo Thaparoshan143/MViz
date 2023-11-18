@@ -75,20 +75,11 @@ namespace OpenGL
         m_UIShader.CreateProgram();
         this->m_UIVAO.UpdateFormat(Abs::BufferFormat::PP_RGB);
         this->m_UIVBO.Append(getButtonVertices(fVec2(-0.5, -0.5), fVec2(0.2), fVec3(1,0.5,0.2)), PP_RGB_COUNT*BTN_TRI_COUNT);
-        this->m_UIVBO.Append(getButtonVertices(fVec2(-0.5, 0), fVec2(0.2), fVec3(1,0.5,0.2)), PP_RGB_COUNT*BTN_TRI_COUNT);
-        this->m_UIVBO.Append(getButtonVertices(fVec2(-0.5, 0.5), fVec2(0.2), fVec3(1,0.5,0.2)), PP_RGB_COUNT*BTN_TRI_COUNT);
-        // float *temp = m_UIVBO.m_data.GetData();
-        // std::cout << "BTN BUFFER TEST" << std::endl;
-        // for(int i=0;i<m_UIVBO.m_data.GetCount();i++)
-        // {
-        //     std::cout << i+1 << " : " << *(temp+i) << std::endl;
-        // }
         this->m_UIVBO.LoadBuffer(GL_STATIC_DRAW);
         this->m_UIVAO.EnableVertexAttrib();
 
         // At last finding the total triangle count to render on screen.
         m_triangleCount = this->m_UIVBO.m_data.GetCount()/(m_UIVAO.StrideCount());
-        // std::cout << "Button tirangle count : " << m_triangleCount << std::endl;
     }
 
     float* OpenGL_UI::getButtonVertices(fVec2 pos, fVec2 dim, fVec3 col)
@@ -118,17 +109,6 @@ namespace OpenGL
 
         temp[25] = pos.x + hw;
 		temp[26] = pos.y + hh;
-
-        // for(int i=0;i<30;i++)
-        // {
-        //     int count = -1;
-        //     if(i%2==0)
-        //     {
-        //         count *= -1;
-        //     }
-        //     temp[i] = (i * count)/((i+1)/1.5);
-
-        // }
 
 		return temp;
     }

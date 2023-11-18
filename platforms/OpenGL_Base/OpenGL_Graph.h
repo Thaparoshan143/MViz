@@ -21,10 +21,11 @@ namespace OpenGL
         OpenGL_Sha m_textSha;
         OpenGL_Win &m_target;
         uint graphVBO, graphVAO;
-        // std::vector<FreetypeText> m_number;
+        FreetypeText m_number;
 
         void initializeGraph();
         float* getGraphVert(iVec2 stripeCount, float height);
-        void renderNumbering();
+        // void renderNumbering();
+        void renderLabeling();
     };
 }
