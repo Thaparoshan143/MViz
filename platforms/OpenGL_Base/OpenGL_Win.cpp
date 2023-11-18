@@ -1,4 +1,5 @@
 #include"OpenGL_Win.h"
+#include"./OpenGL_UI.h"
 
 namespace OpenGL
 {
@@ -84,10 +85,12 @@ namespace OpenGL
 	static void static_mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
     {
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
+		OpenGL_UI *UI = (OpenGL_UI*)win->m_targetApp->GetReference(Abs::AppRef::UI);
         if(action == GLFW_PRESS)
         {
             Abs::MouseButtonPressedEvent mbpressed(Abs::MouseCode(button));
-			win->m_mouEventQueue.DispatchEvents(win->m_mouPos, button);
+			UI->DispatchMouseEvents(win->m_mouPos, button);
+			// win->m_mouEventQueue.DispatchEvents(win->m_mouPos, button);
 			#if DEBUG_LOG
             std::cout << "Mouse button pressed!!\n";
 			#endif

@@ -47,6 +47,8 @@ namespace Sandbox
         while (!m_mainWindow->ShouldCloseWindow())
         {
             m_mainWindow->SetColor(1, 1, 1, 1);
+            mainGraph.RenderGraph();
+            
             sine_VAO.Bind();
             sh.UseProgram();
             i += d_i;
@@ -65,7 +67,6 @@ namespace Sandbox
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
             m_mainUI->RenderUI();
-            mainGraph.RenderGraph();
 
             m_mainWindow->SwapFrameBuffer();
             glfwPollEvents();

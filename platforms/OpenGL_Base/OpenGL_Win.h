@@ -26,7 +26,7 @@ namespace OpenGL
 		void SwapFrameBuffer() override;
 		uint GetShaderID(String path);
 
-		EventQueue<dVec2, int> m_mouEventQueue;
+		// EventQueue<dVec2, int> m_mouEventQueue;
 		GLFWwindow *m_window;
 		Abs::Application *m_targetApp;
 		std::map<String, OpenGL_Sha> m_shaderList;

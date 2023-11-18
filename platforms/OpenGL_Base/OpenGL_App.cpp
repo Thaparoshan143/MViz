@@ -23,6 +23,26 @@ namespace OpenGL
 		delete[] this->m_mainUI;
 	}
 
+	void* OpenGL_App::GetReference(Abs::AppRef appRef)
+	{
+		if(appRef==Abs::AppRef::SELF)
+		{
+			return (OpenGL_App*)this;
+		}
+		else if(appRef==Abs::AppRef::WINDOW)
+		{
+			return (OpenGL_Win*)this->m_mainWindow;
+		}
+		else if(appRef==Abs::AppRef::UI)
+		{
+			return (OpenGL_UI*)this->m_mainUI;
+		}
+		else
+		{
+			std::cout << "Error while passing references..." << std::endl;
+		}
+	}
+
 	ApplicationInfo OpenGL_App::GetAppInfo()
 	{
 		return m_mainWindow->GetWindowInfo();
