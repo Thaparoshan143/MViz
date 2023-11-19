@@ -27,7 +27,7 @@ namespace OpenGL
         this->m_dim = btnInfo._dim;
         this->m_bgCol = btnInfo._bgCol;
 
-        // m_label.m_text = btnInfo._label;
+        m_label = btnInfo._label;
         m_eventOnClick = btnCallback;
         m_isClickable = true;
     }
@@ -37,7 +37,12 @@ namespace OpenGL
         // Currently on any mouse btn pressed it might be triggered if required with specific then expose property or check on logic..
         if(withinBoundary(GetBorder(this->m_pos, this->m_dim), mouPos) && mouCode>-1)
         {
-            m_eventOnClick();
+            if(m_eventOnClick!=nullptr)
+            {
+                m_eventOnClick();
+            }
+            else
+            std::cout << "Event call is not assigned!!" << std::endl;
         }
     }
 
@@ -69,6 +74,8 @@ namespace OpenGL
     {
         OpenGL_Button *newBtn = new OpenGL_Button(btnInfo, btnCallback);
         m_btnList.push_back(newBtn);
+        FreetypeText *newBtnLabel = new FreetypeText(m_target, btnInfo._label);
+        m_btnLabelList.push_back(newBtnLabel);
         m_UIVBO.Append(getButtonVertices(btnInfo._pos, btnInfo._dim, btnInfo._bgCol), PP_RGB_COUNT*BTN_TRI_COUNT);
         this->m_UIVBO.LoadBuffer(GL_DYNAMIC_DRAW);
 
@@ -81,6 +88,7 @@ namespace OpenGL
         this->m_UIVBO.Bind();
         glUseProgram(m_UIShaderID);
         glDrawArrays(GL_TRIANGLES, 0, m_triangleCount);
+        renderBtnText();
     }
 
     void OpenGL_UI::DispatchMouseEvents(dVec2 mouRef, int keyCode)
@@ -98,15 +106,33 @@ namespace OpenGL
         }
     }
 
+    void OpenGL_UI::renderBtnText()
+    {
+        iVec2 winDim = m_target.GetWindowSize();
+        fVec2 btnPos, btnScreenPos;
+        for(int i=0;i<m_btnList.size();i++)
+        {
+            btnPos = m_btnList[i]->GetPos();
+            btnScreenPos = fVec2(btnPos.x*(winDim.x/2.0)+winDim.x/2.0, -1*btnPos.y*(winDim.y/2.0)+winDim.y/2.0);
+            // Adjusting the x offset and y offset to get better position of text render
+            btnScreenPos.x -= (BTN_LABEL_OFFSET*m_btnList[i]->GetLabel().size());
+            btnScreenPos.y += (BTN_LABEL_OFFSET*BTN_LABEL_OFFSET*m_btnList[i]->GetDim().y);
+            m_btnLabelList[i]->RenderText(m_textShaderID, btnScreenPos.x, btnScreenPos.y, BTN_FONT_SIZE, Color(1));
+        }
+    }
+
     // All the code to load buffer and also create submodule to facilitate the total ui creation here..
     void OpenGL_UI::initializeUIBuffer()
     {
         this->m_UIVAO.UpdateFormat(Abs::BufferFormat::PP_RGB);
         m_UIShaderID = m_target.GetShaderID("../res/Shaders/UI/");
+        m_textShaderID = m_target.GetShaderID("../res/Shaders/Text/");
         Abs::ButtonProps submitBtn(fVec2(0.5), fVec2(0.2), fVec3(0, 1, 0), "Submit");
         Abs::ButtonProps cancelBtn(fVec2(-0.5), fVec2(0.2), fVec3(1, 0, 0), "Cancel");
+        Abs::ButtonProps optionBtn(fVec2(0.5, -0.5), fVec2(0.2), fVec3(0, 0, 1), "Option");
         AddElement(cancelBtn, _cancel_btn);
         AddElement(submitBtn, _submit_btn);
+        AddElement(optionBtn, nullptr);
         this->m_UIVAO.EnableVertexAttrib();
 
         // At last finding the total triangle count to render on screen.

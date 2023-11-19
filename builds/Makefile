@@ -55,7 +55,7 @@ Shader.obj: ${DIR_OFF}OpenGL_Sha.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Shader.obj ${DIR_OFF}OpenGL_Sha.cpp
 
 Window.obj: ${DIR_OFF}OpenGL_Win.cpp
-	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Window.obj ${DIR_OFF}OpenGL_Win.cpp
+	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Window.obj ${INC_PATH} ${DIR_OFF}OpenGL_Win.cpp
 
 Application.obj: ${DIR_OFF}OpenGL_App.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Application.obj ${INC_PATH} ${DIR_OFF}OpenGL_App.cpp
@@ -73,7 +73,7 @@ Input.obj: ${DIR_OFF}OpenGL_Inp.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/Input.obj ${DIR_OFF}OpenGL_Inp.cpp
 
 UI.obj: ${DIR_OFF}OpenGL_UI.cpp
-	${ASSEMBLE_CMD} -o ${OBJ_PATH}/UI.obj ${DIR_OFF}OpenGL_UI.cpp
+	${ASSEMBLE_CMD} -o ${OBJ_PATH}/UI.obj ${INC_PATH} ${DIR_OFF}OpenGL_UI.cpp
 
 clean:
 ifeq (${UNAME_S}, Darwin)

@@ -5,8 +5,10 @@
 #include"./OpenGL_Buff.h"
 #include"./OpenGL_Sha.h"
 #include"./OpenGL_Win.h"
-// Include once firgured out how the target is binded...
-// #include"./OpenGL_Text.h"
+#include"./OpenGL_Text.h"
+
+#define BTN_FONT_SIZE 0.7
+#define BTN_LABEL_OFFSET 5
 
 namespace OpenGL
 {
@@ -29,13 +31,12 @@ namespace OpenGL
         public:
         OpenGL_Button(Abs::ButtonProps btnInfo, ClickEventCallback btnCallback);
         void OnClick(dVec2 mouPos, int mouCode);
+        inline String GetLabel() { return m_label; }
 
         private:
         // first figure out how to bind this with the target or render window...
-        // FreetypeText m_label;
+        String m_label;
         static bool withinBoundary(fVec4 border, fVec2 pos);
-        OpenGL_Button* GetSelf() { return this; }
-        friend OpenGL_UI;
     };
 
     class OpenGL_InpField : public Abs::InputField
@@ -61,15 +62,18 @@ namespace OpenGL
 
         private:
         std::vector<OpenGL_Button*> m_btnList;
+        std::vector<FreetypeText*> m_btnLabelList;
         // EventQueue<dVec2, int> m_mouseEventQueue;
         OpenGL_VertArrObj m_UIVAO;
         // Better option might be using map system, like for btn, input field and so on... we can use mapping for individual VBO...
         OpenGL_VertBuffObj m_UIVBO;
         uint m_UIShaderID;
+        uint m_textShaderID;
         OpenGL_Win &m_target;
         uint m_triangleCount;
 
         void initializeUIBuffer();
         float* getButtonVertices(fVec2 pos, fVec2 dim, fVec3 col);
+        void renderBtnText();
     };
 }
