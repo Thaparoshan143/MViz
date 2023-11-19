@@ -25,12 +25,16 @@ namespace OpenGL
 		inline bool ShouldCloseWindow() override {	return glfwWindowShouldClose(this->m_window);	};
 		void SwapFrameBuffer() override;
 		uint GetShaderID(String path);
+        void SetKeySubscriber(String *subscriber);
 
 		// EventQueue<dVec2, int> m_mouEventQueue;
 		GLFWwindow *m_window;
 		Abs::Application *m_targetApp;
 		std::map<String, OpenGL_Sha> m_shaderList;
 		
+		String *m_keySubscriber;
+        String m_lastStringScan;
+
 		void initializeOpenGLWindow(int w, int h, String t);
 	};
 

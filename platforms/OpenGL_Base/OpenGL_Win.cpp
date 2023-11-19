@@ -41,6 +41,10 @@ namespace OpenGL
 		return m_shaderList[path].GetProgramID();
 	}
 
+	void OpenGL_Win::SetKeySubscriber(String *subscriber)
+	{
+		m_keySubscriber = subscriber;
+	}
 
 	void OpenGL_Win::initializeOpenGLWindow(int w, int h, String t)
 	{
@@ -124,9 +128,16 @@ namespace OpenGL
 
 	static void static_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	{
+		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
+		OpenGL_UI *UI = (OpenGL_UI*)win->m_targetApp->GetReference(Abs::AppRef::UI);
 		if(action == GLFW_PRESS)
 		{
 			Abs::KeyButtonPressedEvent kbpressed(key);
+			if(win->m_keySubscriber!=nullptr)
+			{
+				*win->m_keySubscriber = char(key);
+				std::cout << "Key subscriber active :: key pressed - " << char(key) << std::endl;
+			}
 			#if DEBUG_LOG
 			std::cout << "Key pressed!! - " << char(key) << std::endl;
 			#endif

@@ -15,10 +15,9 @@ namespace Abs
 	class Text
 	{
 		public:
-		Text() : m_text("Untitled") {}
-		Text(String text) : m_text(text) {}
+		Text(String &text) : m_text(text) {}
 
-		String m_text;
+		String &m_text;
 
 		std::map<char, Character> Characters;
 	};

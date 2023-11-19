@@ -18,6 +18,8 @@ namespace OpenGL
         public:
         FreetypeText(OpenGL_Win &target, String text = "Untitled");
 
+        void UpdateText(String &text) { m_text = text; }
+
         void RenderText(uint shaderID, float x, float y, float scale, Color color);
         void RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color);
     

@@ -45,7 +45,13 @@ namespace Abs
     struct InputFieldProps
     {
         public:
-        InputFieldProps(fVec2 p, fVec2 d, fVec3 bc, String t);
+        InputFieldProps(fVec2 p, fVec2 d, fVec3 bc, String t)
+        {
+            _pos = p;
+            _dim = d;
+            _bgCol = bc;
+            _text = t;
+        }
 
         fVec2 _pos, _dim;
         fVec3 _bgCol;
@@ -118,6 +124,14 @@ namespace Abs
             this->m_bgCol = fVec3(0);
             m_eventOnChange = nullptr;
             m_isClickable = true;
+        }
+        
+        // figure out which scale using either -1 to 1 or the screen real scale to return the actual working border point..
+        // for now returning for -1 to 1 scale state.. review for future
+        static fVec4 GetBorder(fVec2 pos, fVec2 dim)
+        {
+            // returing the x and y cordinates to check whether the mouse is withing the boundry region or not..
+            return fVec4(pos.x-dim.x/2.0, pos.y+dim.y/2.0, pos.x+dim.x/2.0, pos.y-dim.y/2.0);
         }
 
         bool m_isClickable;

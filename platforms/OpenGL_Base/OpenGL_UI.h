@@ -10,6 +10,9 @@
 #define BTN_FONT_SIZE 0.7
 #define BTN_LABEL_OFFSET 5
 
+#define FIELD_FONT_SIZE 0.6
+#define FIELD_LABEL_OFFSET 5
+
 namespace OpenGL
 {
     class OpenGL_UI;
@@ -44,10 +47,18 @@ namespace OpenGL
         public:
         OpenGL_InpField(Abs::InputFieldProps inpFieldInfo, ClickEventCallback inpFieldCallback);
 
+        // Will return true if is in active state
+        bool OnClick(dVec2 mouPos, int mouCode);
+        bool IsActive();
+        // String GetKeyboardInput(String text);
+        inline String GetText() { return this->m_text;}
+        inline String* GetRawText() { return &this->m_text;}
+
         // inline String GetText() {  return m_text.m_text;  }
 
         private:
-        // FreetypeText m_text;
+        String m_text;
+        static bool withinBoundary(fVec4 border, fVec2 pos);
     };
 
     class OpenGL_UI
@@ -57,12 +68,16 @@ namespace OpenGL
 
         // Callback yet to be attached to the Button Props... later on, remove first argument and only pass button props when adding new button...
         void AddElement(Abs::ButtonProps btnInfo, ClickEventCallback btnCallback);
+        void AddElement(Abs::InputFieldProps inpFieldInfo, ClickEventCallback fieldCallback);
         void RenderUI();
-        void DispatchMouseEvents(dVec2 mouRef, int keyCode);
+        void DispatchMouseEvents(dVec2 mouRef, int mouCode);
+        // void DispatchKeyboardEvent(int keyCode);
 
         private:
         std::vector<OpenGL_Button*> m_btnList;
+        std::vector<OpenGL_InpField*> m_inpFieldList;
         std::vector<FreetypeText*> m_btnLabelList;
+        std::vector<FreetypeText*> m_inpFieldLabelList;
         // EventQueue<dVec2, int> m_mouseEventQueue;
         OpenGL_VertArrObj m_UIVAO;
         // Better option might be using map system, like for btn, input field and so on... we can use mapping for individual VBO...
@@ -73,7 +88,8 @@ namespace OpenGL
         uint m_triangleCount;
 
         void initializeUIBuffer();
-        float* getButtonVertices(fVec2 pos, fVec2 dim, fVec3 col);
+        float* getQuadVertices(fVec2 pos, fVec2 dim, fVec3 col);
         void renderBtnText();
+        void renderInpFieldText();
     };
 }
