@@ -2,7 +2,7 @@
 
 namespace OpenGL
 {
-    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_VAO(Abs::BufferFormat::PPP_RGB), m_number(target, "0")
+    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_VAO(Abs::BufferFormat::PPP_RGB)
     {
         initializeGraph();
     }
@@ -27,6 +27,9 @@ namespace OpenGL
         float *graphVert = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 1);
         float *graphVertScale = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 0.02);
 		float graphAxis[] = {-1, 0, 1, 0, 0, 1, 0, -1};
+		String *origin = new String("0");
+		m_numberLabel.push_back(origin);
+		m_number = new FreetypeText(m_target, *m_numberLabel[0]);
 
 		m_VBO.Append(graphVertScale, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
 		m_VBO.Append(graphVert, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
@@ -69,7 +72,7 @@ namespace OpenGL
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.GetWindow());
 		iVec2 winSize = win->GetWindowSize();
 
-		m_number.RenderText(m_textShaderID, (winSize.x/2)-20, (winSize.y/2)+20, 0.8, fVec3(0));
+		m_number->RenderText(m_textShaderID, (winSize.x/2)-20, (winSize.y/2)+20, 0.8, fVec3(0));
 	}
 
 	// NOT WORKING.. CURRENTLY

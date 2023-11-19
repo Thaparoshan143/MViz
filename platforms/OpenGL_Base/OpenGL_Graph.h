@@ -19,7 +19,8 @@ namespace OpenGL
         OpenGL_VertBuffObj m_VBO;
         uint m_textShaderID, m_graphShaderID;
         OpenGL_Win &m_target;
-        FreetypeText m_number;
+        FreetypeText *m_number;
+        std::vector<String*> m_numberLabel;
 
         void initializeGraph();
         float* getGraphVert(iVec2 stripeCount, float height);

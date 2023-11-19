@@ -16,7 +16,7 @@ namespace OpenGL
     class FreetypeText : public Abs::Text
     {
         public:
-        FreetypeText(OpenGL_Win &target, String text = "Untitled");
+        FreetypeText(OpenGL_Win &target, String &text);
 
         void UpdateText(String &text) { m_text = text; }
 

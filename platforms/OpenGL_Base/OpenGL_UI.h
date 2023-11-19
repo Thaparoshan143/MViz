@@ -8,10 +8,10 @@
 #include"./OpenGL_Text.h"
 
 #define BTN_FONT_SIZE 0.7
-#define BTN_LABEL_OFFSET 5
+#define BTN_LABEL_OFFSET 4
 
 #define FIELD_FONT_SIZE 0.6
-#define FIELD_LABEL_OFFSET 5
+#define FIELD_LABEL_OFFSET 4
 
 namespace OpenGL
 {
@@ -35,6 +35,7 @@ namespace OpenGL
         OpenGL_Button(Abs::ButtonProps btnInfo, ClickEventCallback btnCallback);
         void OnClick(dVec2 mouPos, int mouCode);
         inline String GetLabel() { return m_label; }
+        inline String* GetRawLabel() { return &this->m_label; }
 
         private:
         // first figure out how to bind this with the target or render window...

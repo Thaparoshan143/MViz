@@ -99,7 +99,7 @@ namespace OpenGL
     {
         OpenGL_Button *newBtn = new OpenGL_Button(btnInfo, btnCallback);
         m_btnList.push_back(newBtn);
-        FreetypeText *newBtnLabel = new FreetypeText(m_target, btnInfo._label);
+        FreetypeText *newBtnLabel = new FreetypeText(m_target, *newBtn->GetRawLabel());
         m_btnLabelList.push_back(newBtnLabel);
         m_UIVBO.Append(getQuadVertices(btnInfo._pos, btnInfo._dim, btnInfo._bgCol), PP_RGB_COUNT*BTN_TRI_COUNT);
         this->m_UIVBO.LoadBuffer(GL_DYNAMIC_DRAW);
@@ -171,7 +171,7 @@ namespace OpenGL
         for(int i=0;i<m_btnList.size();i++)
         {
             btnPos = m_btnList[i]->GetPos();
-            btnScreenPos = fVec2(btnPos.x*(winDim.x/2.0)+winDim.x/2.0, -1*btnPos.y*(winDim.y/2.0)+winDim.y/2.0);
+            btnScreenPos = fVec2(btnPos.x*(winDim.x/2.0)+winDim.x/2.0, -1 *btnPos.y*(winDim.y/2.0)+winDim.y/2.0);
             // Adjusting the x offset and y offset to get better position of text render
             btnScreenPos.x -= (BTN_LABEL_OFFSET*m_btnList[i]->GetLabel().size());
             btnScreenPos.y += (BTN_LABEL_OFFSET*BTN_LABEL_OFFSET*m_btnList[i]->GetDim().y);
@@ -186,7 +186,7 @@ namespace OpenGL
         for(int i=0;i<m_inpFieldLabelList.size();i++)
         {
             fieldPos = m_inpFieldList[i]->GetPos();
-            fieldScreenPos = fVec2(fieldPos.x*(winDim.x/2.0)+winDim.x/2.0, -1*fieldPos.y*(winDim.y/2.0)+winDim.y/2.0);
+            fieldScreenPos = fVec2(fieldPos.x*(winDim.x/2.0)+winDim.x/2.0, -1 *fieldPos.y*(winDim.y/2.0)+winDim.y/2.0);
             // Adjusting the x offset and y offset to get better position of text render
             fieldScreenPos.x -= (FIELD_LABEL_OFFSET*m_inpFieldList[i]->GetText().size());
             fieldScreenPos.y += (FIELD_LABEL_OFFSET*FIELD_LABEL_OFFSET*m_inpFieldList[i]->GetDim().y);
@@ -203,7 +203,7 @@ namespace OpenGL
         Abs::ButtonProps submitBtn(fVec2(0.5), fVec2(0.2), fVec3(0, 1, 0), "Submit");
         Abs::ButtonProps cancelBtn(fVec2(-0.5), fVec2(0.2), fVec3(1, 0, 0), "Cancel");
         Abs::ButtonProps optionBtn(fVec2(0.5, -0.5), fVec2(0.2), fVec3(0, 0, 1), "Option");
-        Abs::InputFieldProps expressionField(fVec2(0), fVec2(0.5), fVec3(0.6), "Expression");
+        Abs::InputFieldProps expressionField(fVec2(-0.5, 0.5), fVec2(0.5), fVec3(0.8), "Enter your expression..");
         AddElement(cancelBtn, _cancel_btn);
         AddElement(submitBtn, _submit_btn);
         AddElement(optionBtn, nullptr);

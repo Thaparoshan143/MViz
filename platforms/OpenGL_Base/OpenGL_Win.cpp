@@ -71,7 +71,7 @@ namespace OpenGL
 			std::cout << "Failed to initialize GLAD" << std::endl;
 			exit(-2);
 		}
-
+		
 		// Setting user pointer is left to do properly
 		glfwSetWindowUserPointer(this->m_window, this);
 
@@ -82,6 +82,33 @@ namespace OpenGL
 		glfwSetKeyCallback(this->m_window, static_key_callback);
 
 		glfwSetFramebufferSizeCallback(this->m_window, static_framesize_callback);
+	}
+
+	void OpenGL_Win::listenActiveKeyInterrupts(int key, int mod)
+	{
+		if(key==GLFW_KEY_ENTER)
+		{
+			std::cout << "Enter key pressed!!" << std::endl;
+			*m_keySubscriber = m_lastStringScan;
+			m_keySubscriber = nullptr;
+			m_lastStringScan = "";
+		}
+		else if(key==GLFW_KEY_BACKSPACE)
+		{
+			if(m_lastStringScan.size()!=0)
+			{
+				m_lastStringScan.pop_back();
+			}
+			else
+			{
+				std::cout << "No input to clear!!" << std::endl;
+			}
+		}
+		else
+		{
+			m_lastStringScan += char(key);
+		}
+		std::cout << m_lastStringScan << std::endl;
 	}
 
 
@@ -135,8 +162,8 @@ namespace OpenGL
 			Abs::KeyButtonPressedEvent kbpressed(key);
 			if(win->m_keySubscriber!=nullptr)
 			{
-				*win->m_keySubscriber = char(key);
-				std::cout << "Key subscriber active :: key pressed - " << char(key) << std::endl;
+				win->listenActiveKeyInterrupts(key, mods);
+				// std::cout << "Key subscriber active :: key pressed - " << char(key) << std::endl;
 			}
 			#if DEBUG_LOG
 			std::cout << "Key pressed!! - " << char(key) << std::endl;

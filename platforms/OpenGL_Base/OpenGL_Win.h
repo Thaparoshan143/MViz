@@ -36,6 +36,8 @@ namespace OpenGL
         String m_lastStringScan;
 
 		void initializeOpenGLWindow(int w, int h, String t);
+		// might need to change to the uincode based keycallback.. glfwSetCharCallback(), returns the according ascii code and will be easy to map rather than keycallback..later fix..
+		void listenActiveKeyInterrupts(int key, int mod);
 	};
 
     // All the input handling function will be static as we need to query all the poll event continuously for entire application life time

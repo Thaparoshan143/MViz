@@ -2,7 +2,7 @@
 
 namespace OpenGL
 {
-    FreetypeText::FreetypeText(OpenGL_Win &target, String text) : Text(text), m_target(target)
+    FreetypeText::FreetypeText(OpenGL_Win &target, String &text) : Text(text), m_target(target)
     {
         initFreetypeFont();
 		// std::cout << "The given text is :" << this->m_text << std::endl;
