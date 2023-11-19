@@ -25,7 +25,6 @@ std::string CurrentDateTime() {
 
 class Logger {
     public: 
-
         static void Log(std::string message, Severity level) {
             std::ofstream file(filepath, std::ios::app);
 
@@ -43,6 +42,13 @@ class Logger {
             file.close();
         }
 
+        static void SetFilepath(std::string path) {
+            filepath = path;
+        }
+
+        static std::string GetFilepath() {
+            return filepath;
+        }
 
         ~Logger() {}
     private:
