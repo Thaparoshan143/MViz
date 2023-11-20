@@ -77,7 +77,9 @@ namespace OpenGL
             //     // GetKeyboardInput();
             //     m_eventOnChange();
             // }
-            std::cout << "I am clicked input field!!" << std::endl;
+            std::cout << "Input field Active" << std::endl;
+            // For now clearing when active.. will have to figure out for only first time case..
+            // m_text.clear();
             return true;
             // else
             // std::cout << "Event call is not assigned!!" << std::endl;
@@ -203,11 +205,13 @@ namespace OpenGL
         Abs::ButtonProps submitBtn(fVec2(0.5), fVec2(0.2), fVec3(0, 1, 0), "Submit");
         Abs::ButtonProps cancelBtn(fVec2(-0.5), fVec2(0.2), fVec3(1, 0, 0), "Cancel");
         Abs::ButtonProps optionBtn(fVec2(0.5, -0.5), fVec2(0.2), fVec3(0, 0, 1), "Option");
-        Abs::InputFieldProps expressionField(fVec2(-0.5, 0.5), fVec2(0.5), fVec3(0.8), "Enter your expression..");
+        Abs::InputFieldProps expressionField(fVec2(-0.5, 0.5), fVec2(0.5, 0.2), fVec3(0.8), "Expression..");
+        Abs::InputFieldProps valueField(fVec2(0.5, 0), fVec2(0.5, 0.2), fVec3(0.8), "Value");
         AddElement(cancelBtn, _cancel_btn);
         AddElement(submitBtn, _submit_btn);
         AddElement(optionBtn, nullptr);
         AddElement(expressionField, nullptr);
+        // AddElement(valueField, nullptr);
         this->m_UIVAO.EnableVertexAttrib();
 
         // At last finding the total triangle count to render on screen.

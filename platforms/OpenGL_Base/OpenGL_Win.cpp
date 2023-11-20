@@ -44,6 +44,10 @@ namespace OpenGL
 	void OpenGL_Win::SetKeySubscriber(String *subscriber)
 	{
 		m_keySubscriber = subscriber;
+		if(subscriber!=nullptr)
+		{
+			m_lastStringScan = *subscriber;
+		}
 	}
 
 	void OpenGL_Win::initializeOpenGLWindow(int w, int h, String t)
@@ -79,7 +83,9 @@ namespace OpenGL
 		glfwSetMouseButtonCallback(this->m_window, static_mouse_button_callback);
 		glfwSetCursorPosCallback(this->m_window, static_mouse_position_callback);
 		glfwSetScrollCallback(this->m_window, static_mouse_scroll_callback);
+		// For now using charkey callback for easy key mapping rather than mod based key callback
 		glfwSetKeyCallback(this->m_window, static_key_callback);
+		glfwSetCharCallback(this->m_window, static_charkey_callback);
 
 		glfwSetFramebufferSizeCallback(this->m_window, static_framesize_callback);
 	}
@@ -89,7 +95,6 @@ namespace OpenGL
 		if(key==GLFW_KEY_ENTER)
 		{
 			std::cout << "Enter key pressed!!" << std::endl;
-			*m_keySubscriber = m_lastStringScan;
 			m_keySubscriber = nullptr;
 			m_lastStringScan = "";
 		}
@@ -98,17 +103,22 @@ namespace OpenGL
 			if(m_lastStringScan.size()!=0)
 			{
 				m_lastStringScan.pop_back();
+				*m_keySubscriber = m_lastStringScan;
 			}
 			else
 			{
 				std::cout << "No input to clear!!" << std::endl;
 			}
 		}
-		else
-		{
-			m_lastStringScan += char(key);
-		}
 		std::cout << m_lastStringScan << std::endl;
+	}
+
+	void OpenGL_Win::listenActiveKeyInterrupts(uint charKey)
+	{
+		m_lastStringScan += char(charKey);
+		*m_keySubscriber = m_lastStringScan;
+		std::cout << m_lastStringScan << std::endl;
+		// std::cout << char(charKey) << " || Ascii value : " << charKey << " is pressed " << std::endl;
 	}
 
 
@@ -175,6 +185,15 @@ namespace OpenGL
 			#if DEBUG_LOG
 			std::cout << "Key released!! - " << char(key) << std::endl;
 			#endif
+		}
+	}
+
+	static void static_charkey_callback(GLFWwindow *window, uint charKey)
+	{
+		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
+		if(win->m_keySubscriber!=nullptr)
+		{
+			win->listenActiveKeyInterrupts(charKey);
 		}
 	}
 
