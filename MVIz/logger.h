@@ -4,6 +4,7 @@
 #include <fstream>
 #include <ctime>
 #include <iomanip>
+#include <sys/stat.h>
 
 enum Severity {
     Fatal,
@@ -14,17 +15,29 @@ enum Severity {
 };
 
 std::string CurrentDateTime() {
-    time_t     now = time(0);
-    struct tm  tstruct;
-    char       buf[80];
+    time_t now = time(0);
+    struct tm tstruct;
+    char buf[80];
     tstruct = *localtime(&now);
     strftime(buf, sizeof(buf), "%Y/%m/%d %X", &tstruct);
 
     return buf;
 }
 
+std::string CurrentDate() {
+    time_t now = time(0);
+    struct tm tstruct;
+    char buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y%m%d", &tstruct);
+
+    return buf;
+}
+
 class Logger {
     public: 
+        ~Logger() {}
+
         static void Log(std::string message, Severity level) {
             std::ofstream file(filepath, std::ios::app);
 
@@ -50,9 +63,36 @@ class Logger {
             return filepath;
         }
 
-        ~Logger() {}
+
+        static void RotateLogs() {
+            if (lastRotationDate != CurrentDate()) {
+                lastRotationDate = CurrentDate();
+                std::string oldFile = filepath;
+
+                // remove extension
+                for (int i = 0; i < oldFile.length(); i++) {
+                    if (oldFile[i] == '.') {
+                        oldFile.erase(i, 4);
+                    }
+                }
+
+                // add new extension
+                oldFile = oldFile + "_" + CurrentDate() + ".log";
+                if (rename(filepath.c_str(), oldFile.c_str()) != 0) {
+                    std::cerr << "Error Moving File: " << strerror(errno) << std::endl;
+                }
+            }
+        }
+        // long long to avoid potential overflow issues though we can just use int here for now
+        static long long GetFileSize() {
+            struct stat stat_buf;
+            int rc = stat(filepath.c_str(), &stat_buf);
+            return rc == 0 ? stat_buf.st_size : -1;
+        }
+
     private:
         static std::string filepath;
+        static std::string lastRotationDate;
 };
 
 // This file is created in whichever directory the Logger::Log(...) function
@@ -60,4 +100,5 @@ class Logger {
 // Need to find a better way for this.
 // Or need to check it's behavior when ran with the entire program.
 std::string Logger::filepath = "log.txt";
+std::string Logger::lastRotationDate = "20231120";
 
