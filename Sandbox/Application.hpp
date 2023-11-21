@@ -11,7 +11,6 @@ namespace Sandbox
     class Sandbox_App : private OpenGL::OpenGL_App 
     {
         public:
-        Sandbox_App() : OpenGL::OpenGL_App() {}
         Sandbox_App(ApplicationInfo &ai) : OpenGL::OpenGL_App(ai) { }
 
         void Initialize() override;
@@ -40,8 +39,10 @@ namespace Sandbox
         float i = 0.0f;
         float d_i = 0.005f;
 
-        Abs::GraphInfo graphInfo("Graph", m_mainWindow->GetWindowSize(), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingInfo::NORMAL);
+        Abs::GraphInfo graphInfo("Graph", m_mainWindow->GetWindowSize(), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingScale::NORMAL);
         OpenGL_Graph mainGraph(*m_mainWindow, graphInfo);
+        String _text = "Normalized Text";
+        FreetypeText _temp(*m_mainWindow, _text);
 
         // temporary right now here later move to the actual inherted applications..
         while (!m_mainWindow->ShouldCloseWindow())
@@ -66,6 +67,7 @@ namespace Sandbox
             glLineWidth(1.0f);
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
+            // _temp.RenderText(GetShaderID("../res/Shaders/Text/"), 0, 0, 1, Color(0), false);
             m_mainUI->RenderUI();
 
             m_mainWindow->SwapFrameBuffer();

@@ -2,16 +2,12 @@
 
 #include<iostream>
 
-#include"../../includes/GLM/glm/glm.hpp"
+#include"./Types.h"
 
 typedef void (*ClickEventCallback)();
 
 namespace Abs
 {
-    typedef std::string String;
-    typedef glm::fvec2 fVec2;
-    typedef glm::fvec3 fVec3;
-
     struct ButtonProps
     {
         public:
@@ -67,6 +63,19 @@ namespace Abs
         inline fVec2 GetDim() {    return m_dim;   }
         inline fVec3 GetBgCol() {    return m_bgCol;   }
 
+        // figure out which scale using either -1 to 1 or the screen real scale to return the actual working border point..
+        // for now returning for -1 to 1 scale state.. review for future
+        static fVec4 GetBorder(fVec2 pos, fVec2 dim)
+        {
+            // returing the x and y cordinates to check whether the mouse is withing the boundry region or not..
+            return fVec4(pos.x-dim.x/2.0, pos.y+dim.y/2.0, pos.x+dim.x/2.0, pos.y-dim.y/2.0);
+        }
+
+        static bool withinBoundary(fVec4 border, fVec2 pos)
+        {
+            return border.x < pos.x && border.z > pos.x && border.y > pos.y && border.w < pos.y;
+        }
+
         fVec2 m_pos;
         fVec2 m_dim;
         fVec3 m_bgCol;
@@ -102,14 +111,6 @@ namespace Abs
             m_isClickable = true;
         }
         
-        // figure out which scale using either -1 to 1 or the screen real scale to return the actual working border point..
-        // for now returning for -1 to 1 scale state.. review for future
-        static fVec4 GetBorder(fVec2 pos, fVec2 dim)
-        {
-            // returing the x and y cordinates to check whether the mouse is withing the boundry region or not..
-            return fVec4(pos.x-dim.x/2.0, pos.y+dim.y/2.0, pos.x+dim.x/2.0, pos.y-dim.y/2.0);
-        }
-
         bool m_isClickable;
         ClickEventCallback m_eventOnClick;
     };
@@ -126,14 +127,6 @@ namespace Abs
             m_isClickable = true;
         }
         
-        // figure out which scale using either -1 to 1 or the screen real scale to return the actual working border point..
-        // for now returning for -1 to 1 scale state.. review for future
-        static fVec4 GetBorder(fVec2 pos, fVec2 dim)
-        {
-            // returing the x and y cordinates to check whether the mouse is withing the boundry region or not..
-            return fVec4(pos.x-dim.x/2.0, pos.y+dim.y/2.0, pos.x+dim.x/2.0, pos.y-dim.y/2.0);
-        }
-
         bool m_isClickable;
         ClickEventCallback m_eventOnChange;
     };

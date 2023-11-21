@@ -5,15 +5,13 @@
 
 namespace OpenGL
 {
-	OpenGL_App::OpenGL_App()
-	{
-		ApplicationInfo appInfo(500, 500, "Sandbox Application");
-		initializeApp(appInfo);
-	}
-
 	OpenGL_App::OpenGL_App(ApplicationInfo &appInfo) 
 	{
-		initializeApp(appInfo);
+		this->m_mainWindow = new OpenGL_Win(appInfo, this);
+		this->m_mainWindow->m_wi = appInfo;
+		UIProps UIInfo;
+		this->m_mainUI = new OpenGL_UI(*this->m_mainWindow, UIInfo);
+		initializeGLEnable();
 	}
 
 	OpenGL_App::~OpenGL_App()
@@ -48,16 +46,7 @@ namespace OpenGL
 		return m_mainWindow->GetWindowInfo();
 	}
 
-	void OpenGL_App::initializeApp(ApplicationInfo &appInfo)
-	{
-		this->m_mainWindow = new OpenGL_Win(appInfo, this);
-		this->m_mainWindow->m_wi = appInfo;
-		UIProps UIInfo;
-		this->m_mainUI = new OpenGL_UI(*this->m_mainWindow, UIInfo);
-		InitializeOpenGL();
-	}
-
-	void OpenGL_App::InitializeOpenGL()
+	void OpenGL_App::initializeGLEnable()
 	{
 		glEnable(GL_BLEND);
 		// glEnable(GL_BACK);

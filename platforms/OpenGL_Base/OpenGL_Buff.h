@@ -32,9 +32,9 @@ namespace OpenGL
 		OpenGL_IndBuffObj(uint size = 2);
 		
 		void LoadBuffer(uint loadMode = GL_DYNAMIC_DRAW) override;
-		void DirectLoad(float *data, uint count, uint loadMode = GL_DYNAMIC_DRAW);
+		void DirectLoad(uint *data, uint count, uint loadMode = GL_DYNAMIC_DRAW);
 		void ReserveBuffer(uint size, uint loadMode = GL_DYNAMIC_DRAW);
-		void LoadSubBuffer(uint size, int *data);
+		void LoadSubBuffer(uint size, uint *data);
 		uint Bind() override;
 		void Unbind() override;
 		int* GetVertexData() {	return m_data.GetData();	}
@@ -53,12 +53,10 @@ namespace OpenGL
 		void EnableVertexAttrib();
 		// This is just the interface for the specific purpose, (text rendering..) might not be useful for all
 		void EnableVertexAttribMan(uint count);
-
 		uint StrideCount() {	return getVBOStride();	}		
+		
 		private:
 		uint m_id;
-		// uint m_usage;
-		// OpenGL_VertBuffObj *m_VBO;
 		uint getVBOStride();
 	};
 

@@ -22,13 +22,13 @@ namespace OpenGL
 
 	void OpenGL_VertBuffObj::ReserveBuffer(uint size, uint loadMode)
 	{
-		this->Bind();
+		glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, NULL, loadMode);
 	}
 
 	void OpenGL_VertBuffObj::LoadSubBuffer(uint size, float *data)
 	{
-		this->Bind();
+		glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * size, data);
 	}
 
@@ -55,16 +55,22 @@ namespace OpenGL
 		glBufferData(GL_ARRAY_BUFFER, this->m_data.GetCount() * sizeof(float), this->m_data.GetData(), loadMode);
 	}
 
-	void OpenGL_IndBuffObj::DirectLoad(float *data, uint count, uint loadMode)
+	void OpenGL_IndBuffObj::DirectLoad(uint *data, uint count, uint loadMode)
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
-		glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), data, loadMode);
+		glBufferData(GL_ARRAY_BUFFER, count * sizeof(uint), data, loadMode);
 	}
 
 	void OpenGL_IndBuffObj::ReserveBuffer(uint size, uint loadMode)
 	{
-		this->Bind();
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * size, NULL, loadMode);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * size, NULL, loadMode);
+	}
+
+	void OpenGL_IndBuffObj::LoadSubBuffer(uint size, uint *data)
+	{
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(uint) * size, data);
 	}
 
 	uint OpenGL_IndBuffObj::Bind()

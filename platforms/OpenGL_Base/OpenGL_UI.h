@@ -5,6 +5,7 @@
 #include"./OpenGL_Buff.h"
 #include"./OpenGL_Sha.h"
 #include"./OpenGL_Win.h"
+#include"./OpenGL_Graph.h"
 #include"./OpenGL_Text.h"
 
 #define BTN_FONT_SIZE 0.7
@@ -38,9 +39,7 @@ namespace OpenGL
         inline String* GetRawLabel() { return &this->m_label; }
 
         private:
-        // first figure out how to bind this with the target or render window...
         String m_label;
-        static bool withinBoundary(fVec4 border, fVec2 pos);
     };
 
     class OpenGL_InpField : public Abs::InputField
@@ -55,11 +54,8 @@ namespace OpenGL
         inline String GetText() { return this->m_text;}
         inline String* GetRawText() { return &this->m_text;}
 
-        // inline String GetText() {  return m_text.m_text;  }
-
         private:
         String m_text;
-        static bool withinBoundary(fVec4 border, fVec2 pos);
     };
 
     class OpenGL_UI
@@ -92,5 +88,6 @@ namespace OpenGL
         float* getQuadVertices(fVec2 pos, fVec2 dim, fVec3 col);
         void renderBtnText();
         void renderInpFieldText();
+        void updateTriangleCount();
     };
 }

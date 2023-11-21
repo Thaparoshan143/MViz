@@ -20,8 +20,8 @@ namespace OpenGL
 
         void UpdateText(String &text) { m_text = text; }
 
-        void RenderText(uint shaderID, float x, float y, float scale, Color color);
-        void RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color);
+        void RenderText(uint shaderID, float x, float y, float scale, Color color, bool normalize=true);
+        void RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color, bool normalize=true);
     
         private:
         void initFreetypeFont();

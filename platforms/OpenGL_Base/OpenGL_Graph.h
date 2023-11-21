@@ -1,7 +1,6 @@
 #pragma once
 
 #include"../../Core/Base/Graph.h"
-#include"./OpenGL_Sha.h"
 #include"./OpenGL_Text.h"
 #include"./OpenGL_Buff.h"
 
@@ -20,7 +19,6 @@ namespace OpenGL
         uint m_textShaderID, m_graphShaderID;
         OpenGL_Win &m_target;
         FreetypeText *m_number;
-        std::vector<String*> m_numberLabel;
 
         void initializeGraph();
         float* getGraphVert(iVec2 stripeCount, float height);

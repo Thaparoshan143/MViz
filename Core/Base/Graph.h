@@ -13,7 +13,7 @@ namespace Abs
         BOTTOM_LEFT = 4
     };
 
-    enum NumberingInfo
+    enum NumberingScale
     {
         CONCISE = 11,
         NORMAL = 21,
@@ -26,7 +26,7 @@ namespace Abs
     {
         public:
         GraphInfo() : title("-Graph-"), dim(DEFAULT_DIM), screenpos(ScreenPosition::TOP_RIGHT), numinfo(NORMAL) {}
-        GraphInfo(String t, iVec2 d, ScreenPosition sp, NumberingInfo ni)
+        GraphInfo(String t, iVec2 d, ScreenPosition sp, NumberingScale ni)
         {
             title = t;
             dim = d;
@@ -39,7 +39,7 @@ namespace Abs
         iVec2 dim;
         ScreenPosition screenpos;
         // Numering info will hold the resolution of the vertical/horizontal (used same for now..) line for the graph
-        NumberingInfo numinfo;
+        NumberingScale numinfo;
     };
 
     class Graph
@@ -49,6 +49,7 @@ namespace Abs
         Graph(GraphInfo &gi) {  m_gi = gi;  }
 
         protected:
+        std::vector<String*> m_numberLabel;
         GraphInfo m_gi;        
     };
 }

@@ -24,9 +24,5 @@ namespace Abs
 		protected:
 		String m_dirPath;
 		uint m_programID;
-
-		// for now inherited had implemented 
-		// virtual uint compileShader(uint t) {}
-		// virtual String parseShader(String sha) {}
 	};
 }

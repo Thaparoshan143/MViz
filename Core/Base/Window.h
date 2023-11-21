@@ -3,7 +3,7 @@
 #include<iostream>
 
 #include"./Types.h"
-#include"./Event.h"
+#include"./Application.h"
 #include<functional>
 
 struct WindowInfo
@@ -39,11 +39,11 @@ namespace Abs
         inline WindowInfo GetWindowInfo() { return m_wi; }
         inline dVec2 GetMousePos() {   return this->m_mouPos;  }
         void SetWindowInfo(WindowInfo &wi) {  m_wi = wi; }
-        // virtual void WaitForSecond(double sec) = 0;
+        void SetKeySubscriber(String *subscriber) { m_lastStringScan = (m_keySubscriber=subscriber)? *subscriber : ""; }
 
-        using EventCallbackFn = std::function<void(Event& e)>;
-
-        
+        String *m_keySubscriber;
+        String m_lastStringScan;
+		Application *m_targetApp;
         WindowInfo m_wi;
         dVec2 m_mouPos;
     };

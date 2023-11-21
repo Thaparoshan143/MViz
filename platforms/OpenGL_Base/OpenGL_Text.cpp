@@ -79,7 +79,7 @@ namespace OpenGL
 		VBO.Unbind();
     }
 
-    void FreetypeText::RenderText(uint shaderID, float x, float y, float scale, Color color)
+    void FreetypeText::RenderText(uint shaderID, float x, float y, float scale, Color color, bool normalize)
     {
 		glUseProgram(shaderID);
 		uint location = glGetUniformLocation(shaderID, "textColor");
@@ -88,7 +88,7 @@ namespace OpenGL
 		VAO.Bind();
 
         OpenGL_Win *targetWindow = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.m_window);
-        iVec2 winDim = iVec2(targetWindow->m_wi.width, targetWindow->m_wi.height);
+        iVec2 winDim = targetWindow->GetWindowSize();
         // Reducing to half size 
         winDim = winDim/2;
 
@@ -97,9 +97,18 @@ namespace OpenGL
 		for (c = m_text.begin(); c != m_text.end(); c++) 
 		{
 			Abs::Character ch = Characters[*c];
+			float xpos, ypos;
 
-			float xpos = ((x + ch.Bearing.x * scale * BASE_FONT_SIZE)-(winDim.x))/(winDim.x);
-			float ypos = ((-y - (ch.Size.y - ch.Bearing.y) * scale * BASE_FONT_SIZE)+(winDim.y))/(winDim.y);
+			if(normalize)
+			{
+				xpos = ((x + ch.Bearing.x * scale * BASE_FONT_SIZE)-(winDim.x))/(winDim.x);
+				ypos = ((-y - (ch.Size.y - ch.Bearing.y) * scale * BASE_FONT_SIZE)+(winDim.y))/(winDim.y);
+			}
+			else
+			{
+				xpos = x + ((ch.Bearing.x)-(winDim.x))/(winDim.x) * scale * BASE_FONT_SIZE;
+				ypos = -y - (((ch.Size.y - ch.Bearing.y))+(winDim.y))/(winDim.y) * scale * BASE_FONT_SIZE;
+			}
 
 			float w = (ch.Size.x * scale * BASE_FONT_SIZE)/(winDim.x);
 			float h = (ch.Size.y * scale * BASE_FONT_SIZE)/(winDim.y);
@@ -127,8 +136,8 @@ namespace OpenGL
 		glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-	void FreetypeText::RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color)
+	void FreetypeText::RenderText(OpenGL_Sha &shader, float x, float y, float scale, Color color, bool normalize)
 	{
-		this->RenderText(shader.GetProgramID(), x, y, scale, color);
+		this->RenderText(shader.GetProgramID(), x, y, scale, color, normalize);
 	}
 }

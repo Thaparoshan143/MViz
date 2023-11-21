@@ -3,7 +3,6 @@
 #include"../../Core/Base/Application.h"
 
 #include"./OpenGL_Win.h"
-#include"./OpenGL_Graph.h"
 #include"./OpenGL_UI.h"
 
 #define TESTING_MODE
@@ -17,24 +16,21 @@ namespace OpenGL
 	class OpenGL_App : public Abs::Application
 	{
 		public:
-		OpenGL_App();
 		OpenGL_App(ApplicationInfo &appInfo);
 
 		~OpenGL_App();
 
 		void* GetReference(Abs::AppRef appRef);
-
-		// might not be necessary once actual application is made out for the application based working...
-		void InitializeOpenGL();
-
+		uint GetShaderID(String path) {	m_mainWindow->GetShaderID(path);	}
+		OpenGL_Sha* GetRawShader(String path) {	m_mainWindow->GetRawShader(path);	}
 		inline ApplicationInfo GetAppInfo();
 
 		public:
 		OpenGL_Win *m_mainWindow;
 		OpenGL_UI *m_mainUI;
 
-		// helper function for initalizing application class
-		void initializeApp(ApplicationInfo &appInfo);
+		// might not be necessary once actual application is made out for the application based working...
+		void initializeGLEnable();
 	};
 
 }

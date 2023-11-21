@@ -18,7 +18,6 @@ namespace Abs
 		Text(String &text) : m_text(text) {}
 
 		String &m_text;
-
 		std::map<char, Character> Characters;
 	};
 

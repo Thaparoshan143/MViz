@@ -1,7 +1,8 @@
 #pragma once
 
-#include "KeyCodes.h"
-#include "MouseEvent.h"
+#include "./KeyCodes.h"
+#include "./KeyEvent.h"
+#include "./MouseEvent.h"
 
 namespace Abs {
     class Input {

@@ -3,8 +3,9 @@
 
 namespace OpenGL
 {
-	OpenGL_Win::OpenGL_Win(WindowInfo &wi, Abs::Application *targetApp) : m_targetApp(targetApp)
+	OpenGL_Win::OpenGL_Win(WindowInfo &wi, Abs::Application *targetApp)
 	{
+		m_targetApp = targetApp;
 		this->m_wi = wi;
 		initializeOpenGLWindow(wi.width, wi.height, wi.title);
 	}
@@ -32,22 +33,18 @@ namespace OpenGL
 
 	uint OpenGL_Win::GetShaderID(String path)
 	{
+		return GetRawShader(path)->GetProgramID();
+	}
+
+	OpenGL_Sha* OpenGL_Win::GetRawShader(String path)
+	{
 		if(m_shaderList.count(path)==0)
 		{
 			m_shaderList.insert({path, OpenGL_Sha(path)});
 			m_shaderList[path].CreateProgram();
 		}
 
-		return m_shaderList[path].GetProgramID();
-	}
-
-	void OpenGL_Win::SetKeySubscriber(String *subscriber)
-	{
-		m_keySubscriber = subscriber;
-		if(subscriber!=nullptr)
-		{
-			m_lastStringScan = *subscriber;
-		}
+		return &m_shaderList[path];
 	}
 
 	void OpenGL_Win::initializeOpenGLWindow(int w, int h, String t)
@@ -117,8 +114,7 @@ namespace OpenGL
 	{
 		m_lastStringScan += char(charKey);
 		*m_keySubscriber = m_lastStringScan;
-		std::cout << m_lastStringScan << std::endl;
-		// std::cout << char(charKey) << " || Ascii value : " << charKey << " is pressed " << std::endl;
+		// std::cout << m_lastStringScan << std::endl;
 	}
 
 
@@ -131,7 +127,6 @@ namespace OpenGL
         {
             Abs::MouseButtonPressedEvent mbpressed(Abs::MouseCode(button));
 			UI->DispatchMouseEvents(win->m_mouPos, button);
-			// win->m_mouEventQueue.DispatchEvents(win->m_mouPos, button);
 			#if DEBUG_LOG
             std::cout << "Mouse button pressed!!\n";
 			#endif
@@ -173,7 +168,6 @@ namespace OpenGL
 			if(win->m_keySubscriber!=nullptr)
 			{
 				win->listenActiveKeyInterrupts(key, mods);
-				// std::cout << "Key subscriber active :: key pressed - " << char(key) << std::endl;
 			}
 			#if DEBUG_LOG
 			std::cout << "Key pressed!! - " << char(key) << std::endl;

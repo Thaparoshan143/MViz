@@ -2,7 +2,7 @@
 
 namespace OpenGL
 {
-    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_VAO(Abs::BufferFormat::PPP_RGB)
+    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_VAO(Abs::BufferFormat::PP)
     {
         initializeGraph();
     }

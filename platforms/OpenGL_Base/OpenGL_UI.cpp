@@ -47,11 +47,6 @@ namespace OpenGL
         }
     }
 
-    bool OpenGL_Button::withinBoundary(fVec4 border, fVec2 pos)
-    {
-        return border.x < pos.x && border.z > pos.x && border.y > pos.y && border.w < pos.y;
-    }
-
     // InputField implementation
     OpenGL_InpField::OpenGL_InpField(Abs::InputFieldProps inpFieldInfo, ClickEventCallback inpFieldCallback)
     {
@@ -87,11 +82,6 @@ namespace OpenGL
         return false;
     }
 
-    bool OpenGL_InpField::withinBoundary(fVec4 border, fVec2 pos)
-    {
-        return border.x < pos.x && border.z > pos.x && border.y > pos.y && border.w < pos.y;
-    }
-
     OpenGL_UI::OpenGL_UI(OpenGL_Win &target, UIProps UIInfo) : m_target(target)
     {
         this->initializeUIBuffer();
@@ -106,7 +96,7 @@ namespace OpenGL
         m_UIVBO.Append(getQuadVertices(btnInfo._pos, btnInfo._dim, btnInfo._bgCol), PP_RGB_COUNT*BTN_TRI_COUNT);
         this->m_UIVBO.LoadBuffer(GL_DYNAMIC_DRAW);
 
-        m_triangleCount = this->m_UIVBO.m_data.GetCount()/(m_UIVAO.StrideCount());
+        updateTriangleCount();
     }
 
     void OpenGL_UI::AddElement(Abs::InputFieldProps inpFieldInfo, ClickEventCallback fieldCallback)
@@ -170,7 +160,7 @@ namespace OpenGL
     {
         iVec2 winDim = m_target.GetWindowSize();
         fVec2 btnPos, btnScreenPos;
-        for(int i=0;i<m_btnList.size();i++)
+        for(int i=0;i<m_btnLabelList.size();i++)
         {
             btnPos = m_btnList[i]->GetPos();
             btnScreenPos = fVec2(btnPos.x*(winDim.x/2.0)+winDim.x/2.0, -1 *btnPos.y*(winDim.y/2.0)+winDim.y/2.0);
@@ -211,7 +201,7 @@ namespace OpenGL
         AddElement(submitBtn, _submit_btn);
         AddElement(optionBtn, nullptr);
         AddElement(expressionField, nullptr);
-        // AddElement(valueField, nullptr);
+        AddElement(valueField, nullptr);
         this->m_UIVAO.EnableVertexAttrib();
 
         // At last finding the total triangle count to render on screen.
@@ -247,5 +237,10 @@ namespace OpenGL
 		temp[26] = pos.y + hh;
 
 		return temp;
+    }
+
+    void OpenGL_UI::updateTriangleCount()
+    {
+        m_triangleCount = this->m_UIVBO.m_data.GetCount()/(m_UIVAO.StrideCount());
     }
 }

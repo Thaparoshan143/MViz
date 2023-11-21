@@ -6,8 +6,7 @@
 #include"../../includes/GLFW/glfw3.h"
 
 #include"../../Core/Base/Window.h"
-#include"../../Core/Base/Application.h"
-#include"./OpenGL_Inp.h"
+#include"../../Core/Base/Input.h"
 #include"./OpenGL_Sha.h"
 
 namespace OpenGL
@@ -25,15 +24,10 @@ namespace OpenGL
 		inline bool ShouldCloseWindow() override {	return glfwWindowShouldClose(this->m_window);	};
 		void SwapFrameBuffer() override;
 		uint GetShaderID(String path);
-        void SetKeySubscriber(String *subscriber);
+		OpenGL_Sha* GetRawShader(String path);
 
-		// EventQueue<dVec2, int> m_mouEventQueue;
 		GLFWwindow *m_window;
-		Abs::Application *m_targetApp;
 		std::map<String, OpenGL_Sha> m_shaderList;
-		
-		String *m_keySubscriber;
-        String m_lastStringScan;
 
 		void initializeOpenGLWindow(int w, int h, String t);
 		// For now using the charKey based callback for easy key mapping and for other easy key detection using mod based callback.
