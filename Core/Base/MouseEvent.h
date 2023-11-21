@@ -4,12 +4,12 @@
 
 namespace Abs 
 {
-    typedef enum MouseCode
+    typedef enum
     {
         BUTTON_LEFT = 0,
         BUTTON_RIGHT,
         BUTTON_MIDDLE
-    };
+    }MouseCode;
 
     class MouseMovedEvent : public Event 
     {

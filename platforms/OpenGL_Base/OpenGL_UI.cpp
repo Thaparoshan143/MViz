@@ -2,9 +2,6 @@
 
 namespace OpenGL
 {
-    #define BTN_TRI_COUNT 6
-    #define INPFIELD_TRI_COUNT 6
-
     static void _submit_btn()
     {
         std::cout << "Hellow there i am submit button" << std::endl;
@@ -128,7 +125,7 @@ namespace OpenGL
         iVec2 winSize = win->GetWindowSize();
 
         dVec2 normalizeMouPos = dVec2((mouRef.x-(winSize.x/2.0))/(winSize.x/2.0),(-mouRef.y+(winSize.y/2.0))/(winSize.y/2.0));
-
+        m_isSubscriberActive = false;
         // m_mouseEventQueue.DispatchEvents(mouRef, keyCode);
         for(int i=0;i<m_btnList.size();i++)
         {
@@ -138,12 +135,13 @@ namespace OpenGL
         {
             if(m_inpFieldList[i]->OnClick(normalizeMouPos, mouCode))
             {
+                m_isSubscriberActive = true;
                 m_target.SetKeySubscriber(m_inpFieldList[i]->GetRawText());
             }
-            else
-            {
-                m_target.SetKeySubscriber(nullptr);
-            }
+        }
+        if(!m_isSubscriberActive)
+        {
+            m_target.SetKeySubscriber(nullptr);
         }
     }
 
@@ -158,31 +156,27 @@ namespace OpenGL
 
     void OpenGL_UI::renderBtnText()
     {
-        iVec2 winDim = m_target.GetWindowSize();
-        fVec2 btnPos, btnScreenPos;
+        fVec2 btnScreenPos;
         for(int i=0;i<m_btnLabelList.size();i++)
         {
-            btnPos = m_btnList[i]->GetPos();
-            btnScreenPos = fVec2(btnPos.x*(winDim.x/2.0)+winDim.x/2.0, -1 *btnPos.y*(winDim.y/2.0)+winDim.y/2.0);
+            btnScreenPos = m_btnList[i]->GetPos();
             // Adjusting the x offset and y offset to get better position of text render
-            btnScreenPos.x -= (BTN_LABEL_OFFSET*m_btnList[i]->GetLabel().size());
-            btnScreenPos.y += (BTN_LABEL_OFFSET*BTN_LABEL_OFFSET*m_btnList[i]->GetDim().y);
-            m_btnLabelList[i]->RenderText(m_textShaderID, btnScreenPos.x, btnScreenPos.y, BTN_FONT_SIZE, Color(1));
+            btnScreenPos.x -= (BTN_LABEL_OFFSET*m_btnList[i]->GetLabel().size()*m_btnList[i]->GetDim().x);
+            btnScreenPos.y -= (BTN_LABEL_OFFSET*m_btnList[i]->GetDim().y);
+            m_btnLabelList[i]->RenderText(m_textShaderID, btnScreenPos.x, btnScreenPos.y, BTN_FONT_SIZE, Color(1), false);
         }
     }
 
     void OpenGL_UI::renderInpFieldText()
     {
-        iVec2 winDim = m_target.GetWindowSize();
-        fVec2 fieldPos, fieldScreenPos;
+        fVec2 fieldScreenPos;
         for(int i=0;i<m_inpFieldLabelList.size();i++)
         {
-            fieldPos = m_inpFieldList[i]->GetPos();
-            fieldScreenPos = fVec2(fieldPos.x*(winDim.x/2.0)+winDim.x/2.0, -1 *fieldPos.y*(winDim.y/2.0)+winDim.y/2.0);
+            fieldScreenPos = m_inpFieldList[i]->GetPos();
             // Adjusting the x offset and y offset to get better position of text render
-            fieldScreenPos.x -= (FIELD_LABEL_OFFSET*m_inpFieldList[i]->GetText().size());
-            fieldScreenPos.y += (FIELD_LABEL_OFFSET*FIELD_LABEL_OFFSET*m_inpFieldList[i]->GetDim().y);
-            m_inpFieldLabelList[i]->RenderText(m_textShaderID, fieldScreenPos.x, fieldScreenPos.y, FIELD_FONT_SIZE, Color(0));
+            fieldScreenPos.x -= (FIELD_LABEL_OFFSET*m_inpFieldList[i]->GetText().size()*m_inpFieldList[i]->GetDim().x);
+            fieldScreenPos.y -= (FIELD_LABEL_OFFSET*m_inpFieldList[i]->GetDim().y);
+            m_inpFieldLabelList[i]->RenderText(m_textShaderID, fieldScreenPos.x, fieldScreenPos.y, FIELD_FONT_SIZE, Color(0), false);
         }
     }
 
@@ -196,7 +190,7 @@ namespace OpenGL
         Abs::ButtonProps cancelBtn(fVec2(-0.5), fVec2(0.2), fVec3(1, 0, 0), "Cancel");
         Abs::ButtonProps optionBtn(fVec2(0.5, -0.5), fVec2(0.2), fVec3(0, 0, 1), "Option");
         Abs::InputFieldProps expressionField(fVec2(-0.5, 0.5), fVec2(0.5, 0.2), fVec3(0.8), "Expression..");
-        Abs::InputFieldProps valueField(fVec2(0.5, 0), fVec2(0.5, 0.2), fVec3(0.8), "Value");
+        Abs::InputFieldProps valueField(fVec2(-0.5, 0), fVec2(0.5, 0.2), fVec3(0.8), "Value");
         AddElement(cancelBtn, _cancel_btn);
         AddElement(submitBtn, _submit_btn);
         AddElement(optionBtn, nullptr);

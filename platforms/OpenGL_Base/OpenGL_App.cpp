@@ -38,6 +38,7 @@ namespace OpenGL
 		else
 		{
 			std::cout << "Error while passing references..." << std::endl;
+			return nullptr;
 		}
 	}
 

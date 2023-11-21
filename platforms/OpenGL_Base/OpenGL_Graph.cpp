@@ -2,7 +2,7 @@
 
 namespace OpenGL
 {
-    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_target(target), m_VAO(Abs::BufferFormat::PP)
+    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_VAO(Abs::BufferFormat::PP), m_target(target)
     {
         initializeGraph();
     }
@@ -69,15 +69,13 @@ namespace OpenGL
 	// for now just rendering the origin i.e 0 below contains the required for all labeling but has scaling problem in vector find alternative...
 	void OpenGL_Graph::renderLabeling()
 	{
-		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(m_target.GetWindow());
-		iVec2 winSize = win->GetWindowSize();
-
-		m_number->RenderText(m_textShaderID, (winSize.x/2)-20, (winSize.y/2)+20, 0.8, fVec3(0));
+		// Here for the origin text rendering position is hardcoded...
+		m_number->RenderText(m_textShaderID, -0.05, -0.08, 1, fVec3(0), false);
 	}
 
 	// NOT WORKING.. CURRENTLY
 	// find the way to store the render text at once or to use vector for freetype...then it might work.. 
-	// void OpenGL_Graph::renderNumbering()
+	// void OpenGL_Graph::renderLabeling()
 	// {
 	// 	// Populating the text first...
 	// 	String textCount;

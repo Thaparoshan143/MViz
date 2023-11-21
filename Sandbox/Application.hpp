@@ -43,7 +43,7 @@ namespace Sandbox
         OpenGL_Graph mainGraph(*m_mainWindow, graphInfo);
         String _text = "Normalized Text";
         FreetypeText _temp(*m_mainWindow, _text);
-
+        uint _textShaderID = this->GetShaderID("../res/Shaders/Text/");
         // temporary right now here later move to the actual inherted applications..
         while (!m_mainWindow->ShouldCloseWindow())
         {
@@ -67,7 +67,7 @@ namespace Sandbox
             glLineWidth(1.0f);
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, SINE_RES*(FREQ_COUNT*2+2));
 
-            // _temp.RenderText(GetShaderID("../res/Shaders/Text/"), 0, 0, 1, Color(0), false);
+            _temp.RenderText(_textShaderID, -0.2, -0.5, 1, Color(0), false);
             m_mainUI->RenderUI();
 
             m_mainWindow->SwapFrameBuffer();

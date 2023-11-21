@@ -17,12 +17,11 @@ namespace OpenGL
 	{
 		public:
 		OpenGL_App(ApplicationInfo &appInfo);
-
 		~OpenGL_App();
 
 		void* GetReference(Abs::AppRef appRef);
-		uint GetShaderID(String path) {	m_mainWindow->GetShaderID(path);	}
-		OpenGL_Sha* GetRawShader(String path) {	m_mainWindow->GetRawShader(path);	}
+		uint GetShaderID(String path) {	return m_mainWindow->GetShaderID(path);	}
+		OpenGL_Sha* GetRawShader(String path) {	return m_mainWindow->GetRawShader(path);	}
 		inline ApplicationInfo GetAppInfo();
 
 		public:

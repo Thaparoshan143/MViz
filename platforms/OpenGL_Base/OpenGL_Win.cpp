@@ -125,7 +125,7 @@ namespace OpenGL
 		OpenGL_UI *UI = (OpenGL_UI*)win->m_targetApp->GetReference(Abs::AppRef::UI);
         if(action == GLFW_PRESS)
         {
-            Abs::MouseButtonPressedEvent mbpressed(Abs::MouseCode(button));
+            Abs::MouseButtonPressedEvent mbpressed((Abs::MouseCode(button)));
 			UI->DispatchMouseEvents(win->m_mouPos, button);
 			#if DEBUG_LOG
             std::cout << "Mouse button pressed!!\n";
@@ -133,7 +133,7 @@ namespace OpenGL
         }
         else if(action == GLFW_RELEASE)
         {
-            Abs::MouseButtonReleasedEvent mbreleased(Abs::MouseCode(button));
+            Abs::MouseButtonReleasedEvent mbreleased((Abs::MouseCode(button)));
 			#if DEBUG_LOG
             std::cout << "Mouse button released!!\n";
 			#endif
@@ -161,7 +161,6 @@ namespace OpenGL
 	static void static_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 	{
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
-		OpenGL_UI *UI = (OpenGL_UI*)win->m_targetApp->GetReference(Abs::AppRef::UI);
 		if(action == GLFW_PRESS)
 		{
 			Abs::KeyButtonPressedEvent kbpressed(key);

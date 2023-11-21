@@ -92,23 +92,21 @@ namespace OpenGL
         // Reducing to half size 
         winDim = winDim/2;
 
+		if(!normalize)
+		{
+			x = x * (winDim.x) + winDim.x;
+			y = -1 * y * (winDim.y) + winDim.y;
+		}
+
+		scale = scale * ((float(winDim.x + winDim.y)/(400+300)));
+
 		// iterate through all characters
 		std::string::const_iterator c;
 		for (c = m_text.begin(); c != m_text.end(); c++) 
 		{
 			Abs::Character ch = Characters[*c];
-			float xpos, ypos;
-
-			if(normalize)
-			{
-				xpos = ((x + ch.Bearing.x * scale * BASE_FONT_SIZE)-(winDim.x))/(winDim.x);
-				ypos = ((-y - (ch.Size.y - ch.Bearing.y) * scale * BASE_FONT_SIZE)+(winDim.y))/(winDim.y);
-			}
-			else
-			{
-				xpos = x + ((ch.Bearing.x)-(winDim.x))/(winDim.x) * scale * BASE_FONT_SIZE;
-				ypos = -y - (((ch.Size.y - ch.Bearing.y))+(winDim.y))/(winDim.y) * scale * BASE_FONT_SIZE;
-			}
+			float xpos = ((x + ch.Bearing.x * scale * BASE_FONT_SIZE)-(winDim.x))/(winDim.x);
+			float ypos = ((-y - (ch.Size.y - ch.Bearing.y) * scale * BASE_FONT_SIZE)+(winDim.y))/(winDim.y);
 
 			float w = (ch.Size.x * scale * BASE_FONT_SIZE)/(winDim.x);
 			float h = (ch.Size.y * scale * BASE_FONT_SIZE)/(winDim.y);

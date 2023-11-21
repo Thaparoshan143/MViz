@@ -9,10 +9,13 @@
 #include"./OpenGL_Text.h"
 
 #define BTN_FONT_SIZE 0.7
-#define BTN_LABEL_OFFSET 4
+#define BTN_LABEL_OFFSET 0.05
 
 #define FIELD_FONT_SIZE 0.6
-#define FIELD_LABEL_OFFSET 4
+#define FIELD_LABEL_OFFSET 0.016
+
+#define BTN_TRI_COUNT 6
+#define INPFIELD_TRI_COUNT 6
 
 namespace OpenGL
 {
@@ -83,6 +86,7 @@ namespace OpenGL
         uint m_textShaderID;
         OpenGL_Win &m_target;
         uint m_triangleCount;
+        bool m_isSubscriberActive;
 
         void initializeUIBuffer();
         float* getQuadVertices(fVec2 pos, fVec2 dim, fVec3 col);

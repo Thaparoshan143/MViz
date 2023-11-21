@@ -22,7 +22,6 @@ namespace OpenGL
 
         void initializeGraph();
         float* getGraphVert(iVec2 stripeCount, float height);
-        // void renderNumbering();
         void renderLabeling();
     };
 }
