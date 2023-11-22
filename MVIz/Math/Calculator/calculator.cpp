@@ -41,7 +41,7 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
         for (int j = 0; j < text.length(); j++) {
             if (text[j] == 'x') {
                 text.erase(j, 1);
-                text.insert(j, std::to_string(i));
+                text.insert(j, "(" + std::to_string(i) + ")");      // parentheses is to guard the negative x values in expressions like -x^2
             }
         }
 
