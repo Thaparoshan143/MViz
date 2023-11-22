@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include<map>
 
 #include"../../includes/GLAD/glad.h"
 #include"../../includes/GLFW/glfw3.h"
@@ -33,7 +34,8 @@ namespace OpenGL
 		// It could have been squized in the abstract class if shader parsing remains same for all platform..
 		uint compileShader(uint t);
 		String parseShader(String sha);
-
+		uint queryUniformMapping(String name);
+		std::map<String, uint> m_uniformList;
 	};
 
 }

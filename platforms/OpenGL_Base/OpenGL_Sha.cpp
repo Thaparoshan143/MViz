@@ -58,26 +58,26 @@ namespace OpenGL
 
 	void OpenGL_Sha::SetUniformInt(String name, int value)
 	{
-		uint location = glGetUniformLocation(this->m_programID, name.c_str());
+		uint location = queryUniformMapping(name);
 		glUniform1i(location, value);
 	}
 
 	void OpenGL_Sha::SetUniformFloat(String name, float value)
 	{
-		uint location = glGetUniformLocation(this->m_programID, name.c_str());
+		uint location = queryUniformMapping(name);
 		glUniform1f(location, value);
 	}
 
 	void OpenGL_Sha::SetUniformVec3(String name, fVec3 value)
 	{
-		uint location = glGetUniformLocation(this->m_programID, name.c_str());
+		uint location = queryUniformMapping(name);
 		glUniform3f(location, value.r, value.g, value.b);
 	}
 
 
 	void OpenGL_Sha::SetUniformMat4(String name, fMat4 value)
 	{
-		uint location = glGetUniformLocation(this->m_programID, name.c_str());
+		uint location = queryUniformMapping(name);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 	}
 
@@ -112,5 +112,16 @@ namespace OpenGL
 			s << line << "\n";
 		}
 		return s.str();
+	}
+
+	uint OpenGL_Sha::queryUniformMapping(String name)
+	{
+		if(m_uniformList.count(name)==0)
+		{
+			uint location = glGetUniformLocation(m_programID, name.c_str());
+			m_uniformList.insert({name, location});
+		}
+
+		return m_uniformList[name];
 	}
 }
