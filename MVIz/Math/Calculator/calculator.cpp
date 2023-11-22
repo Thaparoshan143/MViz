@@ -21,10 +21,12 @@ float Calculate(std::string text) {
     return interpreter.Result();
 }
 
-std::vector<float> Calculate(std::string text, float low, float high, float step_size = 1) {
+// Returns x and y co-ordinates
+std::vector<float> Calculate(std::string text, float x_low, float x_high, float step_size, int y_high = 1, bool normalize = false){
     Logger::Log("Initializing Calculator\n", Severity::Info);
     std::ostringstream oss;
-    oss << "Calculator Data\n\n\tInput Expression: " << text;
+    if (!normalize) { oss << "Calculator Data\n\n\tInput Expression: " << text; }
+    else if (normalize) { oss << "Calculator Data (Normalized)\n\n\tInput Expression: " << text; }
     oss << "\n\n\tVertices:";
     oss << std::setw(6) << "X " << "\t\t\t\tY\n";
 
@@ -32,14 +34,14 @@ std::vector<float> Calculate(std::string text, float low, float high, float step
 
     std::vector<float> result;
 
-
-    for (float i = low; i <=  high; i += step_size) {
+    for (float i = x_low; i <= x_high; i += step_size) {
         oss << "\n\t" << std::setw(15) << i << "\t\t";
+
 
         for (int j = 0; j < text.length(); j++) {
             if (text[j] == 'x') {
                 text.erase(j, 1);
-                text.insert(j, std::to_string(i));
+                text.insert(j, "(" + std::to_string(i) + ")");      // parentheses is to guard the negative x values in expressions like -x^2
             }
         }
 
@@ -49,9 +51,11 @@ std::vector<float> Calculate(std::string text, float low, float high, float step
 
         Interpreter interpreter;
         ast.get()->accept(&interpreter);
-        oss << std::setw(10) << std::setprecision(3) << interpreter.Result();
+        oss << std::setw(10) << std::setprecision(3) << interpreter.Result() / y_high;
 
-        result.push_back(interpreter.Result());
+        if (normalize) { result.push_back(i / x_high); }
+        else if (!normalize) { result.push_back(i); }
+        result.push_back(interpreter.Result() / y_high);
 
         text = original_text;
     }

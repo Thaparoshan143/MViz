@@ -5,8 +5,6 @@ layout (location = 1) in vec4 aCol;
 
 out vec4 ourColor;
 
-uniform mat4 modal;
-
 void main()
 {
 	// if(modal[0].x!=0 && modal[3].x!=0 )
@@ -17,6 +15,6 @@ void main()
 	// {
 	// 	gl_Position = aPos;
 	// }
-		gl_Position = modal * aPos;
+		gl_Position = aPos;
 	ourColor = aCol;
 }

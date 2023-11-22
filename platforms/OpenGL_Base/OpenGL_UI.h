@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include"../../Core/Base/Types.h"
 #include"../../Core/Base/BaseUI.h"
 #include"./OpenGL_Buff.h"
@@ -7,6 +9,7 @@
 #include"./OpenGL_Win.h"
 #include"./OpenGL_Graph.h"
 #include"./OpenGL_Text.h"
+
 
 #define BTN_FONT_SIZE 0.7
 #define BTN_LABEL_OFFSET 0.05

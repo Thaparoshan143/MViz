@@ -35,14 +35,6 @@ std::shared_ptr<Node> Parser::Number() {
         // for cases like (+4).
 
         Consume(TokenType::PLUS);
-
-        // If the PLUS operator is repeated successively, 
-        // throw an error message.
-        if (current_token.GetType() == TokenType::PLUS
-            || current_token.GetType() == TokenType::MINUS) {
-            std::cout << "Invalid Syntax: Consider not using two operators in succession.";
-            exit(1);
-        }
         
         auto root = Expression();
         return root;
@@ -54,15 +46,7 @@ std::shared_ptr<Node> Parser::Number() {
         auto l_token = Token(TokenType::NUM, "0");
         auto left = std::make_shared<Num>(l_token);
 
-        // If the MINUS operator is repeated successively, 
-        // throw an error message.
-        if (current_token.GetType() == TokenType::MINUS
-            || current_token.GetType() == TokenType::PLUS) {
-            std::cout << "Invalid Syntax: Consider not using two operators in succession.";
-            exit(1);
-        }
-
-        auto right = Number();
+        auto right = Expression();
         root -> AddChild(left);
         root -> AddChild(right);
         return root;
