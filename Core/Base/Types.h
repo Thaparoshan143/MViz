@@ -16,6 +16,8 @@ typedef glm::dvec4 dVec4;
 typedef glm::fvec4 fVec4;
 typedef dVec3 Color;
 
+typedef glm::mat4 Mat4;
+
 typedef unsigned int uint;
 
 typedef dVec2 Point2;

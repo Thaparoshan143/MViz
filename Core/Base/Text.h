@@ -6,6 +6,12 @@
 
 namespace Abs
 {
+	enum TextAlignment
+	{
+		LEFT = 0,
+		CENTER = 1,
+	};
+
 	struct Character {
 		uint TextureID; // ID handle of the glyph texture
 		iVec2   Size;      // Size of glyph
@@ -22,8 +28,29 @@ namespace Abs
 		public:
 		Text(String &text, String fontFamily) : m_text(text), m_fontFamily(fontFamily) {}
 
+		int getHorizontalGlyphSize()
+		{
+			int size=0;
+			char letter;
+			for(int i=0;i<m_text.size();i++)
+			{
+				letter = m_text[i];
+				size += (((*m_activeCharacters)[letter].Size.x) + ((*m_activeCharacters)[letter].Advance)>>6);
+			}
+
+			return size;
+		}
+
+		void UpdateAligment(TextAlignment align)	{	m_textAlign = align;	}
+
+		fVec2 GetAlignmentOffset()
+		{
+			return (m_textAlign == CENTER) ? fVec2(getHorizontalGlyphSize()/2.0, 0.0) : fVec2(0);
+		}
+
 		String &m_text;
 		String m_fontFamily;
+		TextAlignment m_textAlign;
 		CharMap *m_activeCharacters;
 	};
 }
