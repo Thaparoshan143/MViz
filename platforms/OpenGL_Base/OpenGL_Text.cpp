@@ -120,19 +120,21 @@ namespace OpenGL
 			x = x * (winDim.x/2.0) + winDim.x/2.0;
 			y = -1 * y * (winDim.y/2.0) + winDim.y/2.0;
 		}
+		// the position based are different in projection and OpenGL owrking so adjusting for y
+		y = winDim.y - y;
 
-		scale = scale * ((float(winDim.x + winDim.y)/(800+600)));
+		scale = scale * ((float(winDim.x + winDim.y)/(400+300))) * BASE_FONT_SIZE;
 
 		// iterate through all characters
 		std::string::const_iterator c;
 		for (c = m_text.begin(); c != m_text.end(); c++) 
 		{
 			Abs::Character ch = (*m_activeCharacters)[*c];
-			float xpos = x + ch.Bearing.x * scale;
-			float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+			float xpos = x + ch.Bearing.x * scale * BASE_FONT_SIZE;
+			float ypos = y - (ch.Size.y - ch.Bearing.y) * scale * BASE_FONT_SIZE;
 
-			float w = ch.Size.x * scale;
-			float h = ch.Size.y * scale;
+			float w = ch.Size.x * scale * BASE_FONT_SIZE;
+			float h = ch.Size.y * scale * BASE_FONT_SIZE;
 
 			float vertices[6][4] = {
 				{ xpos,     ypos + h,   0.0f, 0.0f },            
@@ -151,7 +153,7 @@ namespace OpenGL
 			// render quad
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 			// now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-			x += ((ch.Advance >> 6) * scale ); // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+			x += ((ch.Advance >> 6) * scale * BASE_FONT_SIZE); // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 		}
 		m_VAO.Unbind();
 		glBindTexture(GL_TEXTURE_2D, 0);

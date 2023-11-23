@@ -71,7 +71,7 @@ namespace OpenGL
 	void OpenGL_Graph::renderLabeling()
 	{
 		// Here for the origin text rendering position is hardcoded...
-		m_number->RenderText(m_textShaderID, 0, 0, 1, fVec3(1, 0.5, 0.2), false);
+		m_number->RenderText(m_textShaderID, -0.03, -0.06, 0.7, fVec3(0), false);
 	}
 
 	// NOT WORKING.. CURRENTLY

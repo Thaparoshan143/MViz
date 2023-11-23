@@ -10,6 +10,7 @@
 
 namespace OpenGL
 {
+    #define BASE_FONT_SIZE 1/2.0
     // Map 
     // String (font family name) as key and CharMap as value (which is also map..)
     using FontMap = std::map<String, Abs::CharMap>;
