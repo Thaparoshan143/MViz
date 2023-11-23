@@ -35,16 +35,16 @@ namespace Abs
         virtual inline bool ShouldCloseWindow() = 0;
         virtual void SetColor(float r, float g, float b, float a) = 0;
         virtual void SwapFrameBuffer() = 0;
-        inline iVec2 GetWindowSize() { return iVec2(m_wi.width, m_wi.height); }
-        inline WindowInfo GetWindowInfo() { return m_wi; }
+        inline iVec2 GetWindowSize() { return iVec2(m_winInfo.width, m_winInfo.height); }
+        inline WindowInfo GetWindowInfo() { return m_winInfo; }
         inline dVec2 GetMousePos() {   return this->m_mouPos;  }
-        void SetWindowInfo(WindowInfo &wi) {  m_wi = wi; }
+        void SetWindowInfo(WindowInfo &wi) {  m_winInfo = wi; }
         void SetKeySubscriber(String *subscriber) { m_lastStringScan = (m_keySubscriber=subscriber)? *subscriber : ""; }
 
         String *m_keySubscriber;
         String m_lastStringScan;
 		Application *m_targetApp;
-        WindowInfo m_wi;
+        WindowInfo m_winInfo;
         dVec2 m_mouPos;
     };
 }

@@ -27,16 +27,17 @@ namespace OpenGL
         float *graphVert = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 1);
         float *graphVertScale = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 0.02);
 		float graphAxis[] = {-1, 0, 1, 0, 0, 1, 0, -1};
-		String *origin = new String("0");
+		String origin("0");
 		m_numberLabel.push_back(origin);
-		m_number = new FreetypeText(m_target, *m_numberLabel[0]);
+		FreetypeText::UpdateTarget(m_target.GetWindow());
+		m_number = new FreetypeText(m_numberLabel[0]);
 
 		m_VBO.Append(graphVertScale, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
 		m_VBO.Append(graphVert, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
 		m_VBO.Append(graphAxis, 8);
 		m_VBO.LoadBuffer();
 		m_VAO.EnableVertexAttribMan(2);
-		m_textShaderID = m_target.GetShaderID("../res/Shaders/Text/");
+		m_textShaderID = m_target.GetShaderID("../res/Shaders/Text/projbased/");
 		m_graphShaderID = m_target.GetShaderID("../res/Shaders/Graph/Plane/");
     }
 
@@ -70,7 +71,7 @@ namespace OpenGL
 	void OpenGL_Graph::renderLabeling()
 	{
 		// Here for the origin text rendering position is hardcoded...
-		m_number->RenderText(m_textShaderID, -0.05, -0.08, 1, fVec3(0), false);
+		m_number->RenderText(m_textShaderID, 0, 0, 1, fVec3(1, 0.5, 0.2), false);
 	}
 
 	// NOT WORKING.. CURRENTLY

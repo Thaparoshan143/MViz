@@ -20,13 +20,13 @@ namespace OpenGL
 		~OpenGL_App();
 
 		void* GetReference(Abs::AppRef appRef);
-		uint GetShaderID(String path) {	return m_mainWindow->GetShaderID(path);	}
-		OpenGL_Sha* GetRawShader(String path) {	return m_mainWindow->GetRawShader(path);	}
+		uint GetShaderID(String path) {	return m_targetWindow->GetShaderID(path);	}
+		OpenGL_Sha* GetRawShader(String path) {	return m_targetWindow->GetRawShader(path);	}
 		inline ApplicationInfo GetAppInfo();
 
 		public:
-		OpenGL_Win *m_mainWindow;
-		OpenGL_UI *m_mainUI;
+		OpenGL_Win *m_targetWindow;
+		OpenGL_UI *m_targetUI;
 
 		// might not be necessary once actual application is made out for the application based working...
 		void initializeGLEnable();

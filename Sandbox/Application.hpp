@@ -1,5 +1,6 @@
 #pragma once
 #include"../platforms/OpenGL_Base/OpenGL_App.h"
+#include"../platforms/OpenGL_Base/OpenGL_Graph.h"
 #include"../MViz/Math/Calculator/calculator.cpp"
 
 #define FREQ_COUNT 5
@@ -53,39 +54,39 @@ namespace Sandbox
         float i = 0.0f;
         float d_i = 0.005f;
 
-        Abs::GraphInfo graphInfo("Graph", m_mainWindow->GetWindowSize(), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingScale::NORMAL);
-        OpenGL_Graph mainGraph(*m_mainWindow, graphInfo);
+        Abs::GraphInfo graphInfo("Graph", m_targetWindow->GetWindowSize(), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingScale::NORMAL);
+        OpenGL_Graph mainGraph(*m_targetWindow, graphInfo);
         String _text = "Normalized Text";
-        FreetypeText _temp(*m_mainWindow, _text);
-        uint _textShaderID = this->GetShaderID("../res/Shaders/Text/");
+        FreetypeText _temp(_text, "Sansita");
+        uint _textShaderID = this->GetShaderID("../res/Shaders/Text/projbased/");
         // temporary right now here later move to the actual inherted applications..
-        while (!m_mainWindow->ShouldCloseWindow())
+        while (!m_targetWindow->ShouldCloseWindow())
         {
-            m_mainWindow->SetColor(1, 1, 1, 1);
+            m_targetWindow->SetColor(1, 1, 1, 1);
             mainGraph.RenderGraph();
             
-            sine_VAO.Bind();
-            sh.UseProgram();
-            i += d_i;
-            if (i > 1) {
-                d_i = -d_i;
-            }
-            if (i < -1) {       
-                d_i = -d_i;
-            }
+            // sine_VAO.Bind();
+            // sh.UseProgram();
+            // i += d_i;
+            // if (i > 1) {
+            //     d_i = -d_i;
+            // }
+            // if (i < -1) {       
+            //     d_i = -d_i;
+            // }
 
             // // temp = glm::translate(fMat4(1.0), glm::fvec3(-1.0+i, 0, 0));
             // // temp = glm::scale(fMat4(), glm::fvec3(1, i, 0));
             // temp = glm::mat4(1.0);
             // sh.SetUniformMat4("modal", temp);
 
-            glLineWidth(1.0f);
-            glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, sin_size);
+            // glLineWidth(1.0f);
+            // glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, sin_size);
 
-            _temp.RenderText(_textShaderID, -0.2, -0.5, 1, Color(0), false);
-            m_mainUI->RenderUI();
+            // _temp.RenderText(_textShaderID, 400, 300, 1, Color(0));
+            // m_targetUI->Render();
 
-            m_mainWindow->SwapFrameBuffer();
+            m_targetWindow->SwapFrameBuffer();
             glfwPollEvents();
         }
     }

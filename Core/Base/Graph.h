@@ -52,7 +52,7 @@ namespace Abs
         Graph(GraphInfo &gi) {  m_gi = gi;  }
 
         protected:
-        std::vector<String*> m_numberLabel;
+        std::vector<String> m_numberLabel;
         GraphInfo m_gi;        
     };
 }

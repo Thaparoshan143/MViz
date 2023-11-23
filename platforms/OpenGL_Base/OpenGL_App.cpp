@@ -7,18 +7,17 @@ namespace OpenGL
 {
 	OpenGL_App::OpenGL_App(ApplicationInfo &appInfo) 
 	{
-		this->m_mainWindow = new OpenGL_Win(appInfo, this);
-		this->m_mainWindow->m_wi = appInfo;
-		UIProps UIInfo;
-		this->m_mainUI = new OpenGL_UI(*this->m_mainWindow, UIInfo);
+		this->m_targetWindow = new OpenGL_Win(appInfo, this);
+		this->m_targetWindow->m_winInfo = appInfo;
+		this->m_targetUI = new OpenGL_UI(this->m_targetWindow);
 		initializeGLEnable();
 	}
 
 	OpenGL_App::~OpenGL_App()
 	{
 		// free all the heap allocated block for this
-		delete[] this->m_mainWindow;
-		delete[] this->m_mainUI;
+		delete[] this->m_targetWindow;
+		delete[] this->m_targetUI;
 	}
 
 	void* OpenGL_App::GetReference(Abs::AppRef appRef)
@@ -29,11 +28,11 @@ namespace OpenGL
 		}
 		else if(appRef==Abs::AppRef::WINDOW)
 		{
-			return (OpenGL_Win*)this->m_mainWindow;
+			return (OpenGL_Win*)this->m_targetWindow;
 		}
 		else if(appRef==Abs::AppRef::UI)
 		{
-			return (OpenGL_UI*)this->m_mainUI;
+			return (OpenGL_UI*)this->m_targetUI;
 		}
 		else
 		{
@@ -44,7 +43,7 @@ namespace OpenGL
 
 	ApplicationInfo OpenGL_App::GetAppInfo()
 	{
-		return m_mainWindow->GetWindowInfo();
+		return m_targetWindow->GetWindowInfo();
 	}
 
 	void OpenGL_App::initializeGLEnable()
