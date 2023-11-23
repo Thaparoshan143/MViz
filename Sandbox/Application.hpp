@@ -23,17 +23,16 @@ namespace Sandbox
     {
         using namespace OpenGL;
 
-        // float *sineVert = Util::_get_sine_ver2(FREQ_COUNT, SINE_RES, SINE_AMP_Y);
-        std::vector<float> sin_temp = Calculate("x", -10, 10, 0.02, 5, true);
+        // float *waveVert = Util::_get_sine_ver2(FREQ_COUNT, SINE_RES, SINE_AMP_Y);
+        std::vector<float> wave_temp = Calculate("sin(x)", -10, 10, 0.015625, 5, true);
 
-        float *sineVert = &sin_temp[0];
-        int sin_size = sin_temp.size();
-
-        // uint sine_VAO;
-        OpenGL_VertArrObj sine_VAO;
-        OpenGL_VertBuffObj sine_VBO;
-        sine_VBO.DirectLoad(sineVert, sin_size);
-        sine_VAO.EnableVertexAttribMan(2);
+        float *waveVert = &wave_temp[0];
+        int vertSize = wave_temp.size();
+        // uint wave_VAO;
+        OpenGL_VertArrObj wave_VAO;
+        OpenGL_VertBuffObj wave_VBO;
+        wave_VBO.DirectLoad(waveVert, vertSize);
+        wave_VAO.EnableVertexAttribMan(2);
 
         OpenGL_Sha sh("../res/Shaders/");
         sh.UseProgram();
@@ -48,6 +47,8 @@ namespace Sandbox
         FreetypeText _temp1(_text, "Sansita");
         FreetypeText _temp2(_text, "OpenSans");
         FreetypeText _temp3(_text, "RaceSport");
+        String _text2 = "Another";
+        FreetypeText _temp4(_text2, "Sansita");
         uint _textShaderID = this->GetShaderID("../res/Shaders/Text/projbased/");
         Mat4 temp(1.0f);
 
@@ -79,7 +80,7 @@ namespace Sandbox
             m_targetWindow->SetColor(1, 1, 1, 1);
             mainGraph.RenderGraph();
 
-            sine_VAO.Bind();
+            wave_VAO.Bind();
             sh.UseProgram();
             i += d_i;
             if (i > 1) {
@@ -94,13 +95,14 @@ namespace Sandbox
             temp = glm::mat4(1.0);
             sh.SetUniformMat4("modal", temp);
 
-            glLineWidth(1.0f);
-            glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, sin_size);
+            glLineWidth(5.0f);
+            glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, vertSize / 2);
 
-            m_targetUI->Render();
+            // m_targetUI->Render();
             _temp1.RenderText(_textShaderID, 0, 0.9, 1.4, Color(0.6, 0, 0.5), false);
             _temp2.RenderText(_textShaderID, 0, 0.2, 1.8, Color(0, 1, 0.5), false);
             _temp3.RenderText(_textShaderID, 0, -0.5, 1.5, Color(0.6, 1, 0), false);
+            _temp4.RenderText(_textShaderID, 0.5, 0.5, 1.5, Color(0.6, 1, 0), false);
 
             m_targetWindow->SwapFrameBuffer();
             glfwPollEvents();
