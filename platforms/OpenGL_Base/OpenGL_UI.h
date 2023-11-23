@@ -15,6 +15,7 @@
 #define FIELD_FONT_SIZE 0.6
 #define FIELD_LABEL_OFFSET 0.016
 
+#define QUAD_TRI_COUNT 6
 #define BTN_TRI_COUNT 6
 #define INPFIELD_TRI_COUNT 6
 
@@ -51,6 +52,7 @@ namespace OpenGL
 
         // Callback yet to be attached to the Button Props... later on, remove first argument and only pass button props when adding new button...
 
+        void AttachPanel(String id, Abs::Panel *newPan) override  {   UIManager::AttachPanel(id, newPan); updateBuffer(); }
         void Render() override;
         // void DispatchKeyboardEvent(int keyCode);
 
@@ -63,6 +65,9 @@ namespace OpenGL
         uint m_textShaderID;
         uint m_triangleCount;
 
+        void getVBOFromMap();
+        void panelRecursiveVBO(Abs::Panel *pan);
+        void updateBuffer();
         void initializeUIBuffer();
         float* getQuadVertices(fVec2 pos, fVec2 dim, fVec3 col);
         void renderBtnText();

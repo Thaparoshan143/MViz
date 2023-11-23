@@ -308,7 +308,7 @@ namespace Abs
         // method exposed to update the window target of the UI manager..
         void UpdateTarget(void *target)   {   m_targetWindow = target;  }
         // There is no checking for if id exists or not .. for now, if reuqired might need to be added..
-        void AttachPanel(String id, Panel *newPan)
+        virtual void AttachPanel(String id, Panel *newPan)
         {
             m_panelList.insert({id, newPan});
         }

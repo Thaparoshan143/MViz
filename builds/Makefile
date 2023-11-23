@@ -31,6 +31,8 @@ MAC_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${
 
 WIN_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_WIN}
 
+fresh_m: clean build_m
+
 build_m: ${FILE_DEPENDENCIES}
 ifeq (${UNAME_S}, Darwin)
 	${MAC_COMMAND}

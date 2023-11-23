@@ -20,7 +20,7 @@ namespace OpenGL
         std::cout << "I am inside the constructor Input Field OpenGL" << std::endl;
     }
 
-    OpenGL_UI::OpenGL_UI(OpenGL_Win *target)
+    OpenGL_UI::OpenGL_UI(OpenGL_Win *target) : m_UIVBO(2048)
     {
         m_targetWindow = (OpenGL_Win*)target;
         this->initializeUIBuffer();
@@ -28,8 +28,8 @@ namespace OpenGL
 
     void OpenGL_UI::Render()
     {
-        this->m_UIVAO.Bind();
-        this->m_UIVBO.Bind();
+        m_UIVBO.Bind();
+        m_UIVAO.Bind();
         glUseProgram(m_UIShaderID);
         glDrawArrays(GL_TRIANGLES, 0, m_triangleCount);
         // renderBtnText();
@@ -72,6 +72,55 @@ namespace OpenGL
     //     }
     // }
 
+    void OpenGL_UI::getVBOFromMap()
+    {
+        for(const auto &item : m_panelList)
+        {
+            Abs::Panel &pan = *(item.second);
+            // panel iteself
+            // m_UIVBO.Append(getQuadVertices(pan.GetPos(), pan.GetDim(), pan.GetBgCol()), PP_RGB_COUNT*QUAD_TRI_COUNT);
+
+            panelRecursiveVBO(item.second);
+        }
+    }
+
+    void OpenGL_UI::panelRecursiveVBO(Abs::Panel *pan)
+    {
+        m_UIVBO.Append(getQuadVertices(pan->GetPos(), pan->GetDim(), pan->GetBgCol()), PP_RGB_COUNT*QUAD_TRI_COUNT);
+
+        for(const auto &ele : pan->m_elementList)
+        {
+            if(ele.first==Abs::PANEL)
+            {
+                for(int i=0;i<ele.second.size();i++)
+                {
+                    panelRecursiveVBO((Abs::Panel*)ele.second[i]);
+                }
+            }
+            else
+            {
+                for(int i=0;i<ele.second.size();i++)
+                {
+                    Abs::_BaseUI *tempEle = ele.second[i];
+                    m_UIVBO.Append(getQuadVertices(tempEle->GetPos(), tempEle->GetDim(), tempEle->GetBgCol()), PP_RGB_COUNT*QUAD_TRI_COUNT);
+                }
+            }
+        }
+    }
+
+    void OpenGL_UI::updateBuffer()
+    {
+        // std::cout << "New attached updating buffer..." << std::endl;
+        // std::cout << "Panel Count : " << m_panelList.size() << std::endl;
+
+        getVBOFromMap();
+        // for(int i=0;i<m_UIVBO.m_data.GetCount();i++)
+        // {
+        //     std::cout << *(m_UIVBO.GetVertexData() + i) << "<-\t";
+        // }
+        m_UIVBO.LoadBuffer();
+        updateTriangleCount();
+    }
 
     // All the code to load buffer and also create submodule to facilitate the total ui creation here..
     void OpenGL_UI::initializeUIBuffer()
@@ -80,6 +129,7 @@ namespace OpenGL
         OpenGL_Win *mainWin = (OpenGL_Win*)m_targetWindow;
         m_UIShaderID = mainWin->GetShaderID("../res/Shaders/UI/");
         m_textShaderID = mainWin->GetShaderID("../res/Shaders/Text/projbased/");
+        m_UIVBO.Bind();
         this->m_UIVAO.EnableVertexAttrib();
 
         // At last finding the total triangle count to render on screen.
