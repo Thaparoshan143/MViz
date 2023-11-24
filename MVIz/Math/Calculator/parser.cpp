@@ -11,10 +11,10 @@ void Parser::Consume(TokenType type) {
      }
 }
 
+// creates a number node from functions and numbers if expression contains them.
 std::shared_ptr<Node> Parser::Number() {
     auto token = current_token;
 
-    // Create a node of type Num
     if (token.GetType() == TokenType::NUM) {
         Consume(TokenType::NUM);
         return std::make_shared<Num>(token);
@@ -58,23 +58,15 @@ std::shared_ptr<Node> Parser::Number() {
     }
 }
 
-std::shared_ptr<Node> Parser::Term() {
+// create ^ node if expression contains it.
+std::shared_ptr<Node> Parser::Power() {
     auto root = Number();
 
-    while (current_token.GetType() == TokenType::MUL
-            || current_token.GetType() == TokenType::DIV
-            || current_token.GetType() == TokenType::LPAREN
-            || current_token.GetType() == TokenType::POW) {
+    while (current_token.GetType() == TokenType::POW) {
         auto token = current_token;
 
-        if (token.GetType() == TokenType::POW) {
+        if (current_token.GetType() == TokenType::POW) {
             Consume(TokenType::POW);
-        } else if (token.GetType() == TokenType::MUL) {
-            Consume(TokenType::MUL);
-        } else if (token.GetType() == TokenType::DIV) {
-            Consume(TokenType::DIV);
-        } else if (token.GetType() == TokenType::LPAREN) {
-            token = Token(TokenType::MUL, "*");
         }
 
         auto left = root;
@@ -83,10 +75,38 @@ std::shared_ptr<Node> Parser::Term() {
         root->AddChild(left);
         root->AddChild(right);
     }
+
+    return root;
+}
+
+// creates * or / nodes if expression contains them
+std::shared_ptr<Node> Parser::Term() {
+    auto root = Power();
+
+    while (current_token.GetType() == TokenType::MUL
+            || current_token.GetType() == TokenType::DIV
+            || current_token.GetType() == TokenType::LPAREN) {
+        auto token = current_token;
+
+        if (token.GetType() == TokenType::MUL) {
+            Consume(TokenType::MUL);
+        } else if (token.GetType() == TokenType::DIV) {
+            Consume(TokenType::DIV);
+        } else if (token.GetType() == TokenType::LPAREN) {
+            token = Token(TokenType::MUL, "*");
+        }
+
+        auto left = root;
+        auto right = Power();
+        root = std::make_shared<BinOp>(token);
+        root->AddChild(left);
+        root->AddChild(right);
+    }
     
     return root;
 }
 
+// creates + or - nodes if expression contains them
 std::shared_ptr<Node> Parser::Expression() {
     auto root = Term();
 

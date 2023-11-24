@@ -6,6 +6,16 @@
 #include <sstream>
 #include <vector>
 
+/*
+calculates an expression without variables and returns the result.
+
+# Example
+
+```
+float result = Calculate(5 * 6 + 6);
+```
+
+*/
 float Calculate(std::string text) {
     Logger::Log("Initializing Calculator\n", Severity::Info);
     std::string message;
@@ -21,7 +31,23 @@ float Calculate(std::string text) {
     return interpreter.Result();
 }
 
-// Returns x and y co-ordinates
+/*
+calculates an expression's right hand side and returns a vector containing the x and 
+y values satisfying the expression.
+
+The `step_size` is the distance between each point in the range `x_low` to `x_high`.
+
+setting `normalize = true` returns the vector in a normalized form in the range -1 
+to 1.
+
+# Examples
+
+```
+std::vector<float> vertices = Calculate("x * cos(x)", -10, 10, 0.015625);
+std::vector<float> normalized_vertices = Calculate("x * sin(x)", -10, 10, 0.015625, 5, true);
+```
+
+*/
 std::vector<float> Calculate(std::string text, float x_low, float x_high, float step_size, int y_high = 1, bool normalize = false){
     Logger::Log("Initializing Calculator\n", Severity::Info);
     std::ostringstream oss;

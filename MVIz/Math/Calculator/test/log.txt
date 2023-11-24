@@ -1,0 +1,16 @@
+2023/11/24 16:28:53    [INFO]    Initializing Calculator
+
+2023/11/24 16:28:53    [INFO]    Calculator Data
+
+	Input Expression: 2 *2 ^5
+	Output: 64.000000
+
+2023/11/24 16:29:03    [INFO]    Initializing Calculator
+
+2023/11/24 16:29:03    [INFO]    Calculator Data
+
+	Input Expression: 2 * 5 ^ 2 * 2
+	Output: 100.000000
+
+2023/11/24 16:29:28    [INFO]    Initializing Calculator
+
