@@ -7,6 +7,13 @@ namespace OpenGL
         initializeGraph();
     }
 
+/*! @defgroup hat_state Joystick hat states
+ *  @brief Joystick hat states.
+ *
+ *  See [joystick hat input](@ref joystick_hat) for how these are used.
+ *
+ *  @ingroup input
+ *  @{ */
     void OpenGL_Graph::RenderGraph()
     {
 		glUseProgram(m_graphShaderID);
@@ -44,7 +51,10 @@ namespace OpenGL
 	float* OpenGL_Graph::getGraphVert(iVec2 stripeCount, float height)
 	{
 		float *tempVert = new float[stripeCount.x*4+stripeCount.y*4];
-		fVec2 offset = fVec2(2.0/(stripeCount.x+1), 2.0/(stripeCount.y+1));
+		fVec2 offset = fVec2(2.0/(stripeCount.x+1), (2.0/(stripeCount.y+1)));
+		// fVec2 winSize = fVec2(m_target.GetWindowSize());
+
+		// fVec2 offset = fVec2(2.0/6, (2.0/6)*(winSize.x/winSize.y));
 		float counter = float(-1);
 
 		for(uint i=0;i<stripeCount.x;i++)
@@ -71,7 +81,7 @@ namespace OpenGL
 	void OpenGL_Graph::renderLabeling()
 	{
 		// Here for the origin text rendering position is hardcoded...
-		m_number->RenderText(m_textShaderID, -0.03, -0.06, 0.7, fVec3(0), false);
+		m_number->RenderText(m_textShaderID, -0.02, -0.05, 0.5, fVec3(0), false);
 	}
 
 	// NOT WORKING.. CURRENTLY

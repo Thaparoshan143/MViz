@@ -26,7 +26,7 @@ namespace OpenGL
         this->initializeUIBuffer();
     }
 
-    void OpenGL_UI::Render()
+    void OpenGL_UI:: Render()
     {
         renderQuad();
         renderText();
@@ -68,6 +68,14 @@ namespace OpenGL
     //     }
     // }
 
+    dVec2 OpenGL_UI::normalizeMouPos(dVec2 mouPos)
+    {
+        OpenGL_Win *temp = (OpenGL_Win*)m_targetWindow;
+        dVec2 winDim = temp->GetWindowSize();
+        dVec2 _temp = dVec2((mouPos.x-(winDim.x/2.0))/(winDim.x/2.0), (-mouPos.y+(winDim.y/2.0))/(winDim.y/2.0));
+        return _temp;
+    }
+
     void OpenGL_UI::getVBOFromMap(String id)
     {
 
@@ -107,7 +115,6 @@ namespace OpenGL
                         Abs::InputField *tempField = (Abs::InputField*)tempEle;
                         FreetypeText *tempText = new FreetypeText(*tempField->GetRawText(Abs::UITextType::PLACEHOLDER));
                         m_textList.insert({tempText, tempField->GetPos()});
-                        // m_textList.push_back(FreetypeText(*pan->GetRawText(Abs::UITextType::PLACEHOLDER)));
                     }
                 }
             }

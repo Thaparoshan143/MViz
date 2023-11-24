@@ -51,7 +51,7 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
 
         Interpreter interpreter;
         ast.get()->accept(&interpreter);
-        oss << std::setw(10) << std::setprecision(3) << interpreter.Result() / y_high;
+        oss << std::setw(10) << std::setprecision(3) << interpreter.Result() / y_high << std::setw(10) << interpreter.Result();
 
         if (normalize) { result.push_back(i / x_high); }
         else if (!normalize) { result.push_back(i); }

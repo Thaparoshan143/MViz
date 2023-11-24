@@ -132,12 +132,12 @@ namespace Abs
             }
             else
             {
-                std::cout << "On Click event not attached";
+                std::cout << "On Click event not attached" << std::endl;
                 m_isActive = false;
             }
         };
 
-        virtual void* GetSubscriber() = 0;
+        virtual _BaseUI* GetSubscriber() = 0;
 
         virtual ClickEventCallback GetEventCallback(EventCallType ect)
         {
@@ -147,7 +147,7 @@ namespace Abs
             }
             else
             {
-                std::cout << "Doesn't contain the eventcallback as requested!!";
+                std::cout << "Doesn't contain the eventcallback as requested!!" << std::endl;
             }
         }
 
@@ -198,7 +198,7 @@ namespace Abs
             else {  return (m_isActive=false);   }
         }
 
-        void* GetSubscriber() override  
+        _BaseUI* GetSubscriber() override  
         {   
             for(const auto &item : m_elementList)
             {
@@ -241,7 +241,7 @@ namespace Abs
             m_label = btnInfo._label;   m_type = btnInfo._type;
         }
 
-        void* GetSubscriber() override  {   return m_isActive ? this : nullptr;    }
+        _BaseUI* GetSubscriber() override  {   return m_isActive ? this : nullptr;    }
 
         inline String GetText(UITextType textType) {  return ((textType==LABEL)?m_label:""); }
         inline String* GetRawText(UITextType textType) {  return (textType==LABEL?(&m_label):nullptr); }
@@ -276,7 +276,7 @@ namespace Abs
 
         bool IsActive() {   return m_isActive;  }
 
-        void* GetSubscriber() override {    return m_isActive ? this : nullptr;    }
+        _BaseUI* GetSubscriber() override {    return m_isActive ? this : nullptr;    }
 
         inline String GetText(UITextType textType)
         {  
@@ -315,7 +315,7 @@ namespace Abs
 
         virtual void Render() = 0;
 
-        void DispatchMouseEvents(dVec2 mouPos, int mouCode)
+        virtual void DispatchMouseEvents(dVec2 mouPos, int mouCode)
         {
             m_keySubscriber = nullptr;
             if(m_isActive)
@@ -324,12 +324,17 @@ namespace Abs
                 // Note : Mouse position might need to be normalize before passing depending upon the scale used either -1 to 1, or screen size...
                 for(const auto &item : m_panelList)
                 {
-                    item.second->OnClick(mouPos, mouCode);
-                    _InteractableUI *temp = (_InteractableUI*)item.second->GetSubscriber();
-                    if(temp->IsOfType(UIElementType::INPUTFIELD))
+                    if(item.second->OnClick(mouPos, mouCode))
                     {
-                        m_keySubscriber = (InputField*)temp;
+                        std::cout << item.first << " -- On Click triggered--" << std::endl;
+
                     }
+                    _InteractableUI *temp = reinterpret_cast<_InteractableUI*>(item.second->GetSubscriber());
+                    temp->GetDim();
+                    // if(temp->IsOfType(UIElementType::INPUTFIELD))
+                    // {
+                    //     m_keySubscriber = (_InteractableUI*)temp;
+                    // }
                 }
             }
             else

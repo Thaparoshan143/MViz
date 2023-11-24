@@ -21,7 +21,7 @@ class Node {
         }
         
         Token token;
-        std::vector<std::shared_ptr<Node>> children;
+        std::vector<std::shared_ptr<Node> > children;
 };
 
 class BinOp : public Node {

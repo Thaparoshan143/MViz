@@ -53,6 +53,7 @@ namespace OpenGL
         // Callback yet to be attached to the Button Props... later on, remove first argument and only pass button props when adding new button...
 
         void AttachPanel(String id, Abs::Panel *newPan) override  {   UIManager::AttachPanel(id, newPan); updateBuffer(id); }
+        void DispatchMouseEvents(dVec2 mouPos, int mouCode) override {  mouPos=normalizeMouPos(mouPos); UIManager::DispatchMouseEvents(mouPos, mouCode);}
         void Render() override;
         // void DispatchKeyboardEvent(int keyCode);
 
@@ -66,6 +67,7 @@ namespace OpenGL
         uint m_triangleCount;
         std::map<FreetypeText*, fVec2> m_textList;
 
+        dVec2 normalizeMouPos(dVec2 mouPos);
         void getVBOFromMap(String id);
         void panelRecursiveVBO(Abs::Panel *pan);
         void updateBuffer(String id);

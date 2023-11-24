@@ -24,7 +24,7 @@ namespace Sandbox
         using namespace OpenGL;
 
         // float *waveVert = Util::_get_sine_ver2(FREQ_COUNT, SINE_RES, SINE_AMP_Y);
-        std::vector<float> wave_temp = Calculate("sin(x)", -10, 10, 0.015625, 5, true);
+        std::vector<float> wave_temp = Calculate("tan(x^(1/x))", -10, 10, 0.015625, 10, true);
 
         float *waveVert = &wave_temp[0];
         int vertSize = wave_temp.size();
@@ -34,7 +34,7 @@ namespace Sandbox
         wave_VBO.DirectLoad(waveVert, vertSize);
         wave_VAO.EnableVertexAttribMan(2);
 
-        OpenGL_Sha sh("../res/Shaders/");
+        OpenGL_Sha sh("../res/Shaders/Graph/Wave/");
         sh.UseProgram();
         sh.SetUniformVec3("fColor", glm::fvec3(1, 0.5, 0.2));
  
@@ -45,33 +45,33 @@ namespace Sandbox
         OpenGL_Graph mainGraph(*m_targetWindow, graphInfo);
         String _text = "MViz Graph";
         FreetypeText _temp1(_text, "Sansita");
-        FreetypeText _temp2(_text, "OpenSans");
-        FreetypeText _temp3(_text, "RaceSport");
+        FreetypeText _temp2(_text, "RaceSport");
+        FreetypeText _temp3(_text, "Sansita");
         uint _textShaderID = this->GetShaderID("../res/Shaders/Text/projbased/");
         Mat4 temp(1.0f);
 
-        Abs::PanelProps sidePanelInfo(fVec2(-0.6,0), fVec2(0.8,2), fVec3(0.7), "Title", nullptr);
-        Abs::PanelProps bottomPanelInfo(fVec2(0,-0.8), fVec2(2,0.4), fVec3(0.4), "Bottom", nullptr);
-        Abs::PanelProps outerPanelProps(fVec2(0.6, 0), fVec2(0.8, 2), fVec3(1, 0.5, 0.2), "lavel", nullptr);
-        Abs::PanelProps innerPanelProps(fVec2(0.65, 0), fVec2(0.7, 1.6), fVec3(1, 0, 0.2), "laaael", nullptr);
+        Abs::PanelProps sidePanelInfo(fVec2(-0.6,0), fVec2(0.8,2), fVec3(0.7), "Side Panel", nullptr);
+        Abs::PanelProps bottomPanelInfo(fVec2(0,-0.8), fVec2(2,0.4), fVec3(0.4), "Bottom Panel", nullptr);
+        Abs::PanelProps outerPanelProps(fVec2(0.6, 0), fVec2(0.8, 2), fVec3(1, 0.5, 0.2), "Outer Panel", nullptr);
+        Abs::PanelProps innerPanelProps(fVec2(0.65, 0), fVec2(0.7, 1.6), fVec3(1, 0, 0.2), "Inner Panel", nullptr);
 
-        Abs::ButtonProps _btnProps(fVec2(0.7, 0.5), fVec2(0.5, 0.2), fVec3(0, 0.5, 0), "Btn", nullptr);
+        Abs::ButtonProps _btnProps(fVec2(0.7, 0.5), fVec2(0.4, 0.2), fVec3(0, 0.5, 0), "Button 1", nullptr);
         Abs::Button *_btn = new Abs::Button(_btnProps);
-        Abs::ButtonProps _btnPropsBtn(fVec2(0.7, -0.5), fVec2(0.5, 0.2), fVec3(0, 0.5, 1), "Btn Hover", nullptr);
+        Abs::ButtonProps _btnPropsBtn(fVec2(0.7, -0.5), fVec2(0.4, 0.2), fVec3(0, 0.5, 1), "Button 2", nullptr);
         Abs::Button *_btnBtn = new Abs::Button(_btnPropsBtn);
 
         Abs::Panel *innerPanel = new Abs::Panel(innerPanelProps);
         innerPanel->AttachElement(_btn);
-        innerPanel->AttachElement(_btnBtn);
+        // innerPanel->AttachElement(_btnBtn);
         Abs::Panel *outerPanel = new Abs::Panel(outerPanelProps);
         outerPanel->AttachElement(innerPanel);
 
         Abs::Panel *sidePanel = new Abs::Panel(sidePanelInfo);
         Abs::Panel *bottomPanel = new Abs::Panel(bottomPanelInfo);
         m_targetUI->AttachPanel("Side Panel", sidePanel);
-        m_targetUI->AttachPanel("Bottom", bottomPanel);
         m_targetUI->AttachPanel("Nested Panel", outerPanel);
-
+        // m_targetUI->AttachPanel("Bottom", bottomPanel);
+        // m_targetUI->m_isActive = true;
 
         // temporary right now here later move to the actual inherted applications..
         while (!m_targetWindow->ShouldCloseWindow())
@@ -81,6 +81,7 @@ namespace Sandbox
 
             wave_VAO.Bind();
             sh.UseProgram();
+            
             i += d_i;
             if (i > 1) {
                 d_i = -d_i;
@@ -99,8 +100,7 @@ namespace Sandbox
 
             // m_targetUI->Render();
             _temp1.RenderText(_textShaderID, 0, 0.9, 1.4, Color(0.6, 0, 0.5), false);
-            _temp2.RenderText(_textShaderID, 0, 0.2, 1.8, Color(0, 1, 0.5), false);
-            _temp3.RenderText(_textShaderID, 0, -0.5, 1.5, Color(0.6, 1, 0), false);
+            // _temp2.RenderText(_textShaderID, 0, 0.1, 1.4, Color(0.6, 0, 0.5), false);
 
             m_targetWindow->SwapFrameBuffer();
             glfwPollEvents();
