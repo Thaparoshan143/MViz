@@ -46,13 +46,13 @@ namespace Sandbox
         OpenGL_Graph mainGraph(*m_targetWindow, graphInfo);
         String _text = "MViz Graph";
         FreetypeText _temp1(_text, "Sansita");
-        FreetypeText _temp2(_text, "OpenSans");
-        FreetypeText _temp3(_text, "RaceSport");
+        FreetypeText _temp2(_text, "Sansita");
+        FreetypeText _temp3(_text, "Sansita");
         uint _textShaderID = this->GetShaderID("../res/Shaders/Text/projbased/");
         Mat4 temp(1.0f);
 
-        Abs::PanelProps sidePanelInfo(fVec2(-0.6,0), fVec2(0.8,2), fVec3(0.5), "Title", nullptr);
-        Abs::PanelProps bottomPanelInfo(fVec2(0,-0.8), fVec2(2,0.4), fVec3(0.2), "Bottom", nullptr);
+        Abs::PanelProps sidePanelInfo(fVec2(-0.6,0), fVec2(0.8,2), fVec3(0.7), "Title", nullptr);
+        Abs::PanelProps bottomPanelInfo(fVec2(0,-0.8), fVec2(2,0.4), fVec3(0.4), "Bottom", nullptr);
         Abs::PanelProps outerPanelProps(fVec2(0.6, 0), fVec2(0.8, 2), fVec3(1, 0.5, 0.2), "lavel", nullptr);
         Abs::PanelProps innerPanelProps(fVec2(0.65, 0), fVec2(0.7, 1.6), fVec3(1, 0, 0.2), "laaael", nullptr);
 
@@ -72,6 +72,7 @@ namespace Sandbox
         m_targetUI->AttachPanel("Side Panel", sidePanel);
         m_targetUI->AttachPanel("Bottom", bottomPanel);
         m_targetUI->AttachPanel("Nested Panel", outerPanel);
+
 
         // temporary right now here later move to the actual inherted applications..
         while (!m_targetWindow->ShouldCloseWindow())
@@ -99,8 +100,6 @@ namespace Sandbox
 
             m_targetUI->Render();
             _temp1.RenderText(_textShaderID, 0, 0.9, 1.4, Color(0.6, 0, 0.5), false);
-            _temp2.RenderText(_textShaderID, 0, 0.2, 1.8, Color(0, 1, 0.5), false);
-            _temp3.RenderText(_textShaderID, 0, -0.5, 1.5, Color(0.6, 1, 0), false);
 
             m_targetWindow->SwapFrameBuffer();
             glfwPollEvents();

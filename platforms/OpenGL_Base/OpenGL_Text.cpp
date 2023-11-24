@@ -76,21 +76,21 @@ namespace OpenGL
 			}
 			FT_Done_Face(face);
 			FT_Done_FreeType(ft);
-
-			m_VAO.Bind();
-			m_VBO.Bind();
-			// For text rendering we require only position (x,y) and texture (u,v).. for 6*4 (i.e using two triangle method to draw quad to draw text on top)
-			m_VBO.ReserveBuffer(6*4, GL_DYNAMIC_DRAW);
-			// Here 4 is the total vertex buffer size i.e two position and two texture data 
-			m_VAO.EnableVertexAttribMan(4);
-			// unbinding is not manditory, optional
-			m_VAO.Unbind();
-			m_VBO.Unbind();
 		}
 		else
 		{
 			std::cout << "Font familt exist on the list!!" << std::endl;
 		}
+
+		m_VAO.Bind();
+		m_VBO.Bind();
+		// For text rendering we require only position (x,y) and texture (u,v).. for 6*4 (i.e using two triangle method to draw quad to draw text on top)
+		m_VBO.ReserveBuffer(6*4, GL_DYNAMIC_DRAW);
+		// Here 4 is the total vertex buffer size i.e two position and two texture data 
+		m_VAO.EnableVertexAttribMan(4);
+		// unbinding is not manditory, optional
+		m_VAO.Unbind();
+		m_VBO.Unbind();
 
 		m_textAlign = Abs::CENTER;
 		m_activeCharacters = &m_fontFamilyList[m_fontFamily];
@@ -116,6 +116,7 @@ namespace OpenGL
  		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(proj));
 		glActiveTexture(GL_TEXTURE0);
 		m_VAO.Bind();
+		m_VBO.Bind();
 
 		if(!normalize)
 		{
@@ -131,10 +132,15 @@ namespace OpenGL
 		std::string::const_iterator c;
 		for (c = m_text.begin(); c != m_text.end(); c++) 
 		{
+			
 			Abs::Character ch = (*m_activeCharacters)[*c];
 			float xpos = x + ch.Bearing.x * scale;
 			float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
 
+			// if(m_text=="Bottom")
+			// {
+			// 	std::cout << "X pos : " << xpos << " || YPos : " << ypos << std::endl;
+			// }
 			float w = ch.Size.x * scale;
 			float h = ch.Size.y * scale;
 

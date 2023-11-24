@@ -28,12 +28,8 @@ namespace OpenGL
 
     void OpenGL_UI::Render()
     {
-        m_UIVBO.Bind();
-        m_UIVAO.Bind();
-        glUseProgram(m_UIShaderID);
-        glDrawArrays(GL_TRIANGLES, 0, m_triangleCount);
-        // renderBtnText();
-        // renderInpFieldText();
+        renderQuad();
+        renderText();
     }
 
     // void OpenGL_UI::DispatchMouseEvents(dVec2 mouRef, int mouCode)
@@ -72,21 +68,17 @@ namespace OpenGL
     //     }
     // }
 
-    void OpenGL_UI::getVBOFromMap()
+    void OpenGL_UI::getVBOFromMap(String id)
     {
-        for(const auto &item : m_panelList)
-        {
-            Abs::Panel &pan = *(item.second);
-            // panel iteself
-            // m_UIVBO.Append(getQuadVertices(pan.GetPos(), pan.GetDim(), pan.GetBgCol()), PP_RGB_COUNT*QUAD_TRI_COUNT);
 
-            panelRecursiveVBO(item.second);
-        }
+        panelRecursiveVBO(m_panelList[id]);
     }
 
     void OpenGL_UI::panelRecursiveVBO(Abs::Panel *pan)
     {
         m_UIVBO.Append(getQuadVertices(pan->GetPos(), pan->GetDim(), pan->GetBgCol()), PP_RGB_COUNT*QUAD_TRI_COUNT);
+        FreetypeText *tempText = new FreetypeText(*pan->GetRawText(Abs::UITextType::TITLE));
+        m_textList.insert({tempText, fVec2(pan->GetPos().x, pan->GetPos().y + (pan->GetDim().y/2.0) - 0.1)});
 
         for(const auto &ele : pan->m_elementList)
         {
@@ -103,17 +95,28 @@ namespace OpenGL
                 {
                     Abs::_BaseUI *tempEle = ele.second[i];
                     m_UIVBO.Append(getQuadVertices(tempEle->GetPos(), tempEle->GetDim(), tempEle->GetBgCol()), PP_RGB_COUNT*QUAD_TRI_COUNT);
+                    if(tempEle->GetType()==Abs::BUTTON)
+                    {
+                        Abs::Button *tempButton = (Abs::Button*)tempEle;
+                        FreetypeText *tempText = new FreetypeText(*tempButton->GetRawText(Abs::UITextType::LABEL));
+                        m_textList.insert({tempText, tempButton->GetPos()});
+                    }
+                    else if(tempEle->GetType()==Abs::INPUTFIELD)
+                    {
+
+                        Abs::InputField *tempField = (Abs::InputField*)tempEle;
+                        FreetypeText *tempText = new FreetypeText(*tempField->GetRawText(Abs::UITextType::PLACEHOLDER));
+                        m_textList.insert({tempText, tempField->GetPos()});
+                        // m_textList.push_back(FreetypeText(*pan->GetRawText(Abs::UITextType::PLACEHOLDER)));
+                    }
                 }
             }
         }
     }
 
-    void OpenGL_UI::updateBuffer()
+    void OpenGL_UI::updateBuffer(String id)
     {
-        // std::cout << "New attached updating buffer..." << std::endl;
-        // std::cout << "Panel Count : " << m_panelList.size() << std::endl;
-
-        getVBOFromMap();
+        getVBOFromMap(id);
         // for(int i=0;i<m_UIVBO.m_data.GetCount();i++)
         // {
         //     std::cout << *(m_UIVBO.GetVertexData() + i) << "<-\t";
@@ -131,7 +134,6 @@ namespace OpenGL
         m_textShaderID = mainWin->GetShaderID("../res/Shaders/Text/projbased/");
         m_UIVBO.Bind();
         this->m_UIVAO.EnableVertexAttrib();
-
         // At last finding the total triangle count to render on screen.
         updateTriangleCount();
     }
@@ -170,5 +172,21 @@ namespace OpenGL
     void OpenGL_UI::updateTriangleCount()
     {
         m_triangleCount = this->m_UIVBO.m_data.GetCount()/(m_UIVAO.StrideCount());
+    }
+
+    void OpenGL_UI::renderQuad()
+    {
+        m_UIVBO.Bind();
+        m_UIVAO.Bind();
+        glUseProgram(m_UIShaderID);
+        glDrawArrays(GL_TRIANGLES, 0, m_triangleCount);
+    }
+
+    void OpenGL_UI::renderText()
+    {
+        for(const auto &item : m_textList)
+        {
+            item.first->RenderText(m_textShaderID, item.second.x, item.second.y, 1, Color(1), false);
+        }
     }
 }
