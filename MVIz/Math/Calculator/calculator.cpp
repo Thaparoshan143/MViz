@@ -1,3 +1,5 @@
+#define LOGGER
+
 #include "interpreter.cpp"
 #include "parser.cpp"
 #include "lexer.cpp"
@@ -5,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+
 
 /*
 calculates an expression without variables and returns the result.

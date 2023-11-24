@@ -1,4 +1,4 @@
-#pragma once
+#ifdef LOGGER
 
 #include <iostream>
 #include <fstream>
@@ -100,5 +100,6 @@ class Logger {
 // Need to find a better way for this.
 // Or need to check it's behavior when ran with the entire program.
 std::string Logger::filepath = "log.txt";
-std::string Logger::lastRotationDate = "20231120";
+std::string Logger::lastRotationDate = CurrentDate();
 
+#endif
