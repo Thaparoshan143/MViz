@@ -17,7 +17,6 @@ namespace OpenGL
     // InputField implementation
     OpenGL_InpField::OpenGL_InpField(Abs::InputFieldProps inpFieldInfo) : InputField(inpFieldInfo)
     {
-        m_fieldText.clear();
         std::cout << "I am inside the constructor Input Field OpenGL" << std::endl;
     }
 
