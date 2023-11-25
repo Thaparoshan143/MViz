@@ -26,9 +26,17 @@ class MVizUI : public OpenGL::OpenGL_UI
     {
         MvPanel *sidePanel = GetNewPanel(fVec2(-0.7, 0), fVec2(0.6, 2), Color(0.8), "Input Panel", nullptr);
         MvPanel *bottomPanel = GetNewPanel(fVec2(0, -0.8), fVec2(2, 0.4), Color(0.2), "Next graph", nullptr);
-
-        AttachPanel("Input Panel", sidePanel);
+        MvInputField *expField = GetNewInputField(fVec2(-0.7, 0.5), fVec2(0.5, 0.2), Color(0.2), "Expression", nullptr, nullptr);
+        MvButton *submitBtn = GetNewButton(fVec2(-0.7, -0.5), fVec2(0.4, 0.15), Color(0, 1, 0), "Submit", nullptr);
+        MvButton *clearBtn = GetNewButton(fVec2(-0.7, -0.8), fVec2(0.4, 0.15), Color(1, 0, 0), "Clear", nullptr);
+        
+        sidePanel->AttachElement(submitBtn);
+        sidePanel->AttachElement(clearBtn);
+        sidePanel->AttachElement(expField);
+        m_UIElementList.push_back(sidePanel);
+        m_UIElementList.push_back(bottomPanel);
         AttachPanel("Bottom Panel", bottomPanel);
+        AttachPanel("Input Panel", sidePanel);
 
         m_isActive = true;
     }
@@ -44,6 +52,7 @@ class MVizUI : public OpenGL::OpenGL_UI
     ~MVizUI()
     {
         delete[] m_graph;
+        m_UIElementList.clear();
     }
 
     void Render()
@@ -88,7 +97,7 @@ class MVizUI : public OpenGL::OpenGL_UI
         return _newInpField;
     }
 
-    MvInputField* GetNewInputField(fVec2 pos, fVec2 dim, Color bgCol, String placeholder, ClickEventCallback cEvent, ClickEventCallback changeEvent, String text)
+    MvInputField* GetNewInputField(fVec2 pos, fVec2 dim, Color bgCol, String placeholder, ClickEventCallback cEvent, ClickEventCallback changeEvent, String text="")
     {
         _InputFieldProps newInpField(pos, dim, bgCol, placeholder, cEvent, changeEvent, text);
         return GetNewInputField(newInpField);
@@ -96,4 +105,5 @@ class MVizUI : public OpenGL::OpenGL_UI
 
     private:
     OpenGL::OpenGL_Graph *m_graph;
+    std::vector<MvPanel*> m_UIElementList;
 };
