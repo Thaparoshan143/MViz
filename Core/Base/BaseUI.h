@@ -137,8 +137,8 @@ namespace Abs
                     std::cout << "On Click event not attached" << std::endl;
                 }
             }
-            else {  return (m_isActive=false);   }
-        };
+            else {  m_isActive=false; return m_isActive;   }
+        }
 
         virtual _BaseUI* GetSubscriber() = 0;
 
@@ -151,6 +151,7 @@ namespace Abs
             else
             {
                 std::cout << "Doesn't contain the eventcallback as requested!!" << std::endl;
+                return nullptr;
             }
         }
 
@@ -276,6 +277,7 @@ namespace Abs
             else
             {
                 std::cout << "Doesn't contain the eventcallback as requested!!";
+                return nullptr;
             }
         }
 
@@ -323,7 +325,6 @@ namespace Abs
         UIManager() {}
         ~UIManager()
         {
-            delete[] m_targetWindow;
             delete[] m_keySubscriber;
         }
         // method exposed to update the window target of the UI manager..

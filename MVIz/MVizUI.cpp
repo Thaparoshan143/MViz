@@ -52,10 +52,11 @@ class MVizUI : public OpenGL::OpenGL_UI
     ~MVizUI()
     {
         delete[] m_graph;
+        delete[] (OpenGL::OpenGL_Win*)m_targetWindow;
         m_UIElementList.clear();
     }
 
-    void Render()
+    void Render() override
     {
         m_graph->RenderGraph();
         OpenGL_UI::Render();
