@@ -125,16 +125,19 @@ namespace Abs
         public:
         virtual bool OnClick(dVec2 mouPos, int mouCode)
         {
-            if(m_onClickEvent!=nullptr)
+            if(withinBoundary(getBorder(m_pos, m_dim), mouPos))
             {
-                m_onClickEvent();
                 m_isActive = true;
+                if(m_onClickEvent!=nullptr)
+                {
+                    m_onClickEvent();
+                }
+                else
+                {
+                    std::cout << "On Click event not attached" << std::endl;
+                }
             }
-            else
-            {
-                std::cout << "On Click event not attached" << std::endl;
-                m_isActive = false;
-            }
+            else {  return (m_isActive=false);   }
         };
 
         virtual _BaseUI* GetSubscriber() = 0;
@@ -204,9 +207,10 @@ namespace Abs
             {
                 for(int i=0;i<item.second.size();i++)
                 {
-                    if(item.second[i]->GetSubscriber()!=nullptr)
+                    _BaseUI *temp = item.second[i]->GetSubscriber();
+                    if(temp!=nullptr && temp->IsOfType(UIElementType::INPUTFIELD))
                     {
-                        return item.second[i]->GetSubscriber();
+                        return temp;
                     }
                 }
             }
@@ -255,7 +259,7 @@ namespace Abs
         InputField(InputFieldProps fieldInfo)
         {
             m_pos = fieldInfo._pos;   m_dim = fieldInfo._dim;   m_bgCol = fieldInfo._bgCol;   m_onClickEvent = fieldInfo._onClickEvent;
-            m_onChangeEvent = fieldInfo._onChangeEvent; m_fieldText = fieldInfo._text;  m_placeholder = fieldInfo._placeholder;  m_type = fieldInfo._type;
+            m_onChangeEvent = fieldInfo._onChangeEvent; m_fieldText = fieldInfo._placeholder;  m_placeholder = fieldInfo._placeholder;  m_type = fieldInfo._type;
         }
 
         ClickEventCallback GetEventCallback(EventCallType ect) override
@@ -272,6 +276,18 @@ namespace Abs
             {
                 std::cout << "Doesn't contain the eventcallback as requested!!";
             }
+        }
+
+        bool OnClick(dVec2 mouPos, int mouCode) override 
+        {   
+            _InteractableUI::OnClick(mouPos, mouCode);
+            if(m_isActive && m_fieldText==m_placeholder)
+                m_fieldText.clear();
+            else if(!m_isActive && m_fieldText=="")
+            {
+                m_fieldText = m_placeholder;
+            }
+            return m_isActive;
         }
 
         bool IsActive() {   return m_isActive;  }
@@ -327,14 +343,13 @@ namespace Abs
                     if(item.second->OnClick(mouPos, mouCode))
                     {
                         std::cout << item.first << " -- On Click triggered--" << std::endl;
-
+                        InputField *temp = (InputField*)item.second->GetSubscriber();
+                        if(temp!=nullptr)
+                        {
+                            std::cout << "Subscriber found !" << std::endl;
+                            m_keySubscriber = temp;
+                        }
                     }
-                    _InteractableUI *temp = reinterpret_cast<_InteractableUI*>(item.second->GetSubscriber());
-                    temp->GetDim();
-                    // if(temp->IsOfType(UIElementType::INPUTFIELD))
-                    // {
-                    //     m_keySubscriber = (_InteractableUI*)temp;
-                    // }
                 }
             }
             else
@@ -345,7 +360,7 @@ namespace Abs
 
         // We are currently using directly input field as the subscriber and letting it be manipualted later..
         void *m_targetWindow;
-        _InteractableUI *m_keySubscriber;
+        InputField *m_keySubscriber;
         bool m_isActive;
         std::map<String, Panel*> m_panelList;
     };

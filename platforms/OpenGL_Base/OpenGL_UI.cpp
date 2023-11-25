@@ -37,13 +37,13 @@ namespace OpenGL
         {
             std::cout << "Setting subscriber" << std::endl;
             std::cout << *m_keySubscriber->GetRawText(Abs::UITextType::FIELDTEXT) << std::endl;
-            // subscriberActivator->SetKeySubscriber(m_keySubscriber->GetRawText(Abs::UITextType::FIELDTEXT));
+            subscriberActivator->SetKeySubscriber(m_keySubscriber->GetRawText(Abs::UITextType::FIELDTEXT));
+            std::cout << "Subscriber text "<< *((*subscriberActivator).m_keySubscriber) << std::endl;
         }
         else
         {
             subscriberActivator->SetKeySubscriber(nullptr);
         }
-        std::cout << "Subscriber text "<< *subscriberActivator->m_keySubscriber << std::endl;
     }
 
     void OpenGL_UI:: Render()
@@ -130,9 +130,8 @@ namespace OpenGL
                     }
                     else if(tempEle->GetType()==Abs::INPUTFIELD)
                     {
-
                         Abs::InputField *tempField = (Abs::InputField*)tempEle;
-                        FreetypeText *tempText = new FreetypeText(*tempField->GetRawText(Abs::UITextType::PLACEHOLDER));
+                        FreetypeText *tempText = new FreetypeText(*tempField->GetRawText(Abs::UITextType::FIELDTEXT));
                         m_textList.insert({tempText, tempField->GetPos()});
                     }
                 }

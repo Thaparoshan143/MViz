@@ -60,8 +60,12 @@ namespace Sandbox
         Abs::ButtonProps _btnPropsBtn(fVec2(0.7, -0.5), fVec2(0.4, 0.2), fVec3(0, 0.5, 1), "Button 2", nullptr);
         Abs::Button *_btnBtn = new Abs::Button(_btnPropsBtn);
 
+        Abs::InputFieldProps _inpFieldProps(fVec2(0.7, 0), fVec2(0.5, 0.2), Color(0.5), "Expression", nullptr, nullptr);
+        Abs::InputField *_inpField = new Abs::InputField(_inpFieldProps);
+
         Abs::Panel *innerPanel = new Abs::Panel(innerPanelProps);
         innerPanel->AttachElement(_btn);
+        innerPanel->AttachElement(_inpField);
         // innerPanel->AttachElement(_btnBtn);
         Abs::Panel *outerPanel = new Abs::Panel(outerPanelProps);
         outerPanel->AttachElement(innerPanel);
@@ -71,7 +75,7 @@ namespace Sandbox
         m_targetUI->AttachPanel("Side Panel", sidePanel);
         m_targetUI->AttachPanel("Nested Panel", outerPanel);
         // m_targetUI->AttachPanel("Bottom", bottomPanel);
-        // m_targetUI->m_isActive = true;
+        m_targetUI->m_isActive = true;
 
         // temporary right now here later move to the actual inherted applications..
         while (!m_targetWindow->ShouldCloseWindow())
@@ -98,7 +102,7 @@ namespace Sandbox
             glLineWidth(5.0f);
             glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, vertSize / 2);
 
-            // m_targetUI->Render();
+            m_targetUI->Render();
             _temp1.RenderText(_textShaderID, 0, 0.9, 1.4, Color(0.6, 0, 0.5), false);
             // _temp2.RenderText(_textShaderID, 0, 0.1, 1.4, Color(0.6, 0, 0.5), false);
 
