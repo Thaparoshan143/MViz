@@ -38,14 +38,20 @@ namespace Abs
 				size += (((*m_activeCharacters)[letter].Size.x) + ((*m_activeCharacters)[letter].Advance)>>6);
 			}
 
-			return size;
+			return size/2.0;
+		}
+
+		int getVerticalGlyphSize()
+		{
+			// Here we are asuming a random character offset of y and taking it for granted..
+			return (*m_activeCharacters)['A'].Bearing.y/2.0;
 		}
 
 		void UpdateAligment(TextAlignment align)	{	m_textAlign = align;	}
 
 		fVec2 GetAlignmentOffset()
 		{
-			return (m_textAlign == CENTER) ? fVec2(getHorizontalGlyphSize()/2.0, 0.0) : fVec2(0);
+			return (m_textAlign == CENTER) ? fVec2(getHorizontalGlyphSize(), getVerticalGlyphSize()) : fVec2(0);
 		}
 
 		String &m_text;
