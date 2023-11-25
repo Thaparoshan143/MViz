@@ -17,13 +17,33 @@ namespace OpenGL
     // InputField implementation
     OpenGL_InpField::OpenGL_InpField(Abs::InputFieldProps inpFieldInfo) : InputField(inpFieldInfo)
     {
+        m_fieldText.clear();
         std::cout << "I am inside the constructor Input Field OpenGL" << std::endl;
     }
 
     OpenGL_UI::OpenGL_UI(OpenGL_Win *target) : m_UIVBO(2048)
     {
         m_targetWindow = (OpenGL_Win*)target;
+
         this->initializeUIBuffer();
+    }
+
+    void OpenGL_UI::DispatchMouseEvents(dVec2 mouPos, int mouCode)
+    {
+        mouPos = normalizeMouPos(mouPos);
+        UIManager::DispatchMouseEvents(mouPos, mouCode);
+        OpenGL_Win *subscriberActivator = (OpenGL_Win*)m_targetWindow;
+        if(m_keySubscriber!=nullptr)
+        {
+            std::cout << "Setting subscriber" << std::endl;
+            std::cout << *m_keySubscriber->GetRawText(Abs::UITextType::FIELDTEXT) << std::endl;
+            // subscriberActivator->SetKeySubscriber(m_keySubscriber->GetRawText(Abs::UITextType::FIELDTEXT));
+        }
+        else
+        {
+            subscriberActivator->SetKeySubscriber(nullptr);
+        }
+        std::cout << "Subscriber text "<< *subscriberActivator->m_keySubscriber << std::endl;
     }
 
     void OpenGL_UI:: Render()
@@ -78,7 +98,6 @@ namespace OpenGL
 
     void OpenGL_UI::getVBOFromMap(String id)
     {
-
         panelRecursiveVBO(m_panelList[id]);
     }
 

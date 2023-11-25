@@ -53,7 +53,7 @@ namespace OpenGL
         // Callback yet to be attached to the Button Props... later on, remove first argument and only pass button props when adding new button...
 
         void AttachPanel(String id, Abs::Panel *newPan) override  {   UIManager::AttachPanel(id, newPan); updateBuffer(id); }
-        void DispatchMouseEvents(dVec2 mouPos, int mouCode) override {  mouPos=normalizeMouPos(mouPos); UIManager::DispatchMouseEvents(mouPos, mouCode);}
+        void DispatchMouseEvents(dVec2 mouPos, int mouCode) override; 
         void Render() override;
         // void DispatchKeyboardEvent(int keyCode);
 

@@ -125,8 +125,10 @@ namespace OpenGL
 		}
 		// the position based are different in projection and OpenGL owrking so adjusting for y
 		y = winDim.y - y;
-		// For now just adjusting the x alignment 
-		x = x - (GetAlignmentOffset().x * scale);
+		// For now adjusting the x and y alignment 
+		fVec2 alignmentOffset = GetAlignmentOffset();
+		x = x - (alignmentOffset.x * scale);
+		y = y - (alignmentOffset.y * scale);
 
 		// iterate through all characters
 		std::string::const_iterator c;
@@ -137,10 +139,6 @@ namespace OpenGL
 			float xpos = x + ch.Bearing.x * scale;
 			float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
 
-			// if(m_text=="Bottom")
-			// {
-			// 	std::cout << "X pos : " << xpos << " || YPos : " << ypos << std::endl;
-			// }
 			float w = ch.Size.x * scale;
 			float h = ch.Size.y * scale;
 

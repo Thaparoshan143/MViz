@@ -187,6 +187,7 @@ namespace OpenGL
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
 		if(win->m_keySubscriber!=nullptr)
 		{
+			std::cout << "Subscriber text - " << *win->m_keySubscriber << std::endl;
 			win->listenActiveKeyInterrupts(charKey);
 		}
 	}
