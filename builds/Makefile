@@ -34,7 +34,7 @@ else
 	$(WIN_COMMAND)
 endif
 
-sandbox_clean: clean build_m
+sandbox_clean: clean sandbox
 
 main.obj: ${MVIZ_SRC_OFF}Application.cpp ${MVIZ_SRC_OFF}MVizUI.cpp 
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/main.obj ${INC_PATH} ${MVIZ_SRC_OFF}Application.cpp
