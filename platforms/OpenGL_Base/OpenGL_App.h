@@ -19,6 +19,8 @@ namespace OpenGL
 		OpenGL_App(ApplicationInfo &appInfo);
 		~OpenGL_App();
 
+		void UpdateTarget(OpenGL_Win *targetWindow);
+		void UpdateTargetUI(OpenGL_UI *targetUI);
 		void* GetReference(Abs::AppRef appRef);
 		uint GetShaderID(String path) {	return m_targetWindow->GetShaderID(path);	}
 		OpenGL_Sha* GetRawShader(String path) {	return m_targetWindow->GetRawShader(path);	}

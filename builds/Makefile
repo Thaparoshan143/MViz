@@ -7,47 +7,39 @@ LINKER_MAC = -L. .././lib/mac/libglfw.3.3.dylib -L. .././lib/mac/libfreetype.6.d
 LINKER_WIN = -L. .././lib/win/libglfw3dll.a -L. .././lib/win/libfreetype.dll.a
 DIR_OFF = ../platforms/OpenGL_Base/
 SRC_OFF = ../Sandbox/
+MVIZ_SRC_OFF = ../MViz/
 ABS_OFF = ../Core/
 
 UNAME_S := $(shell uname -s)
-
-ifeq ($(UNAME_S), Linux) #LINUX
-	ECHO_MESSAGE = "Linux"
-endif
-
-ifeq ($(UNAME_S), Darwin) #APPLE
-	ECHO_MESSAGE = "MAC OS"
-endif
-
-ifeq ($(OS), Windows_NT) #WINDOWS
-	ECHO_MESSAGE = "Windows"
-endif
-
 ASSEMBLE_CMD = 	${CXX} ${CFLAGS} -c
 
-FILE_DEPENDENCIES = main.obj glad.obj Shader.obj Window.obj Application.obj BufferObject.obj Graph.obj Text.obj Input.obj UI.obj
+FILE_DEPENDENCIES = glad.obj Shader.obj Window.obj Application.obj BufferObject.obj Graph.obj Text.obj Input.obj UI.obj
 
 MAC_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_MAC}
-
 WIN_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_WIN}
 
-fresh_m: clean build_m
-
-build_m: ${FILE_DEPENDENCIES}
+mviz: main.obj ${FILE_DEPENDENCIES}
 ifeq (${UNAME_S}, Darwin)
 	${MAC_COMMAND}
 else
 	$(WIN_COMMAND)
 endif
 
-build_all:
+mviz_clean:	clean mviz
+
+sanbox: sandbox.obj ${FILE_DEPENDENCIES}
 ifeq (${UNAME_S}, Darwin)
-	${CXX} ${CFLAGS} -o ${BUILD_NAME} ${SRC_OFF}*.cpp ${DIR_OFF}*.cpp ${INC_PATH} ${LINKER_MAC}
+	${MAC_COMMAND}
 else
-	${CXX} ${CFLAGS} -o ${BUILD_NAME} ${SRC_OFF}*.cpp ${DIR_OFF}*.cpp ${INC_PATH} ${LINKER_WIN}
+	$(WIN_COMMAND)
 endif
 
-main.obj: ${SRC_OFF}main.cpp ${SRC_OFF}Application.hpp 
+sandbox_clean: clean build_m
+
+main.obj: ${MVIZ_SRC_OFF}Application.cpp ${MVIZ_SRC_OFF}MVizUI.cpp 
+	${ASSEMBLE_CMD} -o ${OBJ_PATH}/main.obj ${INC_PATH} ${MVIZ_SRC_OFF}Application.cpp
+
+sandbox.obj: ${SRC_OFF}main.cpp ${SRC_OFF}Application.hpp 
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/main.obj ${INC_PATH} ${SRC_OFF}main.cpp
 
 glad.obj: ${SRC_OFF}glad.cpp

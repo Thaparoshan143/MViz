@@ -321,7 +321,11 @@ namespace Abs
     {
         public:
         UIManager() {}
-
+        ~UIManager()
+        {
+            delete[] m_targetWindow;
+            delete[] m_keySubscriber;
+        }
         // method exposed to update the window target of the UI manager..
         void UpdateTarget(void *target)   {   m_targetWindow = target;  }
         // There is no checking for if id exists or not .. for now, if reuqired might need to be added..

@@ -24,8 +24,6 @@ namespace OpenGL
     OpenGL_UI::OpenGL_UI(OpenGL_Win *target) : m_UIVBO(2048)
     {
         m_targetWindow = (OpenGL_Win*)target;
-
-        this->initializeUIBuffer();
     }
 
     void OpenGL_UI::DispatchMouseEvents(dVec2 mouPos, int mouCode)
@@ -46,7 +44,7 @@ namespace OpenGL
         }
     }
 
-    void OpenGL_UI:: Render()
+    void OpenGL_UI::Render()
     {
         renderQuad();
         renderText();
@@ -151,7 +149,7 @@ namespace OpenGL
     }
 
     // All the code to load buffer and also create submodule to facilitate the total ui creation here..
-    void OpenGL_UI::initializeUIBuffer()
+    void OpenGL_UI::InitializeUI()
     {
         this->m_UIVAO.UpdateFormat(Abs::BufferFormat::PP_RGB);
         OpenGL_Win *mainWin = (OpenGL_Win*)m_targetWindow;

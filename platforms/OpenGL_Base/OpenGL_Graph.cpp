@@ -7,13 +7,6 @@ namespace OpenGL
         initializeGraph();
     }
 
-/*! @defgroup hat_state Joystick hat states
- *  @brief Joystick hat states.
- *
- *  See [joystick hat input](@ref joystick_hat) for how these are used.
- *
- *  @ingroup input
- *  @{ */
     void OpenGL_Graph::RenderGraph()
     {
 		glUseProgram(m_graphShaderID);
@@ -81,7 +74,7 @@ namespace OpenGL
 	void OpenGL_Graph::renderLabeling()
 	{
 		// Here for the origin text rendering position is hardcoded...
-		m_number->RenderText(m_textShaderID, -0.02, -0.05, 0.5, fVec3(0), false);
+		m_number->RenderText(m_textShaderID, -0.02, -0.04, 0.5, fVec3(0), false);
 	}
 
 	// NOT WORKING.. CURRENTLY

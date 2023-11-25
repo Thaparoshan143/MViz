@@ -7,9 +7,10 @@ namespace OpenGL
 {
 	OpenGL_App::OpenGL_App(ApplicationInfo &appInfo) 
 	{
+		std::cout << "OpenGL Application created!" << std::endl;
 		this->m_targetWindow = new OpenGL_Win(appInfo, this);
 		this->m_targetWindow->m_winInfo = appInfo;
-		this->m_targetUI = new OpenGL_UI(this->m_targetWindow);
+		m_targetUI = nullptr;
 		initializeGLEnable();
 	}
 
@@ -18,6 +19,17 @@ namespace OpenGL
 		// free all the heap allocated block for this
 		delete[] this->m_targetWindow;
 		delete[] this->m_targetUI;
+	}
+
+	void OpenGL_App::UpdateTarget(OpenGL_Win *targetWindow)
+	{
+		m_targetWindow = targetWindow;
+		m_targetWindow->m_winInfo = targetWindow->m_winInfo;
+	}
+
+	void OpenGL_App::UpdateTargetUI(OpenGL_UI *targetUI)
+	{
+		m_targetUI = targetUI;
 	}
 
 	void* OpenGL_App::GetReference(Abs::AppRef appRef)

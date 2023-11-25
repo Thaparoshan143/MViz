@@ -49,15 +49,16 @@ namespace OpenGL
     {
         public:
         OpenGL_UI(OpenGL_Win *target);
-
+        ~OpenGL_UI() {}
         // Callback yet to be attached to the Button Props... later on, remove first argument and only pass button props when adding new button...
 
+        virtual void InitializeUI();
         void AttachPanel(String id, Abs::Panel *newPan) override  {   UIManager::AttachPanel(id, newPan); updateBuffer(id); }
         void DispatchMouseEvents(dVec2 mouPos, int mouCode) override; 
         void Render() override;
         // void DispatchKeyboardEvent(int keyCode);
 
-        private:
+        protected:
         // Later migrate to the renderer
         OpenGL_VertArrObj m_UIVAO;
         // Better option might be using map system, like for btn, input field and so on... we can use mapping for individual VBO...
@@ -71,7 +72,6 @@ namespace OpenGL
         void getVBOFromMap(String id);
         void panelRecursiveVBO(Abs::Panel *pan);
         void updateBuffer(String id);
-        void initializeUIBuffer();
         float* getQuadVertices(fVec2 pos, fVec2 dim, fVec3 col);
         void updateTriangleCount();
         void renderText();
