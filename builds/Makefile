@@ -27,7 +27,7 @@ endif
 
 mviz_clean:	clean mviz
 
-sanbox: sandbox.obj ${FILE_DEPENDENCIES}
+sandbox: sandbox.obj ${FILE_DEPENDENCIES}
 ifeq (${UNAME_S}, Darwin)
 	${MAC_COMMAND}
 else
