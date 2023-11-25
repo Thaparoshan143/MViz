@@ -62,10 +62,13 @@ namespace Sandbox
 
         Abs::InputFieldProps _inpFieldProps(fVec2(0.7, 0), fVec2(0.5, 0.2), Color(0.5), "Expression", nullptr, nullptr);
         Abs::InputField *_inpField = new Abs::InputField(_inpFieldProps);
+        Abs::InputFieldProps _inpFieldProps2(fVec2(0.7, -0.5), fVec2(0.5, 0.2), Color(0.2), "Val", nullptr, nullptr);
+        Abs::InputField *_inpField2 = new Abs::InputField(_inpFieldProps2);
 
         Abs::Panel *innerPanel = new Abs::Panel(innerPanelProps);
         innerPanel->AttachElement(_btn);
         innerPanel->AttachElement(_inpField);
+        innerPanel->AttachElement(_inpField2);
         // innerPanel->AttachElement(_btnBtn);
         Abs::Panel *outerPanel = new Abs::Panel(outerPanelProps);
         outerPanel->AttachElement(innerPanel);

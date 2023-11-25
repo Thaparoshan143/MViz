@@ -192,10 +192,11 @@ namespace Abs
 
         bool OnClick(dVec2 mouPos, int mouCode) override
         {
+            // is required so that every element is informed if the mouse position is within their boundary or not to change respective state..
+            dispatchMouseEventsOfElements(mouPos, mouCode);
             if(withinBoundary(getBorder(m_pos, m_dim), mouPos))
             {   
                 m_isActive = true;
-                dispatchMouseEventsOfElements(mouPos, mouCode);
                 return true;    
             }
             else {  return (m_isActive=false);   }
