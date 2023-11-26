@@ -18,6 +18,12 @@ using MvButton = OpenGL::OpenGL_Button;
 using MvInputField = OpenGL::OpenGL_InpField;
 
 static int zoom_level = 10;
+static bool showSidePanel = true;
+
+// quad is made up of 6 vertices i.e two triangle so multiplied by 6
+#define QUAD_PP_RGB_VBO_COUNT 6
+#define SIDE_ELEMENT_COUNT 5
+#define SIDE_PANEL_OFFSET QUAD_PP_RGB_VBO_COUNT*SIDE_ELEMENT_COUNT
 
 static void static_submit_expression();
 static void static_clear_expression();
@@ -40,7 +46,7 @@ class MVizUI : public OpenGL::OpenGL_UI
     void initializeUIPaint()
     {
         MvPanel *sidePanel = GetNewPanel(fVec2(-0.6, 0), fVec2(0.8, 2), Color(0.4), "Input Panel", nullptr);
-        MvPanel *bottomPanel = GetNewPanel(fVec2(0, -0.8), fVec2(2, 0.4), Color(0.2), "Next graph", nullptr);
+        // MvPanel *bottomPanel = GetNewPanel(fVec2(0, -0.8), fVec2(2, 0.4), Color(0.2), "Next graph", nullptr);
         MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "Expression", nullptr, nullptr);
         MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0.05, 0.8, 0.1), "Submit", static_submit_expression);
         MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(0.95, 0.05, 0.05), "Clear", static_clear_expression);
@@ -53,8 +59,8 @@ class MVizUI : public OpenGL::OpenGL_UI
         sidePanel->AttachElement(expandSlot);
         sidePanel->AttachElement(saveImage);
         
-        MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.15,0.85), fVec2(0.1, 0.15), Color(1, 0.5, 0.2), "", nullptr);
-        MvButton *toggleBtn = GetNewButton(fVec2(-0.15,0.85), fVec2(0.1, 0.15), Color(1, 0.5, 0.2), ">", static_toggle_btn);
+        MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.95,0.85), fVec2(0.1, 0.12), Color(1), "", nullptr);
+        MvButton *toggleBtn = GetNewButton(fVec2(-0.95,0.85), fVec2(0.08, 0.1), Color(0.2), "=", static_toggle_btn);
         toggleWrapper->AttachElement(toggleBtn);
 
         MvPanel *rightSidePanel = GetNewPanel(fVec2(0.95, 0.8), fVec2(0.08, 0.1), Color(0.8), "", nullptr);
@@ -63,7 +69,7 @@ class MVizUI : public OpenGL::OpenGL_UI
         rightSidePanel->AttachElement(zoomIn);
         rightSidePanel->AttachElement(zoomOut);
         m_UIElementList.push_back(sidePanel);
-        m_UIElementList.push_back(bottomPanel);
+        // m_UIElementList.push_back(bottomPanel);
         // AttachPanel("Bottom Panel", bottomPanel);
         AttachPanel("Input Panel", sidePanel);
         AttachPanel("Toggle", toggleWrapper);
@@ -151,7 +157,6 @@ class MVizUI : public OpenGL::OpenGL_UI
 static void static_submit_expression()
 {
     OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
-    std::cout << targetWindow->m_lastStringScan << " - last expression scan.." << std::endl;
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     targetUI->m_graph->SetExpression(targetWindow->m_lastStringScan);
 }
@@ -167,6 +172,18 @@ static void static_clear_expression()
 
 static void static_toggle_btn()
 {
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    if(!showSidePanel)
+    {
+        targetUI->m_startingCount = 0;
+    }
+    else
+    {
+        targetUI->m_startingCount = SIDE_PANEL_OFFSET+6;
+    }
+    showSidePanel = !showSidePanel;
+    
     std::cout << "I am here to toggle panel" << std::endl;
 }
 
@@ -226,6 +243,7 @@ static String getCurrentDateTimeString()
 
 static void static_save_image()
 {
+    static_toggle_btn();
     std::cout << "Saving the image!!" << std::endl;
     String filepath = getCurrentDateTimeString();
     filepath += ".png";

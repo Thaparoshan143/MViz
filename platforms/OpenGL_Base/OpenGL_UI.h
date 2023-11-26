@@ -8,16 +8,7 @@
 #include"./OpenGL_Win.h"
 #include"./OpenGL_Text.h"
 
-
-#define BTN_FONT_SIZE 0.7
-#define BTN_LABEL_OFFSET 0.05
-
-#define FIELD_FONT_SIZE 0.6
-#define FIELD_LABEL_OFFSET 0.016
-
 #define QUAD_TRI_COUNT 6
-#define BTN_TRI_COUNT 6
-#define INPFIELD_TRI_COUNT 6
 
 namespace OpenGL
 {
@@ -56,7 +47,8 @@ namespace OpenGL
         void AttachPanel(String id, Abs::Panel *newPan) override  {   UIManager::AttachPanel(id, newPan); updateBuffer(id); }
         void DispatchMouseEvents(dVec2 mouPos, int mouCode) override; 
         void Render() override;
-        // void DispatchKeyboardEvent(int keyCode);
+        
+        uint m_startingCount;
 
         protected:
         // Later migrate to the renderer

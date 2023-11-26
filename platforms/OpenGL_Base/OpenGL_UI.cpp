@@ -23,6 +23,7 @@ namespace OpenGL
     OpenGL_UI::OpenGL_UI(OpenGL_Win *target) : m_UIVBO(2048)
     {
         m_targetWindow = (OpenGL_Win*)target;
+        m_startingCount = 0;
     }
 
     void OpenGL_UI::DispatchMouseEvents(dVec2 mouPos, int mouCode)
@@ -163,9 +164,9 @@ namespace OpenGL
     float* OpenGL_UI::getQuadVertices(fVec2 pos, fVec2 dim, fVec3 col)
     {
         // the size of new is the size of one stride times the total no. of vertices required to draw rectangular by gldraw array method i.e 6 (2 triangle with 3 vertices each)
-        float *temp = new float[PP_RGB_COUNT*BTN_TRI_COUNT];
+        float *temp = new float[PP_RGB_COUNT*QUAD_TRI_COUNT];
 
-		for(int i=0; i<BTN_TRI_COUNT;i++)
+		for(int i=0; i<QUAD_TRI_COUNT;i++)
 		{
 			*(temp+PP_RGB_COUNT*i+2) = col.x;
 			*(temp+PP_RGB_COUNT*i+3) = col.y;
@@ -201,7 +202,7 @@ namespace OpenGL
         m_UIVBO.Bind();
         m_UIVAO.Bind();
         glUseProgram(m_UIShaderID);
-        glDrawArrays(GL_TRIANGLES, 0, m_triangleCount);
+        glDrawArrays(GL_TRIANGLES, m_startingCount, m_triangleCount);
     }
 
     void OpenGL_UI::renderText()
