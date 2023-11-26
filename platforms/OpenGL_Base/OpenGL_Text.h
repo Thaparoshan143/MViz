@@ -8,9 +8,10 @@
 #include "../../includes/freetypeinc/ft2build.h"
 #include "../../includes/freetypeinc/freetype/freetype.h"
 
+#define BASE_FONT_SIZE 1/5.0
+
 namespace OpenGL
 {
-    #define BASE_FONT_SIZE 1/4.0
     // Map 
     // String (font family name) as key and CharMap as value (which is also map..)
     using FontMap = std::map<String, Abs::CharMap>;

@@ -14,6 +14,32 @@ using MvPanel = OpenGL::OpenGL_Panel;
 using MvButton = OpenGL::OpenGL_Button;
 using MvInputField = OpenGL::OpenGL_InpField;
 
+// All the static methods for button callback or inputfield callback will reside here..
+static void static_submit_expression()
+{
+    std::cout << "Expression submited to be calcualted" << std::endl;
+}
+
+static void static_toggle_btn()
+{
+    std::cout << "I am here to toggle panel" << std::endl;
+}
+
+static void static_zoom_in()
+{
+    std::cout << "Zoom in clicked!" << std::endl;
+}
+
+static void static_zoom_out()
+{
+    std::cout << "Zoom out clicked!" << std::endl;
+}
+
+static void static_expand_inputField()
+{
+    std::cout << "To expand the input field" << std::endl;
+}
+
 class MVizUI : public OpenGL::OpenGL_UI
 {
     public:
@@ -26,19 +52,33 @@ class MVizUI : public OpenGL::OpenGL_UI
 
     void initializeUIPaint()
     {
-        MvPanel *sidePanel = GetNewPanel(fVec2(-0.7, 0), fVec2(0.6, 2), Color(0.8), "Input Panel", nullptr);
+        MvPanel *sidePanel = GetNewPanel(fVec2(-0.6, 0), fVec2(0.8, 2), Color(0.8), "Input Panel", nullptr);
         MvPanel *bottomPanel = GetNewPanel(fVec2(0, -0.8), fVec2(2, 0.4), Color(0.2), "Next graph", nullptr);
-        MvInputField *expField = GetNewInputField(fVec2(-0.7, 0.5), fVec2(0.5, 0.2), Color(0.2), "Expression", nullptr, nullptr);
-        MvButton *submitBtn = GetNewButton(fVec2(-0.7, -0.5), fVec2(0.4, 0.15), Color(0, 1, 0), "Submit", nullptr);
-        MvButton *clearBtn = GetNewButton(fVec2(-0.7, -0.8), fVec2(0.4, 0.15), Color(1, 0, 0), "Clear", nullptr);
-        
+        MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "Expression", nullptr, nullptr);
+        MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0, 1, 0), "Submit", static_submit_expression);
+        MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(1, 0, 0), "Clear", nullptr);
+        MvButton *expandSlot = GetNewButton(fVec2(-0.6, -0.8), fVec2(0.7, 0.15), Color(0.3), "Add Slot", static_expand_inputField);
+
         sidePanel->AttachElement(submitBtn);
         sidePanel->AttachElement(clearBtn);
         sidePanel->AttachElement(expField);
+        sidePanel->AttachElement(expandSlot);
+        
+        MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.15,0.85), fVec2(0.1, 0.15), Color(1, 0.5, 0.2), "", nullptr);
+        MvButton *toggleBtn = GetNewButton(fVec2(-0.15,0.85), fVec2(0.1, 0.15), Color(1, 0.5, 0.2), ">", static_toggle_btn);
+        toggleWrapper->AttachElement(toggleBtn);
+
+        MvPanel *rightSidePanel = GetNewPanel(fVec2(0.95, 0.8), fVec2(0.08, 0.1), Color(0.8), "", nullptr);
+        MvButton *zoomIn = GetNewButton(fVec2(0.95, 0.9), fVec2(0.08, 0.1), Color(0.5), "+", static_zoom_in);
+        MvButton *zoomOut = GetNewButton(fVec2(0.95, 0.75), fVec2(0.08, 0.1), Color(0.5), "-", static_zoom_out);
+        rightSidePanel->AttachElement(zoomIn);
+        rightSidePanel->AttachElement(zoomOut);
         m_UIElementList.push_back(sidePanel);
         m_UIElementList.push_back(bottomPanel);
-        AttachPanel("Bottom Panel", bottomPanel);
+        // AttachPanel("Bottom Panel", bottomPanel);
         AttachPanel("Input Panel", sidePanel);
+        AttachPanel("Toggle", toggleWrapper);
+        AttachPanel("Right Util", rightSidePanel);
 
         m_isActive = true;
     }
