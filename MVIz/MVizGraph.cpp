@@ -63,7 +63,7 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         waveSha->UseProgram();
         m_waveShaderID = waveSha->GetProgramID();
         waveSha->SetUniformVec3("fColor", Color(1, 0.5, 0.2));
-        waveSha->SetUniformMat4("modal", glm::mat4(1.0));
+        waveSha->SetUniformMat4("modal", glm::mat4(5.0));
         // Giving the initial wave to start with
         m_range = 10;
         SetExpression("x^5 * (1/x^(x))");
