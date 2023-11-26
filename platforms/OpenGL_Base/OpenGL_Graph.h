@@ -11,7 +11,7 @@ namespace OpenGL
         public:
         OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi);
 
-        void RenderGraph();
+        virtual void Render();
 
         protected:
         OpenGL_VertArrObj m_VAO;

@@ -1,6 +1,8 @@
 #include"../platforms/OpenGL_Base/OpenGL_UI.h"
 #include"../platforms/OpenGL_Base/OpenGL_Graph.h"
 
+#include"./MVizGraph.cpp"
+
 // Since we will be using openGL platform so all are adjusted and hard coded accordingly..
 
 using _ButtonProps = Abs::ButtonProps;
@@ -19,7 +21,7 @@ class MVizUI : public OpenGL::OpenGL_UI
     {
         // Initialzing the graph..
         Abs::GraphInfo graphInfo("Graph", fVec2(800, 600), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingScale::NORMAL);
-        m_graph = new OpenGL::OpenGL_Graph(*((OpenGL::OpenGL_Win*)m_targetWindow), graphInfo);
+        m_graph = new MVizGraph(*((OpenGL::OpenGL_Win*)m_targetWindow), graphInfo);
     }
 
     void initializeUIPaint()
@@ -58,7 +60,7 @@ class MVizUI : public OpenGL::OpenGL_UI
 
     void Render() override
     {
-        m_graph->RenderGraph();
+        m_graph->Render();
         OpenGL_UI::Render();
     }
 

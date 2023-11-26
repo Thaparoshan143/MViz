@@ -7,7 +7,7 @@ namespace OpenGL
         initializeGraph();
     }
 
-    void OpenGL_Graph::RenderGraph()
+    void OpenGL_Graph::Render()
     {
 		glUseProgram(m_graphShaderID);
         m_VAO.Bind();
