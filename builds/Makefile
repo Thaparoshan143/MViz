@@ -36,7 +36,7 @@ endif
 
 sandbox_clean: clean sandbox
 
-main.obj: ${MVIZ_SRC_OFF}Application.cpp ${MVIZ_SRC_OFF}MVizUI.cpp 
+main.obj: ${MVIZ_SRC_OFF}Application.cpp ${MVIZ_SRC_OFF}MVizUI.cpp ${MVIZ_SRC_OFF}MVizGraph.cpp 
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/main.obj ${INC_PATH} ${MVIZ_SRC_OFF}Application.cpp
 
 sandbox.obj: ${SRC_OFF}main.cpp ${SRC_OFF}Application.hpp 

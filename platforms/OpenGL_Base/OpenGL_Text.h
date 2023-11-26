@@ -8,7 +8,7 @@
 #include "../../includes/freetypeinc/ft2build.h"
 #include "../../includes/freetypeinc/freetype/freetype.h"
 
-#define BASE_FONT_SIZE 1/5.0
+#define BASE_FONT_SIZE 1/6.0
 
 namespace OpenGL
 {

@@ -84,7 +84,7 @@ namespace Sandbox
         while (!m_targetWindow->ShouldCloseWindow())
         {
             m_targetWindow->SetColor(1, 1, 1, 1);
-            mainGraph.RenderGraph();
+            mainGraph.Render();
 
             wave_VAO.Bind();
             sh.UseProgram();

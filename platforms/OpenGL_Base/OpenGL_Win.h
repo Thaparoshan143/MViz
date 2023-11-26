@@ -18,7 +18,7 @@ namespace OpenGL
 
 		~OpenGL_Win();
 		
-		inline GLFWwindow* GetWindow() {	return m_window;	}
+		inline static GLFWwindow* GetWindow() {	return m_window;	}
 		void SetActive() override;
 		void SetColor(float r, float g, float b, float a = 1.0) override;
 		inline bool ShouldCloseWindow() override {	return glfwWindowShouldClose(this->m_window);	};
@@ -26,7 +26,7 @@ namespace OpenGL
 		uint GetShaderID(String path);
 		OpenGL_Sha* GetRawShader(String path);
 
-		GLFWwindow *m_window;
+		static GLFWwindow *m_window;
 		std::map<String, OpenGL_Sha> m_shaderList;
 
 		void initializeOpenGLWindow(int w, int h, String t);

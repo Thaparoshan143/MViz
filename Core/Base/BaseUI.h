@@ -364,6 +364,19 @@ namespace Abs
             }
         }
 
+        Panel* GetPanel(String id)
+        {
+            if(m_panelList.count(id)!=0)
+            {
+                return m_panelList[id];
+            }
+            else
+            {
+                std::cout << "Cannot find the item in the panel list" << std::endl;
+                return nullptr;
+            }
+        }
+
         // We are currently using directly input field as the subscriber and letting it be manipualted later..
         void *m_targetWindow;
         InputField *m_keySubscriber;

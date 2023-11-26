@@ -1,6 +1,7 @@
 #include"../platforms/OpenGL_Base/OpenGL_Graph.h"
 #include"./Math/Calculator/calculator.cpp"
 
+#define RANGE_MUL_FACTOR 5
 
 class MVizGraph : public OpenGL::OpenGL_Graph
 {
@@ -28,9 +29,14 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         glDrawArrays(GL_LINE_STRIP_ADJACENCY, 0, m_waveBuffer.size() / 2);
     }
 
-    void SetExpression(String expression)
+    void SetExpression(String expression) override
     {
-        m_waveBuffer = Calculate(expression, -10, 10, 0.015625, 10, true);
+        if(expression.size()>0)
+        {
+            m_lastExpression = expression;
+        }
+        std::cout << "Set expression called with expression : " << expression << std::endl;
+        m_waveBuffer = Calculate(expression, -1 * m_range * RANGE_MUL_FACTOR, m_range * RANGE_MUL_FACTOR, 0.015625, m_range * RANGE_MUL_FACTOR, true);
         reloadVBO();
     }
 
@@ -59,6 +65,7 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         waveSha->SetUniformVec3("fColor", Color(1, 0.5, 0.2));
         waveSha->SetUniformMat4("modal", glm::mat4(1.0));
         // Giving the initial wave to start with
-        SetExpression("sin(x)");
+        m_range = 10;
+        SetExpression("x^5 * (1/x^(x))");
     }
 };

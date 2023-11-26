@@ -3,6 +3,7 @@
 
 namespace OpenGL
 {
+	GLFWwindow* OpenGL_Win::m_window = nullptr;
 	OpenGL_Win::OpenGL_Win(WindowInfo &wi, Abs::Application *targetApp)
 	{
 		m_targetApp = targetApp;

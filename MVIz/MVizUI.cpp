@@ -14,31 +14,14 @@ using MvPanel = OpenGL::OpenGL_Panel;
 using MvButton = OpenGL::OpenGL_Button;
 using MvInputField = OpenGL::OpenGL_InpField;
 
-// All the static methods for button callback or inputfield callback will reside here..
-static void static_submit_expression()
-{
-    std::cout << "Expression submited to be calcualted" << std::endl;
-}
+static int zoom_level = 10;
 
-static void static_toggle_btn()
-{
-    std::cout << "I am here to toggle panel" << std::endl;
-}
-
-static void static_zoom_in()
-{
-    std::cout << "Zoom in clicked!" << std::endl;
-}
-
-static void static_zoom_out()
-{
-    std::cout << "Zoom out clicked!" << std::endl;
-}
-
-static void static_expand_inputField()
-{
-    std::cout << "To expand the input field" << std::endl;
-}
+static void static_submit_expression();
+static void static_clear_expression();
+static void static_toggle_btn();
+static void static_zoom_in();
+static void static_zoom_out();
+static void static_expand_inputField();
 
 class MVizUI : public OpenGL::OpenGL_UI
 {
@@ -56,7 +39,7 @@ class MVizUI : public OpenGL::OpenGL_UI
         MvPanel *bottomPanel = GetNewPanel(fVec2(0, -0.8), fVec2(2, 0.4), Color(0.2), "Next graph", nullptr);
         MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "Expression", nullptr, nullptr);
         MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0, 1, 0), "Submit", static_submit_expression);
-        MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(1, 0, 0), "Clear", nullptr);
+        MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(1, 0, 0), "Clear", static_clear_expression);
         MvButton *expandSlot = GetNewButton(fVec2(-0.6, -0.8), fVec2(0.7, 0.15), Color(0.3), "Add Slot", static_expand_inputField);
 
         sidePanel->AttachElement(submitBtn);
@@ -146,7 +129,71 @@ class MVizUI : public OpenGL::OpenGL_UI
         return GetNewInputField(newInpField);
     }
 
-    private:
+    protected:
     OpenGL::OpenGL_Graph *m_graph;
     std::vector<MvPanel*> m_UIElementList;
+
+    friend void static_submit_expression();
+    friend void static_toggle_btn();
+    friend void static_zoom_in();
+    friend void static_zoom_out();
+    friend void static_clear_expression();
 };
+
+// All the static methods for button callback or inputfield callback will reside here..
+static void static_submit_expression()
+{
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    std::cout << targetWindow->m_lastStringScan << " - last expression scan.." << std::endl;
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    targetUI->m_graph->SetExpression(targetWindow->m_lastStringScan);
+}
+
+static void static_clear_expression()
+{
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    if(targetWindow->m_keySubscriber!=nullptr)
+    {
+        targetWindow->m_keySubscriber->clear();
+    }
+}
+
+static void static_toggle_btn()
+{
+    std::cout << "I am here to toggle panel" << std::endl;
+}
+
+static void static_zoom_in()
+{
+    zoom_level--;
+    if(zoom_level<1)
+    {
+        zoom_level = 1;
+        std::cout << "Cannot go below the given zoom level" << std::endl;
+        return;
+    }
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    targetUI->m_graph->SetRange(zoom_level);
+    targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+}
+
+static void static_zoom_out()
+{
+    zoom_level++;
+    if(zoom_level>20)
+    {
+        zoom_level = 20;
+        std::cout << "Cannot go above the given zoom level" << std::endl;
+        return;
+    }
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    targetUI->m_graph->SetRange(zoom_level);
+    targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+}
+
+static void static_expand_inputField()
+{
+    std::cout << "To expand the input field" << std::endl;
+}
