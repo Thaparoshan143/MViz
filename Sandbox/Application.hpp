@@ -1,7 +1,7 @@
 #pragma once
 #include"../platforms/OpenGL_Base/OpenGL_App.h"
 #include"../platforms/OpenGL_Base/OpenGL_Graph.h"
-#include"../MViz/Math/Calculator/calculator.cpp"
+#include"../MVIz/MVizGraph.cpp"
 
 #define FREQ_COUNT 5
 // it is the total no of vertex count in single sine wave #note: hgher the number more better the curve
@@ -42,11 +42,9 @@ namespace Sandbox
         float d_i = 0.005f;
 
         Abs::GraphInfo graphInfo("Graph", m_targetWindow->GetWindowSize(), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingScale::NORMAL);
-        OpenGL_Graph mainGraph(*m_targetWindow, graphInfo);
+        MVizGraph mainGraph(*m_targetWindow, graphInfo);
         String _text = "MViz Graph";
         FreetypeText _temp1(_text, "Sansita");
-        FreetypeText _temp2(_text, "RaceSport");
-        FreetypeText _temp3(_text, "Sansita");
         uint _textShaderID = this->GetShaderID("../res/Shaders/Text/projbased/");
         Mat4 temp(1.0f);
 

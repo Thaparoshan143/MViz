@@ -19,6 +19,7 @@ using MvInputField = OpenGL::OpenGL_InpField;
 
 static int zoom_level = 10;
 static bool showSidePanel = true;
+static bool error_status = false;
 
 // quad is made up of 6 vertices i.e two triangle so multiplied by 6
 #define QUAD_PP_RGB_VBO_COUNT 6
@@ -82,7 +83,8 @@ class MVizUI : public OpenGL::OpenGL_UI
     void InitializeUI() override
     {
         initializeUIPaint();
-
+        m_errorCode = "";
+        m_errorText = new OpenGL::FreetypeText(m_errorCode);
         OpenGL_UI::InitializeUI();
     }
 
@@ -97,6 +99,10 @@ class MVizUI : public OpenGL::OpenGL_UI
     {
         m_graph->Render();
         OpenGL_UI::Render();
+        if(error_status)
+        {
+            m_errorText->RenderText(m_textShaderID, -0.6, 0.2, 1, Color(1,0,0), false);
+        }
     }
 
     void DispatchMouseEvents(dVec2 mouPos, int mouCode) override
@@ -144,6 +150,8 @@ class MVizUI : public OpenGL::OpenGL_UI
     protected:
     OpenGL::OpenGL_Graph *m_graph;
     std::vector<MvPanel*> m_UIElementList;
+    OpenGL::FreetypeText *m_errorText;
+    String m_errorCode;
 
     friend void static_submit_expression();
     friend void static_toggle_btn();
@@ -158,7 +166,26 @@ static void static_submit_expression()
 {
     OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
-    targetUI->m_graph->SetExpression(targetWindow->m_lastStringScan);
+    try
+    {
+        targetUI->m_graph->SetExpression(targetWindow->m_lastStringScan);
+        targetUI->m_errorCode = "";
+        error_status = false;
+    }
+    catch(String err)
+    {
+        if(err=="TokenType Mismatch")
+        {
+            std::cout << err + " !! Try again" << std::endl;
+        }
+        else
+        {
+            std::cout << err + " !! Try again" << std::endl;
+        }
+        std::cout << err << std::endl;
+        targetUI->m_errorCode = err;
+        error_status = true;
+    }
 }
 
 static void static_clear_expression()

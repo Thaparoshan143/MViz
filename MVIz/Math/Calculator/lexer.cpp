@@ -109,6 +109,12 @@ Token Lexer::GetNextToken() {
 }
 
 void Lexer::Error(std::string msg) {
-    std::cout << "\nInvalid Character! " + msg;
-    exit(1);
+    try 
+    {
+        std::cout << "\nInvalid Character! " + msg;
+    }
+    catch(std::string err)
+    {
+        throw std::string("Invalid Character! ");
+    }
 }
