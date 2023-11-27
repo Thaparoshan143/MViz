@@ -27,11 +27,19 @@ namespace OpenGL
         float *graphVert = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 1);
         float *graphVertScale = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 0.02);
 		float graphAxis[] = {-1, 0, 1, 0, 0, 1, 0, -1};
-		String origin("0");
-		m_numberLabel.push_back(origin);
-		FreetypeText::UpdateTarget(m_target.GetWindow());
-		m_number = new FreetypeText(m_numberLabel[0]);
+		m_range = 50;
+		m_numberLabel.push_back(String(std::to_string(0)));
+		m_numberLabel.push_back(String(std::to_string(-m_range)));
+		m_numberLabel.push_back(String(std::to_string(m_range)));
+		m_numberLabel.push_back(String(std::to_string(m_range)));
+		m_numberLabel.push_back(String(std::to_string(-m_range)));
 
+		FreetypeText::UpdateTarget(m_target.GetWindow());
+		for(int i=0;i<m_numberLabel.size();i++)
+		{
+			FreetypeText *temp = new FreetypeText(m_numberLabel[i]);
+			m_labelList.push_back(temp);
+		}
 		m_VBO.Append(graphVertScale, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
 		m_VBO.Append(graphVert, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
 		m_VBO.Append(graphAxis, 8);
@@ -74,7 +82,18 @@ namespace OpenGL
 	void OpenGL_Graph::renderLabeling()
 	{
 		// Here for the origin text rendering position is hardcoded...
-		m_number->RenderText(m_textShaderID, -0.02, -0.04, 0.5, fVec3(0), false);
+		m_labelList[0]->RenderText(m_textShaderID, -0.02, -0.04, 0.5, fVec3(0), false);
+		for(int i=1;i<m_labelList.size();i++)
+		{
+			if(i==1 || i==2)
+			{
+				m_labelList[i]->RenderText(m_textShaderID, pow(-1, i) * 0.97, -0.05, 0.6, fVec3(0), false);
+			}
+			else if(i==3 || i==4)
+			{
+				m_labelList[i]->RenderText(m_textShaderID, -0.04, pow(-1, i) * -0.97, 0.6, fVec3(0), false);
+			}
+		}
 	}
 
 	// NOT WORKING.. CURRENTLY

@@ -1,7 +1,7 @@
 #include"../platforms/OpenGL_Base/OpenGL_Graph.h"
 #include"./Math/Calculator/calculator.cpp"
 
-#define RANGE_MUL_FACTOR 5
+#define STEP_COUNT_OFFSET 0.015625
 
 class MVizGraph : public OpenGL::OpenGL_Graph
 {
@@ -36,7 +36,7 @@ class MVizGraph : public OpenGL::OpenGL_Graph
             m_lastExpression = expression;
         }
         std::cout << "Set expression called with expression : " << expression << std::endl;
-        m_waveBuffer = Calculate(expression, -1 * m_range * RANGE_MUL_FACTOR, m_range * RANGE_MUL_FACTOR, 0.015625, m_range * RANGE_MUL_FACTOR, true);
+        m_waveBuffer = Calculate(expression, -1 * m_range, m_range, STEP_COUNT_OFFSET, m_range, true);
         reloadVBO();
     }
 
@@ -65,7 +65,7 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         waveSha->SetUniformVec3("fColor", Color(1, 0.5, 0.2));
         waveSha->SetUniformMat4("modal", glm::mat4(5.0));
         // Giving the initial wave to start with
-        m_range = 10;
+        m_range = 50;
         SetExpression("x^5 * (1/x^(x))");
     }
 };
