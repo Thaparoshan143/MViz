@@ -51,17 +51,17 @@ class MVizUI : public OpenGL::OpenGL_UI
         MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0.05, 0.8, 0.1), "Submit", static_submit_expression);
         MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(0.95, 0.05, 0.05), "Clear", static_clear_expression);
         MvButton *expandSlot = GetNewButton(fVec2(-0.6, -0.7), fVec2(0.7, 0.15), Color(0.2), "Add Slot", static_expand_inputField);
-        MvButton *saveImage = GetNewButton(fVec2(-0.6, -0.9), fVec2(0.7, 0.15), Color(0.34, 0.75, 0.98), "Save Image", static_save_image);
 
         sidePanel->AttachElement(submitBtn);
         sidePanel->AttachElement(clearBtn);
         sidePanel->AttachElement(expField);
         sidePanel->AttachElement(expandSlot);
-        sidePanel->AttachElement(saveImage);
         
-        MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.95,0.85), fVec2(0.1, 0.12), Color(1), "", nullptr);
-        MvButton *toggleBtn = GetNewButton(fVec2(-0.95,0.85), fVec2(0.08, 0.1), Color(0.2), "=", static_toggle_btn);
+        MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.95,0.85), fVec2(0.1, 0.25), Color(1), "", nullptr);
+        MvButton *toggleBtn = GetNewButton(fVec2(-0.95,0.91), fVec2(0.08, 0.1), Color(0.2), "=", static_toggle_btn);
+        MvButton *saveImage = GetNewButton(fVec2(-0.95, 0.79), fVec2(0.08, 0.1), Color(0.34, 0.75, 0.98), "[ # ]", static_save_image);
         toggleWrapper->AttachElement(toggleBtn);
+        toggleWrapper->AttachElement(saveImage);
 
         MvPanel *rightSidePanel = GetNewPanel(fVec2(0.95, 0.8), fVec2(0.08, 0.1), Color(0.8), "", nullptr);
         MvButton *zoomIn = GetNewButton(fVec2(0.95, 0.9), fVec2(0.08, 0.1), Color(0.5), "+", static_zoom_in);
@@ -243,7 +243,6 @@ static String getCurrentDateTimeString()
 
 static void static_save_image()
 {
-    static_toggle_btn();
     std::cout << "Saving the image!!" << std::endl;
     String filepath = getCurrentDateTimeString();
     filepath += ".png";
