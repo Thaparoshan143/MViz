@@ -54,7 +54,9 @@ namespace OpenGL
     {
         OpenGL_Win *temp = (OpenGL_Win*)m_targetWindow;
         dVec2 winDim = temp->GetWindowSize();
+        std::cout << "===> X : " << mouPos.x << " || Y : " << mouPos.y << std::endl;
         dVec2 _temp = dVec2((mouPos.x-(winDim.x/2.0))/(winDim.x/2.0), (-mouPos.y+(winDim.y/2.0))/(winDim.y/2.0));
+        std::cout << "***> X : " << _temp.x << " || Y : " << _temp.y << std::endl;
         return _temp;
     }
 
@@ -167,9 +169,14 @@ namespace OpenGL
 
     void OpenGL_UI::renderText()
     {
+        int index = -1;
         for(const auto &item : m_textList)
         {
-            item.first->RenderText(m_textShaderID, item.second.x, item.second.y, 1, Color(1), false);
+            index++;
+            if(index<(m_startingCount/6))
+                continue;
+            else
+                item.first->RenderText(m_textShaderID, item.second.x, item.second.y, 1, Color(1), false);
         }
     }
 }

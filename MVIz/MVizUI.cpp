@@ -22,7 +22,7 @@ static bool error_status = false;
 
 // quad is made up of 6 vertices i.e two triangle so multiplied by 6
 #define QUAD_PP_RGB_VBO_COUNT 6
-#define SIDE_ELEMENT_COUNT 5
+#define SIDE_ELEMENT_COUNT 4
 #define SIDE_PANEL_OFFSET QUAD_PP_RGB_VBO_COUNT*SIDE_ELEMENT_COUNT
 
 static void static_submit_expression();
@@ -48,16 +48,16 @@ class MVizUI : public OpenGL::OpenGL_UI
         MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "Expression", nullptr, nullptr);
         MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0.05, 0.8, 0.1), "Submit", static_submit_expression);
         MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(0.95, 0.05, 0.05), "Clear", static_clear_expression);
-        MvButton *expandSlot = GetNewButton(fVec2(-0.6, -0.7), fVec2(0.7, 0.15), Color(0.2), "Add Slot", static_expand_inputField);
+        // MvButton *expandSlot = GetNewButton(fVec2(-0.6, -0.7), fVec2(0.7, 0.15), Color(0.2), "Add Slot", static_expand_inputField);
 
         sidePanel->AttachElement(submitBtn);
         sidePanel->AttachElement(clearBtn);
         sidePanel->AttachElement(expField);
-        sidePanel->AttachElement(expandSlot);
+        // sidePanel->AttachElement(expandSlot);
         
         MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.95,0.85), fVec2(0.1, 0.25), Color(1), "", nullptr);
         MvButton *toggleBtn = GetNewButton(fVec2(-0.95,0.91), fVec2(0.08, 0.1), Color(0.2), "=", static_toggle_btn);
-        MvButton *saveImage = GetNewButton(fVec2(-0.95, 0.79), fVec2(0.08, 0.1), Color(0.34, 0.75, 0.98), "[ # ]", static_save_image);
+        MvButton *saveImage = GetNewButton(fVec2(-0.95, 0.79), fVec2(0.08, 0.1), Color(0.34, 0.75, 0.98), "[ ]", static_save_image);
         toggleWrapper->AttachElement(toggleBtn);
         toggleWrapper->AttachElement(saveImage);
 
@@ -202,7 +202,7 @@ static void static_toggle_btn()
     }
     else
     {
-        targetUI->m_startingCount = SIDE_PANEL_OFFSET+6;
+        targetUI->m_startingCount = SIDE_PANEL_OFFSET;
         error_status = false;
     }
     showSidePanel = !showSidePanel;
@@ -212,50 +212,50 @@ static void static_toggle_btn()
 
 static void static_zoom_in()
 {
-    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
-    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
-    try 
-    {
-        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
-    }
-    catch(String err)
-    {
-        std::cout << "Invalid expression zoom not available" << std::endl;
-        return;
-    }
-
     zoom_level--;
     if(zoom_level<1)
     {
         zoom_level = 1;
         std::cout << "Cannot go below the given zoom level" << std::endl;
-        return;
     }
-    targetUI->m_graph->SetRange(zoom_level);
-}
 
-static void static_zoom_out()
-{
     OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     try 
     {
+        targetUI->m_graph->SetRange(zoom_level);
         targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
     }
     catch(String err)
     {
         std::cout << "Invalid expression zoom not available" << std::endl;
+        zoom_level++;
         return;
     }
+}
 
+static void static_zoom_out()
+{
     zoom_level++;
     if(zoom_level>20)
     {
         zoom_level = 20;
         std::cout << "Cannot go above the given zoom level" << std::endl;
+    }
+
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    try 
+    {
+        targetUI->m_graph->SetRange(zoom_level);
+        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+    }
+    catch(String err)
+    {
+        std::cout << "Invalid expression zoom not available" << std::endl;
+        zoom_level--;
         return;
     }
-    targetUI->m_graph->SetRange(zoom_level);
 }
 
 static void static_expand_inputField()

@@ -1,11 +1,11 @@
 #include"../platforms/OpenGL_Base/OpenGL_App.h"
 #include"./MVizUI.cpp"
 
-#define DEFAULT_SCR_WIDTH 800
-#define DEFAULT_SCR_HEIGHT 600
+#define DEFAULT_SCR_WIDTH 1920
+#define DEFAULT_SCR_HEIGHT 1080
 
 // to define wether to have black (0) or white (1) background
-#define MAIN_BG 1
+#define MAIN_BG 0
 
 int GetIntFromCharPtr(const char *c)
 {
@@ -68,6 +68,7 @@ void MVizApp::Loop()
     std::cout << "Application Successfully created!!" << std::endl;
 
     m_targetUI->InitializeUI();
+    glfwGetWindowSize(m_targetWindow->m_window, &m_targetWindow->m_winInfo.width, &m_targetWindow->m_winInfo.height);
 
     // Main Loop starts in while block..
     while(!m_targetWindow->ShouldCloseWindow())
