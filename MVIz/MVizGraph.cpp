@@ -19,7 +19,6 @@ class MVizGraph : public OpenGL::OpenGL_Graph
 
     void Render()
     {
-        // First rendering the graph itself..
         OpenGL_Graph::Render();
 
         m_waveVAO.Bind();
@@ -64,7 +63,6 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         m_waveShaderID = waveSha->GetProgramID();
         waveSha->SetUniformVec3("fColor", Color(1, 0.5, 0.2));
         waveSha->SetUniformMat4("modal", glm::mat4(5.0));
-        // Giving the initial wave to start with
         m_range = 50;
         SetExpression("x^5 * (1/x^(x))");
     }

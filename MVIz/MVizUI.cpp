@@ -7,7 +7,6 @@
 #include"./MVizGraph.cpp"
 
 // Since we will be using openGL platform so all are adjusted and hard coded accordingly..
-
 using _ButtonProps = Abs::ButtonProps;
 using _PanelProps = Abs::PanelProps;
 using _InputFieldProps = Abs::InputFieldProps;
@@ -47,7 +46,6 @@ class MVizUI : public OpenGL::OpenGL_UI
     void initializeUIPaint()
     {
         MvPanel *sidePanel = GetNewPanel(fVec2(-0.6, 0), fVec2(0.8, 2), Color(0.4), "Input Panel", nullptr);
-        // MvPanel *bottomPanel = GetNewPanel(fVec2(0, -0.8), fVec2(2, 0.4), Color(0.2), "Next graph", nullptr);
         MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "Expression", nullptr, nullptr);
         MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0.05, 0.8, 0.1), "Submit", static_submit_expression);
         MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(0.95, 0.05, 0.05), "Clear", static_clear_expression);
@@ -70,8 +68,6 @@ class MVizUI : public OpenGL::OpenGL_UI
         rightSidePanel->AttachElement(zoomIn);
         rightSidePanel->AttachElement(zoomOut);
         m_UIElementList.push_back(sidePanel);
-        // m_UIElementList.push_back(bottomPanel);
-        // AttachPanel("Bottom Panel", bottomPanel);
         AttachPanel("Input Panel", sidePanel);
         AttachPanel("Toggle", toggleWrapper);
         AttachPanel("Right Util", rightSidePanel);
@@ -79,7 +75,6 @@ class MVizUI : public OpenGL::OpenGL_UI
         m_isActive = true;
     }
 
-    // All the UI that is required in MViz will be pushed from here..
     void InitializeUI() override
     {
         initializeUIPaint();
