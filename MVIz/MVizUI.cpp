@@ -199,10 +199,12 @@ static void static_toggle_btn()
     if(!showSidePanel)
     {
         targetUI->m_startingCount = 0;
+        error_status = true;
     }
     else
     {
         targetUI->m_startingCount = SIDE_PANEL_OFFSET+6;
+        error_status = false;
     }
     showSidePanel = !showSidePanel;
     
