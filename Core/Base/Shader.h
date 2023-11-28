@@ -1,7 +1,5 @@
 #pragma once
 
-#include<iostream>
-
 #include "../../includes/GLM/glm/gtc/matrix_transform.hpp"
 #include "../../includes/GLM/glm/gtc/type_ptr.hpp"
 

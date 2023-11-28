@@ -39,8 +39,7 @@ class MVizUI : public OpenGL::OpenGL_UI
     MVizUI(OpenGL::OpenGL_Win *target): OpenGL_UI(target) 
     {
         // Initialzing the graph..
-        Abs::GraphInfo graphInfo("Graph", fVec2(800, 600), Abs::ScreenPosition::TOP_RIGHT, Abs::NumberingScale::NORMAL);
-        m_graph = new MVizGraph(*((OpenGL::OpenGL_Win*)m_targetWindow), graphInfo);
+        m_graph = new MVizGraph(*((OpenGL::OpenGL_Win*)m_targetWindow), Abs::NumberingScale::NORMAL);
     }
 
     void initializeUIPaint()
@@ -79,7 +78,7 @@ class MVizUI : public OpenGL::OpenGL_UI
     {
         initializeUIPaint();
         m_errorCode = "";
-        m_errorText = new OpenGL::FreetypeText(m_errorCode);
+        m_errorText = new OpenGL::FreetypeText(m_errorCode, "OpenSans");
         OpenGL_UI::InitializeUI();
     }
 

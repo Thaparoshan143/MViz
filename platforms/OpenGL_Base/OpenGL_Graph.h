@@ -11,7 +11,7 @@ namespace OpenGL
     class OpenGL_Graph : public Abs::Graph
     {
         public:
-        OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi);
+        OpenGL_Graph(OpenGL_Win &target, Abs::NumberingScale numScale);
 
         virtual void Render();
         virtual void SetExpression(String exp) = 0;

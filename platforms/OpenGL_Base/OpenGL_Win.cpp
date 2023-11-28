@@ -81,7 +81,6 @@ namespace OpenGL
 		// Registering all the callbacks for mouse and keyboard (static method inside OpenGL_Inp)
 		glfwSetMouseButtonCallback(this->m_window, static_mouse_button_callback);
 		glfwSetCursorPosCallback(this->m_window, static_mouse_position_callback);
-		glfwSetScrollCallback(this->m_window, static_mouse_scroll_callback);
 		// For now using charkey callback for easy key mapping rather than mod based key callback
 		glfwSetKeyCallback(this->m_window, static_key_callback);
 		glfwSetCharCallback(this->m_window, static_charkey_callback);
@@ -126,19 +125,9 @@ namespace OpenGL
 		OpenGL_UI *UI = (OpenGL_UI*)win->m_targetApp->GetReference(Abs::AppRef::UI);
         if(action == GLFW_PRESS)
         {
-            Abs::MouseButtonPressedEvent mbpressed((Abs::MouseCode(button)));
 			UI->DispatchMouseEvents(win->m_mouPos, button);
         }
-        else if(action == GLFW_RELEASE)
-        {
-            Abs::MouseButtonReleasedEvent mbreleased((Abs::MouseCode(button)));
-        }
     }
-
-	static void static_mouse_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
-	{
-
-	}
 
 	static void static_mouse_position_callback(GLFWwindow *window, double xpos, double ypos)
 	{
@@ -151,15 +140,10 @@ namespace OpenGL
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
 		if(action == GLFW_PRESS)
 		{
-			Abs::KeyButtonPressedEvent kbpressed(key);
 			if(win->m_keySubscriber!=nullptr)
 			{
 				win->listenActiveKeyInterrupts(key, mods);
 			}
-		}
-		else if(action == GLFW_RELEASE)
-		{
-			Abs::KeyButtonReleasedEvent kbreleased(key);
 		}
 	}
 

@@ -87,13 +87,13 @@ namespace OpenGL
                     if(tempEle->GetType()==Abs::BUTTON)
                     {
                         Abs::Button *tempButton = (Abs::Button*)tempEle;
-                        FreetypeText *tempText = new FreetypeText(*tempButton->GetRawText(Abs::UITextType::LABEL));
+                        FreetypeText *tempText = new FreetypeText(*tempButton->GetRawText(Abs::UITextType::LABEL), "RaceSport");
                         m_textList.insert({tempText, tempButton->GetPos()});
                     }
                     else if(tempEle->GetType()==Abs::INPUTFIELD)
                     {
                         Abs::InputField *tempField = (Abs::InputField*)tempEle;
-                        FreetypeText *tempText = new FreetypeText(*tempField->GetRawText(Abs::UITextType::FIELDTEXT));
+                        FreetypeText *tempText = new FreetypeText(*tempField->GetRawText(Abs::UITextType::FIELDTEXT), "Sansita");
                         m_textList.insert({tempText, tempField->GetPos()});
                     }
                 }
@@ -114,7 +114,7 @@ namespace OpenGL
         this->m_UIVAO.UpdateFormat(Abs::BufferFormat::PP_RGB);
         OpenGL_Win *mainWin = (OpenGL_Win*)m_targetWindow;
         m_UIShaderID = mainWin->GetShaderID("../res/Shaders/UI/");
-        m_textShaderID = mainWin->GetShaderID("../res/Shaders/Text/projbased/");
+        m_textShaderID = mainWin->GetShaderID("../res/Shaders/Text/");
         m_UIVBO.Bind();
         this->m_UIVAO.EnableVertexAttrib();
         // At last finding the total triangle count to render on screen.

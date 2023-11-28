@@ -9,7 +9,7 @@
 
 namespace Abs
 {
-	// VBO storage format PPP.. - position..color..uv
+	// Buffer storage format PPP.. - position..color..uv
 	// 3 bit mask arrangment to find appropriate ..
 	typedef enum BufferFormat
 	{

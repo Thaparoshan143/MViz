@@ -21,7 +21,4 @@ typedef glm::fmat4 fMat4;
 
 typedef unsigned int uint;
 
-typedef dVec2 Point2;
-typedef dVec2 Size2;
-
 typedef void (*ClickEventCallback)();

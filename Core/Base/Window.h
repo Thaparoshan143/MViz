@@ -1,7 +1,5 @@
 #pragma once
 
-#include<iostream>
-
 #include"./Types.h"
 #include"./Application.h"
 #include<functional>

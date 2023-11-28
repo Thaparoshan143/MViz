@@ -2,7 +2,7 @@
 
 namespace OpenGL
 {
-    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::GraphInfo gi) : Abs::Graph(gi), m_VAO(Abs::BufferFormat::PP), m_target(target)
+    OpenGL_Graph::OpenGL_Graph(OpenGL_Win &target, Abs::NumberingScale gi) : Abs::Graph(gi), m_VAO(Abs::BufferFormat::PP), m_target(target)
     {
         initializeGraph();
     }
@@ -13,18 +13,18 @@ namespace OpenGL
         m_VAO.Bind();
         m_VBO.Bind();
 		glLineWidth(1.0f);
-        glDrawArrays(GL_LINES, 0, (this->m_gi.numinfo+this->m_gi.numinfo)*2);
+        glDrawArrays(GL_LINES, 0, (this->m_numScale+this->m_numScale)*2);
 		glLineWidth(0.5f);
-        glDrawArrays(GL_LINES, (this->m_gi.numinfo)*2, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
+        glDrawArrays(GL_LINES, (this->m_numScale)*2, (this->m_numScale+this->m_numScale)*4);
 		glLineWidth(2.0f);
-        glDrawArrays(GL_LINES, (this->m_gi.numinfo+this->m_gi.numinfo)*4, (this->m_gi.numinfo+this->m_gi.numinfo)*4 + 8);
+        glDrawArrays(GL_LINES, (this->m_numScale+this->m_numScale)*4, (this->m_numScale+this->m_numScale)*4 + 8);
 		renderLabeling();
     }
 
     void OpenGL_Graph::initializeGraph()
     {
-        float *graphVert = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 1);
-        float *graphVertScale = getGraphVert(iVec2(this->m_gi.numinfo, this->m_gi.numinfo), 0.02);
+        float *graphVert = getGraphVert(iVec2(this->m_numScale, this->m_numScale), 1);
+        float *graphVertScale = getGraphVert(iVec2(this->m_numScale, this->m_numScale), 0.02);
 		float graphAxis[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 		m_range = 50;
 		m_numberLabel.push_back(String(std::to_string(0)));
@@ -39,12 +39,12 @@ namespace OpenGL
 			FreetypeText *temp = new FreetypeText(m_numberLabel[i]);
 			m_labelList.push_back(temp);
 		}
-		m_VBO.Append(graphVertScale, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
-		m_VBO.Append(graphVert, (this->m_gi.numinfo+this->m_gi.numinfo)*4);
+		m_VBO.Append(graphVertScale, (this->m_numScale+this->m_numScale)*4);
+		m_VBO.Append(graphVert, (this->m_numScale+this->m_numScale)*4);
 		m_VBO.Append(graphAxis, 8);
 		m_VBO.LoadBuffer();
 		m_VAO.EnableVertexAttribMan(2);
-		m_textShaderID = m_target.GetShaderID("../res/Shaders/Text/projbased/");
+		m_textShaderID = m_target.GetShaderID("../res/Shaders/Text/");
 		m_graphShaderID = m_target.GetShaderID("../res/Shaders/Graph/Plane/");
 
 		delete[] graphVert;

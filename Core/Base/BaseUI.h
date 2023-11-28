@@ -335,7 +335,6 @@ namespace Abs
                 {
                     if(item.second->OnClick(mouPos, mouCode))
                     {
-                        std::cout << item.first << " -- On Click triggered--" << std::endl;
                         InputField *temp = (InputField*)item.second->GetSubscriber();
                         if(temp!=nullptr)
                         {

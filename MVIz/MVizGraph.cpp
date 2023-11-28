@@ -6,7 +6,7 @@
 class MVizGraph : public OpenGL::OpenGL_Graph
 {
     public:
-    MVizGraph(OpenGL::OpenGL_Win &target, Abs::GraphInfo gi) : OpenGL_Graph(target, gi)
+    MVizGraph(OpenGL::OpenGL_Win &target, Abs::NumberingScale numScale) : OpenGL_Graph(target, numScale)
     {
         m_waveBuffer.reserve(1024);
         initializeBuffers();
