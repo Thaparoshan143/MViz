@@ -216,6 +216,18 @@ static void static_toggle_btn()
 
 static void static_zoom_in()
 {
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    try 
+    {
+        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+    }
+    catch(String err)
+    {
+        std::cout << "Invalid expression zoom not available" << std::endl;
+        return;
+    }
+
     zoom_level--;
     if(zoom_level<1)
     {
@@ -223,18 +235,23 @@ static void static_zoom_in()
         std::cout << "Cannot go below the given zoom level" << std::endl;
         return;
     }
-    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
-    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     targetUI->m_graph->SetRange(zoom_level);
-    targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
-    // OpenGL::OpenGL_Sha *tempSha = targetWindow->GetRawShader("../res/Shaders/Graph/Wave/");
-    // Mat4 scaleFactor(zoom_level);
-    // tempSha->UseProgram();
-    // tempSha->SetUniformMat4("modal", scaleFactor);
 }
 
 static void static_zoom_out()
 {
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    try 
+    {
+        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+    }
+    catch(String err)
+    {
+        std::cout << "Invalid expression zoom not available" << std::endl;
+        return;
+    }
+
     zoom_level++;
     if(zoom_level>20)
     {
@@ -242,14 +259,7 @@ static void static_zoom_out()
         std::cout << "Cannot go above the given zoom level" << std::endl;
         return;
     }
-    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
-    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     targetUI->m_graph->SetRange(zoom_level);
-    targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
-    // OpenGL::OpenGL_Sha *tempSha = targetWindow->GetRawShader("../res/Shaders/Graph/Wave/");
-    // fMat4 scaleFactor(zoom_level);
-    // tempSha->UseProgram();
-    // tempSha->SetUniformMat4("modal", scaleFactor);
 }
 
 static void static_expand_inputField()
