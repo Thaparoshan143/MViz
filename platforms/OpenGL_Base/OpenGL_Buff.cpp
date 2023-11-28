@@ -52,13 +52,13 @@ namespace OpenGL
 	void OpenGL_IndBuffObj::LoadBuffer(uint loadMode)
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
-		glBufferData(GL_ARRAY_BUFFER, this->m_data.GetCount() * sizeof(float), this->m_data.GetData(), loadMode);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->m_data.GetCount() * sizeof(float), this->m_data.GetData(), loadMode);
 	}
 
 	void OpenGL_IndBuffObj::DirectLoad(uint *data, uint count, uint loadMode)
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
-		glBufferData(GL_ARRAY_BUFFER, count * sizeof(uint), data, loadMode);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), data, loadMode);
 	}
 
 	void OpenGL_IndBuffObj::ReserveBuffer(uint size, uint loadMode)

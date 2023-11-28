@@ -1,7 +1,5 @@
 #pragma once
 
-#include<iostream>
-
 #include"./Types.h"
 
 namespace Abs
@@ -20,7 +18,6 @@ namespace Abs
 
         virtual void Initialize() = 0;
         virtual void Loop() = 0;
-
         virtual void* GetReference(AppRef appRef) = 0;
     };
 }

@@ -20,13 +20,10 @@ namespace OpenGL
 		uint Bind() override;
 		void Unbind() override;
 		float* GetVertexData() {	return m_data.GetData();	}
-
-		private:
-		uint m_id;
 	};
 
 	// Since the Index buffer almost matches with the vertex buffer so, currently reusing the exisiting buffer, if needed we can change later
-	class OpenGL_IndBuffObj : public Abs::VertexBufferObject<int>
+	class OpenGL_IndBuffObj : public Abs::VertexBufferObject<uint>
 	{
 		public:
 		OpenGL_IndBuffObj(uint size = 2);
@@ -37,10 +34,7 @@ namespace OpenGL
 		void LoadSubBuffer(uint size, uint *data);
 		uint Bind() override;
 		void Unbind() override;
-		int* GetVertexData() {	return m_data.GetData();	}
-
-		private:
-		uint m_id;
+		uint* GetVertexData() {	return m_data.GetData();	}
 	};
 
 	class OpenGL_VertArrObj : public Abs::VertexArrayObject
@@ -56,7 +50,6 @@ namespace OpenGL
 		uint StrideCount() {	return getVBOStride();	}		
 		
 		private:
-		uint m_id;
 		uint getVBOStride();
 	};
 

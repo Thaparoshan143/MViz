@@ -1,10 +1,7 @@
 #pragma once
 
-#include<iostream>
 #include<map>
 #include"./Types.h"
-
-typedef void (*ClickEventCallback)();
 
 namespace Abs
 {
@@ -127,7 +124,6 @@ namespace Abs
         {
             if(withinBoundary(getBorder(m_pos, m_dim), mouPos))
             {
-                m_isActive = true;
                 if(m_onClickEvent!=nullptr)
                 {
                     m_onClickEvent();
@@ -136,10 +132,12 @@ namespace Abs
                 {
                     std::cout << "On Click event not attached" << std::endl;
                 }
+                return (m_isActive = true);
             }
-            else {  m_isActive=false; return m_isActive;   }
+            return (m_isActive = false); 
         }
 
+        bool IsActive() {   return m_isActive;  }
         virtual _BaseUI* GetSubscriber() = 0;
 
         virtual ClickEventCallback GetEventCallback(EventCallType ect)
@@ -148,16 +146,12 @@ namespace Abs
             {
                 return m_onClickEvent;
             }
-            else
-            {
-                std::cout << "Doesn't contain the eventcallback as requested!!" << std::endl;
-                return nullptr;
-            }
+            std::cout << "Doesn't contain the eventcallback as requested!!" << std::endl;
+            return nullptr;
         }
 
         ClickEventCallback m_onClickEvent;
         bool m_isActive;
-        bool m_isClickable;
     };
 
     class Panel : public _InteractableUI
@@ -183,11 +177,11 @@ namespace Abs
             }
         }
         
-        void AttachElements(std::vector<_InteractableUI> *newEles)
+        void AttachElements(std::vector<_InteractableUI*> newEles)
         {
-            for(int i=0;i<newEles->size();i++)
+            for(int i=0;i<newEles.size();i++)
             {
-                AttachElement(&((*newEles)[i]));
+                AttachElement(newEles[i]);
             }
         }
 
@@ -197,10 +191,9 @@ namespace Abs
             dispatchMouseEventsOfElements(mouPos, mouCode);
             if(withinBoundary(getBorder(m_pos, m_dim), mouPos))
             {   
-                m_isActive = true;
-                return true;    
+                return (m_isActive = true);
             }
-            else {  return (m_isActive=false);   }
+            else {  return (m_isActive = false);   }
         }
 
         _BaseUI* GetSubscriber() override  
@@ -274,26 +267,20 @@ namespace Abs
             {
                 return m_onChangeEvent;
             }
-            else
-            {
-                std::cout << "Doesn't contain the eventcallback as requested!!";
-                return nullptr;
-            }
+            std::cout << "Doesn't contain the eventcallback as requested!!";
+            return nullptr;
         }
 
         bool OnClick(dVec2 mouPos, int mouCode) override 
         {   
             _InteractableUI::OnClick(mouPos, mouCode);
-            if(m_isActive && m_fieldText==m_placeholder)
+            if(m_isActive && m_fieldText == m_placeholder)
                 m_fieldText.clear();
             else if(!m_isActive && m_fieldText=="")
-            {
                 m_fieldText = m_placeholder;
-            }
+
             return m_isActive;
         }
-
-        bool IsActive() {   return m_isActive;  }
 
         _BaseUI* GetSubscriber() override {    return m_isActive ? this : nullptr;    }
 
@@ -370,11 +357,8 @@ namespace Abs
             {
                 return m_panelList[id];
             }
-            else
-            {
-                std::cout << "Cannot find the item in the panel list" << std::endl;
-                return nullptr;
-            }
+            std::cout << "Cannot find the item in the panel list" << std::endl;
+            return nullptr;
         }
 
         // We are currently using directly input field as the subscriber and letting it be manipualted later..

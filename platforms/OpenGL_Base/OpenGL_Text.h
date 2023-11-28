@@ -32,7 +32,6 @@ namespace OpenGL
         void initFreetypeFont();
         OpenGL_VertBuffObj m_VBO;
         OpenGL_VertArrObj m_VAO;
-        // OpenGL_Win &m_target;
         // target window to render text, required for getting user pointer..
         static GLFWwindow *m_target;
         static FontMap m_fontFamilyList;

@@ -3,7 +3,6 @@
 #include<map>
 #include"./Types.h"
 
-
 namespace Abs
 {
 	enum TextAlignment

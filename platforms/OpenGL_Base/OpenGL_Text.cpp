@@ -105,7 +105,7 @@ namespace OpenGL
 		}
 		OpenGL_Win *targetWindow = (OpenGL_Win*)glfwGetWindowUserPointer(m_target);
         iVec2 winDim = targetWindow->GetWindowSize();
-		scale = scale * ((float(winDim.x + winDim.y)/(400+300))) * BASE_FONT_SIZE;
+		scale *= ((float(winDim.x + winDim.y)/(400+300))) * BASE_FONT_SIZE;
 
 		glUseProgram(shaderID);
 		uint location = glGetUniformLocation(shaderID, "textColor");

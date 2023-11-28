@@ -11,7 +11,6 @@ struct WindowInfo
 	int width, height;
 	String title;
 
-	WindowInfo() {}
 	WindowInfo(int w, int h, String t): width(w), height(h), title(t) {}	
 
 	WindowInfo operator=(const WindowInfo &winInfo)
@@ -29,8 +28,7 @@ namespace Abs
     class Window
     {
         public:
-        Window() {}
-
+        Window():m_winInfo(800,600,"App") {}
         virtual void SetActive() = 0;
         virtual inline bool ShouldCloseWindow() = 0;
         virtual void SetColor(float r, float g, float b, float a) = 0;

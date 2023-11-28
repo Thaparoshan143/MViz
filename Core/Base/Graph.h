@@ -4,7 +4,6 @@
 
 #include"./Types.h"
 
-
 namespace Abs
 {
     // Later move to the UI part for now its ok
@@ -28,7 +27,6 @@ namespace Abs
     struct GraphInfo
     {
         public:
-        GraphInfo() : title("-Graph-"), dim(DEFAULT_DIM), screenpos(ScreenPosition::TOP_RIGHT), numinfo(NORMAL) {}
         GraphInfo(String t, iVec2 d, ScreenPosition sp, NumberingScale ni)
         {
             title = t;
@@ -48,8 +46,7 @@ namespace Abs
     class Graph
     {
         public:
-        Graph();
-        Graph(GraphInfo &gi) {  m_gi = gi;  }
+        Graph(GraphInfo &gi): m_gi(gi) {}
 
         protected:
         std::vector<String> m_numberLabel;

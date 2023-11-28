@@ -15,7 +15,6 @@ namespace OpenGL
 	{
 		public:
 		OpenGL_Win(WindowInfo &wi, Abs::Application *targetApp);
-
 		~OpenGL_Win();
 		
 		inline static GLFWwindow* GetWindow() {	return m_window;	}

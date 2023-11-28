@@ -1,7 +1,5 @@
 #pragma once
 
-#include<iostream>
-
 #include"./Types.h"
 #include"./SVec.hpp"
 
@@ -50,6 +48,7 @@ namespace Abs
 		virtual void Unbind() = 0;
 
         SVec<T> m_data;
+		uint m_id;
     };
 
     class VertexArrayObject
@@ -62,6 +61,7 @@ namespace Abs
         void UpdateFormat(BufferFormat bf) {    m_format = bf;  }
 
 		BufferFormat m_format;
+		uint m_id;
 
 		uint getMask(uint maskFormat) { return m_format & maskFormat;   }
     };

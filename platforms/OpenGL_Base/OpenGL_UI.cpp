@@ -50,42 +50,6 @@ namespace OpenGL
         renderText();
     }
 
-    // void OpenGL_UI::DispatchMouseEvents(dVec2 mouRef, int mouCode)
-    // {
-    //     // Normalize mouseRefernce position
-	// 	OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(m_targetWindow.GetWindow());
-    //     iVec2 winSize = win->GetWindowSize();
-
-    //     dVec2 normalizeMouPos = dVec2((mouRef.x-(winSize.x/2.0))/(winSize.x/2.0),(-mouRef.y+(winSize.y/2.0))/(winSize.y/2.0));
-    //     m_isSubscriberActive = false;
-    //     // m_mouseEventQueue.DispatchEvents(mouRef, keyCode);
-    //     for(int i=0;i<m_btnList.size();i++)
-    //     {
-    //         m_btnList[i]->OnClick(normalizeMouPos, mouCode);
-    //     }
-    //     for(int i=0;i<m_inpFieldList.size();i++)
-    //     {
-    //         if(m_inpFieldList[i]->OnClick(normalizeMouPos, mouCode))
-    //         {
-    //             m_isSubscriberActive = true;
-    //             m_targetWindow.SetKeySubscriber(m_inpFieldList[i]->GetRawText());
-    //         }
-    //     }
-    //     if(!m_isSubscriberActive)
-    //     {
-    //         m_targetWindow.SetKeySubscriber(nullptr);
-    //     }
-    // }
-
-    // void OpenGL_UI::DispatchKeyboardEvent(int keyCode)
-    // {
-    //     m_lastKeyValue += char(keyCode);
-    //     if(m_keySubscriber!=nullptr)
-    //     {
-    //         *m_keySubscriber = String(m_lastKeyValue);
-    //     }
-    // }
-
     dVec2 OpenGL_UI::normalizeMouPos(dVec2 mouPos)
     {
         OpenGL_Win *temp = (OpenGL_Win*)m_targetWindow;
@@ -140,10 +104,6 @@ namespace OpenGL
     void OpenGL_UI::updateBuffer(String id)
     {
         getVBOFromMap(id);
-        // for(int i=0;i<m_UIVBO.m_data.GetCount();i++)
-        // {
-        //     std::cout << *(m_UIVBO.GetVertexData() + i) << "<-\t";
-        // }
         m_UIVBO.LoadBuffer();
         updateTriangleCount();
     }

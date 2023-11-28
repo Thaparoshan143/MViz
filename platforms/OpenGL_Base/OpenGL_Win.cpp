@@ -116,7 +116,6 @@ namespace OpenGL
 	{
 		m_lastStringScan += char(charKey);
 		*m_keySubscriber = m_lastStringScan;
-		// std::cout << m_lastStringScan << std::endl;
 	}
 
 
@@ -129,35 +128,22 @@ namespace OpenGL
         {
             Abs::MouseButtonPressedEvent mbpressed((Abs::MouseCode(button)));
 			UI->DispatchMouseEvents(win->m_mouPos, button);
-			#if DEBUG_LOG
-            std::cout << "Mouse button pressed!!\n";
-			#endif
         }
         else if(action == GLFW_RELEASE)
         {
             Abs::MouseButtonReleasedEvent mbreleased((Abs::MouseCode(button)));
-			#if DEBUG_LOG
-            std::cout << "Mouse button released!!\n";
-			#endif
         }
     }
 
 	static void static_mouse_scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 	{
-		#if DEBUG_LOG
-		std::cout << "Mouse scrolled : " << std::endl;
-		std::cout << "XOffset : " << xoffset << "\nYOffset : " << yoffset << std::endl;
-		#endif
+
 	}
 
 	static void static_mouse_position_callback(GLFWwindow *window, double xpos, double ypos)
 	{
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
 		win->m_mouPos = dVec2(xpos, ypos);
-		#if DEBUG_LOG
-		std::cout << "Mouse moved : " << std::endl;
-		std::cout << "X : " << xpos << "\nY : " << ypos << std::endl;
-		#endif
 	}
 
 	static void static_key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
@@ -170,26 +156,22 @@ namespace OpenGL
 			{
 				win->listenActiveKeyInterrupts(key, mods);
 			}
-			#if DEBUG_LOG
-			std::cout << "Key pressed!! - " << char(key) << std::endl;
-			#endif
 		}
 		else if(action == GLFW_RELEASE)
 		{
 			Abs::KeyButtonReleasedEvent kbreleased(key);
-			#if DEBUG_LOG
-			std::cout << "Key released!! - " << char(key) << std::endl;
-			#endif
 		}
 	}
 
 	static void static_charkey_callback(GLFWwindow *window, uint charKey)
 	{
 		OpenGL_Win *win = (OpenGL_Win*)glfwGetWindowUserPointer(window);
+		OpenGL_UI *UI = (OpenGL_UI*)win->m_targetApp->GetReference(Abs::AppRef::UI);
 		if(win->m_keySubscriber!=nullptr)
 		{
 			std::cout << "Subscriber text - " << *win->m_keySubscriber << std::endl;
 			win->listenActiveKeyInterrupts(charKey);
+			UI->m_keySubscriber->OnFieldChange();
 		}
 	}
 

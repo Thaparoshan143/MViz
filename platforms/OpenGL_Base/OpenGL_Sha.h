@@ -10,8 +10,6 @@
 
 #include"../../Core/Base/Shader.h"
 
-typedef glm::fmat4 fMat4;
-
 namespace OpenGL
 {
 	class OpenGL_Sha : public Abs::Shader

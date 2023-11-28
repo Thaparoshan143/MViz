@@ -23,7 +23,6 @@ namespace OpenGL
         OpenGL_VertBuffObj m_VBO;
         uint m_textShaderID, m_graphShaderID;
         OpenGL_Win &m_target;
-        // FreetypeText *m_number;
         std::vector<FreetypeText*> m_labelList;
         String m_lastExpression;
         int m_range;

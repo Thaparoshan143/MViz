@@ -1,6 +1,3 @@
-// Macro to solve the conflict of double including of vertgenerator.hpp file (that is just for generating random vertx to draw now in testing..)
-#define VERTGENERATOR_HPP
-
 #include"OpenGL_App.h"
 
 namespace OpenGL
@@ -16,7 +13,6 @@ namespace OpenGL
 
 	OpenGL_App::~OpenGL_App()
 	{
-		// free all the heap allocated block for this
 		delete[] this->m_targetWindow;
 		delete[] this->m_targetUI;
 	}
@@ -46,11 +42,8 @@ namespace OpenGL
 		{
 			return (OpenGL_UI*)this->m_targetUI;
 		}
-		else
-		{
-			std::cout << "Error while passing references..." << std::endl;
-			return nullptr;
-		}
+		std::cout << "Error while passing references..." << std::endl;
+		return nullptr;
 	}
 
 	ApplicationInfo OpenGL_App::GetAppInfo()
@@ -61,7 +54,6 @@ namespace OpenGL
 	void OpenGL_App::initializeGLEnable()
 	{
 		glEnable(GL_BLEND);
-		// glEnable(GL_BACK);
 		glEnable(GL_LINE_SMOOTH); 
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}

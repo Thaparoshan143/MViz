@@ -5,9 +5,6 @@
 #include"./OpenGL_Win.h"
 #include"./OpenGL_UI.h"
 
-#define TESTING_MODE
-#include"../../Core/Base/VertGenerator.hpp"
-
 // using same info mode for both, contains width, height and the title of window
 typedef WindowInfo ApplicationInfo;
 
