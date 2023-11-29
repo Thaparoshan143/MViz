@@ -5,7 +5,7 @@
 #define DEFAULT_SCR_HEIGHT 1080
 
 // to define wether to have black (0) or white (1) background
-#define MAIN_BG 0
+#define MAIN_BG 1
 
 int GetIntFromCharPtr(const char *c)
 {

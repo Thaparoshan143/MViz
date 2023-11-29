@@ -16,7 +16,7 @@ FILE_DEPENDENCIES = glad.obj Shader.obj Window.obj Application.obj BufferObject.
 MAC_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_MAC}
 WIN_COMMAND = ${CXX} ${CFLAGS} -o ${BUILD_NAME} ${OBJ_PATH}/*.obj ${INC_PATH} ${LINKER_WIN}
 
-mviz: main.obj ${FILE_DEPENDENCIES}
+mviz: ${FILE_DEPENDENCIES} main.obj 
 ifeq (${UNAME_S}, Darwin)
 	${MAC_COMMAND}
 else

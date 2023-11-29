@@ -48,12 +48,10 @@ class MVizUI : public OpenGL::OpenGL_UI
         MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "Expression", nullptr, nullptr);
         MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0.05, 0.8, 0.1), "Submit", static_submit_expression);
         MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(0.95, 0.05, 0.05), "Clear", static_clear_expression);
-        // MvButton *expandSlot = GetNewButton(fVec2(-0.6, -0.7), fVec2(0.7, 0.15), Color(0.2), "Add Slot", static_expand_inputField);
 
         sidePanel->AttachElement(submitBtn);
         sidePanel->AttachElement(clearBtn);
         sidePanel->AttachElement(expField);
-        // sidePanel->AttachElement(expandSlot);
         
         MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.95,0.85), fVec2(0.1, 0.25), Color(1), "", nullptr);
         MvButton *toggleBtn = GetNewButton(fVec2(-0.95,0.91), fVec2(0.08, 0.1), Color(0.2), "=", static_toggle_btn);
@@ -95,7 +93,7 @@ class MVizUI : public OpenGL::OpenGL_UI
         OpenGL_UI::Render();
         if(error_status)
         {
-            m_errorText->RenderText(m_textShaderID, -0.6, 0.2, 1, Color(1,0,0), false);
+            m_errorText->RenderText(m_textShaderID, -0.6, 0.2, 0.6, Color(1,0,0), false);
         }
     }
 

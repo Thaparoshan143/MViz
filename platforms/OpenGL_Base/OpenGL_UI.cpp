@@ -54,9 +54,9 @@ namespace OpenGL
     {
         OpenGL_Win *temp = (OpenGL_Win*)m_targetWindow;
         dVec2 winDim = temp->GetWindowSize();
-        std::cout << "===> X : " << mouPos.x << " || Y : " << mouPos.y << std::endl;
+        // std::cout << "===> X : " << mouPos.x << " || Y : " << mouPos.y << std::endl;
         dVec2 _temp = dVec2((mouPos.x-(winDim.x/2.0))/(winDim.x/2.0), (-mouPos.y+(winDim.y/2.0))/(winDim.y/2.0));
-        std::cout << "***> X : " << _temp.x << " || Y : " << _temp.y << std::endl;
+        // std::cout << "***> X : " << _temp.x << " || Y : " << _temp.y << std::endl;
         return _temp;
     }
 
