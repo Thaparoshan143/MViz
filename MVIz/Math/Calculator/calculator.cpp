@@ -63,6 +63,8 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
 
     std::vector<float> result;
 
+    float last_result;
+
     for (float i = x_low; i <= x_high; i += step_size) {
         oss << "\n\t" << std::setw(15) << i << "\t\t";
 
@@ -80,13 +82,34 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
 
         Interpreter interpreter;
         ast.get()->accept(&interpreter);
-        oss << std::setw(10) << std::setprecision(3) << interpreter.Result() / y_high << std::setw(10) << interpreter.Result();
 
         if (normalize) { result.push_back(i / x_high); }
         else if (!normalize) { result.push_back(i); }
-        result.push_back(interpreter.Result() / y_high);
+
+        if (last_result > y_high && interpreter.Result() < -y_high) {   // add nan to break -infinity to infinity line
+            result.push_back(std::numeric_limits<float>::quiet_NaN());
+            oss << std::setw(10) << std::numeric_limits<float>::quiet_NaN();
+
+            if (normalize) { result.push_back(i / x_high); }
+            else if (!normalize) { result.push_back(i); }
+
+            result.push_back(-y_high);
+        } else if (last_result < -y_high && interpreter.Result() > y_high) {    // add nan to break infinity to -infinity line
+            result.push_back(std::numeric_limits<float>::quiet_NaN());
+            oss << std::setw(10) << std::numeric_limits<float>::quiet_NaN();
+
+            if (normalize) { result.push_back(i / x_high); }
+            else if (!normalize) { result.push_back(i); }
+
+            result.push_back(y_high);
+        } else {
+            result.push_back(interpreter.Result() / y_high);
+            oss << std::setw(10) << std::setprecision(3) << interpreter.Result() / y_high << std::setw(10) << interpreter.Result();
+        }
 
         text = original_text;
+
+        last_result = interpreter.Result();
     }
 
     oss << "\n";
