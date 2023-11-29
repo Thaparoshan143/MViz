@@ -5,7 +5,7 @@
 #include"./OpenGL_Buff.h"
 
 #define RANGE_MUL_FACTOR 5
-#define LABEL_COL 1
+#define LABEL_COL 0
 
 namespace OpenGL
 {

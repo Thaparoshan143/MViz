@@ -94,7 +94,6 @@ namespace OpenGL
 		{
 			std::cout << "Enter key pressed!!" << std::endl;
 			m_keySubscriber = nullptr;
-			m_lastStringScan = "";
 		}
 		else if(key==GLFW_KEY_BACKSPACE)
 		{

@@ -16,7 +16,7 @@ using MvPanel = OpenGL::OpenGL_Panel;
 using MvButton = OpenGL::OpenGL_Button;
 using MvInputField = OpenGL::OpenGL_InpField;
 
-static int zoom_level = 10;
+static int zoom_level = 5;
 static bool showSidePanel = true;
 static bool error_status = false;
 
@@ -235,9 +235,9 @@ static void static_zoom_in()
 static void static_zoom_out()
 {
     zoom_level++;
-    if(zoom_level>20)
+    if(zoom_level>10)
     {
-        zoom_level = 20;
+        zoom_level = 10;
         std::cout << "Cannot go above the given zoom level" << std::endl;
     }
 

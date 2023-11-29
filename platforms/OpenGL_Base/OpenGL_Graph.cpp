@@ -26,7 +26,7 @@ namespace OpenGL
         float *graphVert = getGraphVert(iVec2(this->m_numScale, this->m_numScale), 1);
         float *graphVertScale = getGraphVert(iVec2(this->m_numScale, this->m_numScale), 0.02);
 		float graphAxis[] = {-1, 0, 1, 0, 0, 1, 0, -1};
-		m_range = 50;
+		m_range = 25;
 		m_numberLabel.push_back(String(std::to_string(0)));
 		m_numberLabel.push_back(String(std::to_string(-m_range)));
 		m_numberLabel.push_back(String(std::to_string(m_range)));
