@@ -65,6 +65,8 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
 
     float last_result;
 
+    Logger::Log("Started Computation of Vertices...\n", Severity::Info);
+
     for (float i = x_low; i <= x_high; i += step_size) {
         oss << "\n\t" << std::setw(15) << i << "\t\t";
 
@@ -111,10 +113,12 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
 
         last_result = interpreter.Result();
     }
-
+    Logger::Log("Finished Computation of Vertices\n", Severity::Info);
     oss << "\n";
 
-    Logger::Log(oss.str(), Severity::Info);
+    Logger::SetFilepath("calclog.txt");
+    Logger::Log(oss.str(), Severity::Info, std::ios::trunc);
+    Logger::RestoreDefaultFilepath();
 
     return result;
 }

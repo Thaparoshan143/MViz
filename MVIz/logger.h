@@ -38,8 +38,9 @@ class Logger {
     public: 
         ~Logger() {}
 
-        static void Log(std::string message, Severity level) {
-            std::ofstream file(filepath, std::ios::app);
+        static void Log(std::string message, Severity level, std::ios_base::openmode mode = std::ios::app) {
+            std::ios::app;
+            std::ofstream file(filepath, mode);
 
             file << CurrentDateTime();
 
@@ -57,6 +58,10 @@ class Logger {
 
         static void SetFilepath(std::string path) {
             filepath = path;
+        }
+
+        static void RestoreDefaultFilepath() {
+            filepath = "log.txt";
         }
 
         static std::string GetFilepath() {
