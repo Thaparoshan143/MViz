@@ -48,6 +48,8 @@ std::string Lexer::fn() {
     for (int i = 0; i < 13; i++) {
         if (result == fn_names[i]){
             return result;
+        } else {
+            Error(result);
         }
     }
 

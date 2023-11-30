@@ -35,13 +35,11 @@ float Calculate(std::string text) {
 }
 
 /*
-calculates an expression's right hand side and returns a vector containing the x and 
-y values satisfying the expression.
+calculates an expression's right hand side and returns a vector containing the x and y values satisfying the expression.
 
 The `step_size` is the distance between each point in the range `x_low` to `x_high`.
 
-setting `normalize = true` returns the vector in a normalized form in the range -1 
-to 1.
+setting `normalize = true` returns the vector in a normalized form in the range -1 to 1.
 
 # Examples
 
@@ -64,6 +62,8 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
     std::vector<float> result;
 
     float last_result;
+
+    Logger::Log("Started Computation of Vertices...\n", Severity::Info);
 
     for (float i = x_low; i <= x_high; i += step_size) {
         oss << "\n\t" << std::setw(15) << i << "\t\t";
@@ -111,10 +111,12 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
 
         last_result = interpreter.Result();
     }
-
+    Logger::Log("Finished Computation of Vertices\n", Severity::Info);
     oss << "\n";
 
-    Logger::Log(oss.str(), Severity::Info);
+    Logger::SetFilepath("calclog.txt");
+    Logger::Log(oss.str(), Severity::Info, std::ios::trunc);
+    Logger::RestoreDefaultFilepath();
 
     return result;
 }
