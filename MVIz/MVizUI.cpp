@@ -45,7 +45,7 @@ class MVizUI : public OpenGL::OpenGL_UI
     void initializeUIPaint()
     {
         MvPanel *sidePanel = GetNewPanel(fVec2(-0.6, 0), fVec2(0.8, 2), Color(0.4), "Input Panel", nullptr);
-        MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "Expression", nullptr, nullptr);
+        MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "f(x) = Expression here..", nullptr, nullptr);
         MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0.05, 0.8, 0.1), "Submit", static_submit_expression);
         MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(0.95, 0.05, 0.05), "Clear", static_clear_expression);
 
@@ -221,8 +221,9 @@ static void static_zoom_in()
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     try 
     {
-        targetUI->m_graph->SetRange(zoom_level);
-        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+        targetUI->m_graph->ScaleWaveBuffer(zoom_level);
+        // targetUI->m_graph->SetRange(zoom_level);
+        // targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
     }
     catch(String err)
     {
@@ -245,8 +246,9 @@ static void static_zoom_out()
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     try 
     {
-        targetUI->m_graph->SetRange(zoom_level);
-        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+        targetUI->m_graph->ScaleWaveBuffer(zoom_level);
+        // targetUI->m_graph->SetRange(zoom_level);
+        // targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
     }
     catch(String err)
     {

@@ -18,6 +18,7 @@ namespace OpenGL
         virtual void SetExpression(String exp) = 0;
         String GetLastExpression() {    return m_lastExpression;    }
         void SetRange(int range) {  m_range = range*RANGE_MUL_FACTOR;    m_numberLabel[1] = std::to_string(-m_range);  m_numberLabel[2] = std::to_string(m_range);  m_numberLabel[3] = std::to_string(m_range);  m_numberLabel[4] = std::to_string(-m_range);   }
+        virtual void ScaleWaveBuffer(int range) = 0;
 
         protected:
         OpenGL_VertArrObj m_VAO;

@@ -9,6 +9,7 @@ class MVizGraph : public OpenGL::OpenGL_Graph
     MVizGraph(OpenGL::OpenGL_Win &target, Abs::NumberingScale numScale) : OpenGL_Graph(target, numScale)
     {
         m_waveBuffer.reserve(1024);
+        m_tempBuff.reserve(1024);
         initializeBuffers();
     }
 
@@ -36,11 +37,24 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         }
         std::cout << "Set expression called with expression : " << expression << std::endl;
         m_waveBuffer = Calculate(expression, -1 * m_range, m_range, STEP_COUNT_OFFSET, m_range, true);
+        m_tempBuff = m_waveBuffer;
+        reloadVBO();
+    }
+
+    void ScaleWaveBuffer(int range)
+    {
+        float *tempVert = &m_tempBuff[0];
+        float *waveVert = &m_waveBuffer[0];
+        for(int ind = 0;ind<m_waveBuffer.size();ind++)
+        {
+            *(waveVert+ind) = (*(tempVert+ind)) * (10.0/range);
+        }
+        SetRange(range);
         reloadVBO();
     }
 
     protected:
-    std::vector<float> m_waveBuffer;
+    std::vector<float> m_waveBuffer, m_tempBuff;
     uint m_waveShaderID;
     OpenGL::OpenGL_VertArrObj m_waveVAO;
     OpenGL::OpenGL_VertBuffObj m_waveVBO;
@@ -62,8 +76,7 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         waveSha->UseProgram();
         m_waveShaderID = waveSha->GetProgramID();
         waveSha->SetUniformVec3("fColor", Color(1, 0.5, 0.2));
-        waveSha->SetUniformMat4("modal", glm::mat4(5.0));
-        m_range = 50;
+        waveSha->SetUniformMat4("modal", glm::mat4(1.0));
         SetExpression("x^5 * (1/x^(x))");
     }
 };
