@@ -9,7 +9,6 @@ class MVizGraph : public OpenGL::OpenGL_Graph
     MVizGraph(OpenGL::OpenGL_Win &target, Abs::NumberingScale numScale) : OpenGL_Graph(target, numScale)
     {
         m_waveBuffer.reserve(1024);
-        m_tempBuff.reserve(1024);
         initializeBuffers();
     }
 
@@ -37,32 +36,31 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         }
         std::cout << "Set expression called with expression : " << expression << std::endl;
         m_waveBuffer = Calculate(expression, -1 * m_range, m_range, STEP_COUNT_OFFSET, m_range, true);
-        m_tempBuff = m_waveBuffer;
         reloadVBO();
     }
 
     void ScaleWaveBuffer(int range)
     {
-        float *tempVert = &m_tempBuff[0];
-        float *waveVert = &m_waveBuffer[0];
-        for(int ind = 0;ind<m_waveBuffer.size();ind++)
-        {
-            *(waveVert+ind) = (*(tempVert+ind)) * (10.0/range);
-        }
         SetRange(range);
         reloadVBO();
     }
 
     protected:
-    std::vector<float> m_waveBuffer, m_tempBuff;
+    std::vector<float> m_waveBuffer;
     uint m_waveShaderID;
     OpenGL::OpenGL_VertArrObj m_waveVAO;
     OpenGL::OpenGL_VertBuffObj m_waveVBO;
 
     void reloadVBO()
     {
-        float *tempVert = &m_waveBuffer[0];
-        int vertSize = m_waveBuffer.size();
+        std::vector<float> tempBuff = m_waveBuffer;
+        float *tempVert = &tempBuff[0];
+        for(int i = 0;i<tempBuff.size();i++)
+        {
+            *(tempVert+i) = *(tempVert+i) * ((RANGE_MUL_FACTOR*10.0)/(m_range));
+        }
+
+        int vertSize = tempBuff.size();
         m_waveVBO.DirectLoad(tempVert, vertSize);
     }
 
