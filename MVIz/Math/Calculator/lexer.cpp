@@ -45,7 +45,7 @@ std::string Lexer::fn() {
         Advance();
     }
 
-    for (int i = 0; i < 13; i++) {
+    for (int i = 0; i < 26; i++) {
         if (result == fn_names[i]){
             return result;
         }
@@ -112,6 +112,7 @@ void Lexer::Error(std::string msg) {
     try 
     {
         std::cout << "\nInvalid Character! " + msg;
+        throw msg;
     }
     catch(std::string err)
     {

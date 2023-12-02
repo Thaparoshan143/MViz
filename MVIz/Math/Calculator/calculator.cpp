@@ -77,41 +77,45 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
                 text.insert(j, "(" + std::to_string(i) + ")");      // parentheses is to guard the negative x values in expressions like -x^2
             }
         }
+        
+        try {
+            Lexer lexer(text);
+            Parser parser(&lexer);
+            auto ast = parser.Expression();
 
-        Lexer lexer(text);
-        Parser parser(&lexer);
-        auto ast = parser.Expression();
-
-        Interpreter interpreter;
-        ast.get()->accept(&interpreter);
-
-        if (normalize) { result.push_back(i / x_high); }
-        else if (!normalize) { result.push_back(i); }
-
-        if (last_result > y_high && interpreter.Result() < -y_high) {   // add nan to break -infinity to infinity line
-            result.push_back(std::numeric_limits<float>::quiet_NaN());
-            oss << std::setw(10) << std::numeric_limits<float>::quiet_NaN();
+            Interpreter interpreter;
+            ast.get()->accept(&interpreter);
 
             if (normalize) { result.push_back(i / x_high); }
             else if (!normalize) { result.push_back(i); }
 
-            result.push_back(-y_high);
-        } else if (last_result < -y_high && interpreter.Result() > y_high) {    // add nan to break infinity to -infinity line
-            result.push_back(std::numeric_limits<float>::quiet_NaN());
-            oss << std::setw(10) << std::numeric_limits<float>::quiet_NaN();
+            if (last_result > y_high && interpreter.Result() < -y_high) {   // add nan to break -infinity to infinity line
+                result.push_back(std::numeric_limits<float>::quiet_NaN());
+                oss << std::setw(10) << std::numeric_limits<float>::quiet_NaN();
 
-            if (normalize) { result.push_back(i / x_high); }
-            else if (!normalize) { result.push_back(i); }
+                if (normalize) { result.push_back(i / x_high); }
+                else if (!normalize) { result.push_back(i); }
 
-            result.push_back(y_high);
-        } else {
-            result.push_back(interpreter.Result() / y_high);
-            oss << std::setw(10) << std::setprecision(3) << interpreter.Result() / y_high << std::setw(10) << interpreter.Result();
+                result.push_back(-y_high);
+            } else if (last_result < -y_high && interpreter.Result() > y_high) {    // add nan to break infinity to -infinity line
+                result.push_back(std::numeric_limits<float>::quiet_NaN());
+                oss << std::setw(10) << std::numeric_limits<float>::quiet_NaN();
+
+                if (normalize) { result.push_back(i / x_high); }
+                else if (!normalize) { result.push_back(i); }
+
+                result.push_back(y_high);
+            } else {
+                result.push_back(interpreter.Result() / y_high);
+                oss << std::setw(10) << std::setprecision(3) << interpreter.Result() / y_high << std::setw(10) << interpreter.Result();
+            }
+
+            text = original_text;
+
+            last_result = interpreter.Result();
+        } catch (std::string err) {
+            throw err;
         }
-
-        text = original_text;
-
-        last_result = interpreter.Result();
     }
     Logger::Log("Finished Computation of Vertices\n", Severity::Info);
     oss << "\n";

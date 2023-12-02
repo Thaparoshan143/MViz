@@ -2,6 +2,8 @@
 #include "ast.h"
 #include <math.h>
 
+#define PI 3.14159265358979323846
+
 void Interpreter::Visit(BinOp* exp) {
     exp->children[0]->accept(this);
     double left = result;
@@ -40,24 +42,48 @@ void Interpreter::Visit(Function* func) {
         result = cos(param);
     } else if (func->token.GetValue() == "tan") {
         result = tan(param);
+    } else if (func->token.GetValue() == "cosec") {
+        result = 1 / sin(param);
+    } else if (func->token.GetValue() == "sec") {
+        result = 1 / cos(param);
+    } else if (func->token.GetValue() == "cot") {
+        result = 1 / tan(param);
     } else if (func->token.GetValue() == "sinh") {
         result = sinh(param);
     } else if (func->token.GetValue() == "cosh") {
         result = cosh(param);
     } else if (func->token.GetValue() == "tanh") {
         result = tanh(param);
+    } else if (func->token.GetValue() == "cosech") {
+        result = 1 / sinh(param);
+    } else if (func->token.GetValue() == "sech") {
+        result = 1 / cosh(param);
+    } else if (func->token.GetValue() == "coth") {
+        result = 1 / tanh(param);
     } else if (func->token.GetValue() == "asin") {
         result = asin(param);
     } else if (func->token.GetValue() == "acos") {
         result = acos(param);
     } else if (func->token.GetValue() == "atan") {
         result = atan(param);
+    } else if (func->token.GetValue() == "acosec") {
+        result = asin(1 / param);
+    } else if (func->token.GetValue() == "asec") {
+        result = acos(1 / param);
+    } else if (func->token.GetValue() == "acot") {
+        result = PI / 2 - atan(param);
     } else if (func->token.GetValue() == "asinh") {
         result = asinh(param);
     } else if (func->token.GetValue() == "acosh") {
         result = acosh(param);
     } else if (func->token.GetValue() == "atanh") {
         result = atanh(param);
+    } else if (func->token.GetValue() == "acosech") {
+        result = asinh(1 / param);
+    } else if (func->token.GetValue() == "asech") {
+        result = acosh(1 / param);
+    } else if (func->token.GetValue() == "acoth") {
+        result = atanh(1 / param);
     }
 
 }
