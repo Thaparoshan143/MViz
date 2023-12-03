@@ -66,24 +66,15 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
     float last_result;
 
     Logger::Log("Started Computation of Vertices...\n", Severity::Info);
+    std::cout << "here in calculator" << std::endl;
+    Lexer lexer(text);
+    Parser parser(&lexer);
+    auto ast = parser.Expression();
 
     for (float i = x_low; i <= x_high; i += step_size) {
         oss << "\n\t" << std::setw(15) << i << "\t\t";
-
-
-        for (int j = 0; j < text.length(); j++) {
-            if (text[j] == 'x') {
-                text.erase(j, 1);
-                text.insert(j, "(" + std::to_string(i) + ")");      // parentheses is to guard the negative x values in expressions like -x^2
-            }
-        }
         
-        try {
-            Lexer lexer(text);
-            Parser parser(&lexer);
-            auto ast = parser.Expression();
-
-            Interpreter interpreter;
+            Interpreter interpreter(i);
             ast.get()->accept(&interpreter);
 
             if (normalize) { result.push_back(i / x_high); }
@@ -113,9 +104,7 @@ std::vector<float> Calculate(std::string text, float x_low, float x_high, float 
             text = original_text;
 
             last_result = interpreter.Result();
-        } catch (std::string err) {
-            throw err;
-        }
+        
     }
     Logger::Log("Finished Computation of Vertices\n", Severity::Info);
     oss << "\n";

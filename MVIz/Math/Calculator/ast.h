@@ -60,4 +60,16 @@ class Function : public Node {
         ~Function() {}
 };
 
+class Var : public Node {
+    public: 
+        Var(Token token)
+            : Node(token) {}
+
+        void accept(Visitor* visitor) {
+            return visitor->Visit(this);
+        }
+
+        ~Var() {}
+};
+
 #endif

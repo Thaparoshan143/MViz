@@ -8,7 +8,9 @@ namespace OpenGL
 	{
 		m_targetApp = targetApp;
 		this->m_winInfo = wi;
+		m_keySubscriber = nullptr;
 		initializeOpenGLWindow(wi.width, wi.height, wi.title);
+		glViewport(0, 0, wi.width, wi.height);
 	}
 
 	OpenGL_Win::~OpenGL_Win()
@@ -152,8 +154,8 @@ namespace OpenGL
 		OpenGL_UI *UI = (OpenGL_UI*)win->m_targetApp->GetReference(Abs::AppRef::UI);
 		if(win->m_keySubscriber!=nullptr)
 		{
-			std::cout << "Subscriber text - " << *win->m_keySubscriber << std::endl;
 			win->listenActiveKeyInterrupts(charKey);
+			std::cout << "Subscriber text - " << win->m_lastStringScan << std::endl;
 			UI->m_keySubscriber->OnFieldChange();
 		}
 	}
@@ -164,7 +166,8 @@ namespace OpenGL
 
 		// for the initialize window the provided size is different that the size later provided by callback so required adjustment..
 		// Screen size has to be halfed for proper functining, once take a look why? for now leave it..
-		win->m_winInfo.width = width/2;
-		win->m_winInfo.height = height/2;
+		win->m_winInfo.width = width;
+		win->m_winInfo.height = height;
+		glViewport(0, 0, width, height);
 	}
 }

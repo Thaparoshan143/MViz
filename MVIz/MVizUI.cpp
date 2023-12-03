@@ -221,9 +221,9 @@ static void static_zoom_in()
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     try 
     {
-        targetUI->m_graph->ScaleWaveBuffer(zoom_level);
-        // targetUI->m_graph->SetRange(zoom_level);
-        // targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+        // targetUI->m_graph->ScaleWaveBuffer(zoom_level);
+        targetUI->m_graph->SetRange(zoom_level);
+        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
     }
     catch(String err)
     {
@@ -246,9 +246,9 @@ static void static_zoom_out()
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     try 
     {
-        targetUI->m_graph->ScaleWaveBuffer(zoom_level);
-        // targetUI->m_graph->SetRange(zoom_level);
-        // targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+        // targetUI->m_graph->ScaleWaveBuffer(zoom_level);
+        targetUI->m_graph->SetRange(zoom_level);
+        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
     }
     catch(String err)
     {

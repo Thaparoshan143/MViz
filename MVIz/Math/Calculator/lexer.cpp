@@ -39,13 +39,14 @@ std::string Lexer::Number() {
 }
 
 std::string Lexer::fn() {
+
     std::string result = "";
     while (current_char >= 97 && current_char <= 122) {
         result += current_char;
         Advance();
     }
 
-    for (int i = 0; i < 26; i++) {
+    for (int i = 0; i < 25; i++) {
         if (result == fn_names[i]){
             return result;
         }
@@ -76,9 +77,15 @@ Token Lexer::GetNextToken() {
             return Token(TokenType::NUM, std::to_string(exp(1))); 
         }
 
+        if (current_char == 'x' || current_char == 'X') {
+            Advance();
+            return Token(TokenType::VAR, "x");
+        }
+
         if (current_char >= 97 && current_char <= 122) {
             return Token(TokenType::FUNCTION, fn());
         }
+
         
         switch (current_char) {
             case '+':

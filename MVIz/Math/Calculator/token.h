@@ -11,6 +11,7 @@ enum TokenType {
     RPAREN,
     POW,
     FUNCTION,
+    VAR,
     EOF_TYPE
 };
 
@@ -24,6 +25,7 @@ const char* TokenNames[] = {
     "RPAREN",
     "POW",
     "FUNCTION",
+    "VAR",
     "EOF"
 };
 
@@ -36,6 +38,11 @@ class Token {
         Token(TokenType type, std::string value) : type(type), value(value) {}
         std::string GetToken() { return "Token(" + ToString(type) + ", " + value + ")"; }
         TokenType GetType() { return type; }
+        bool IsType(TokenType token_type) {
+            if (type == token_type) {
+                return true;
+            }
+        }
         std::string GetValue() { return value; }
     private:
         TokenType type;

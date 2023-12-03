@@ -57,7 +57,7 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         float *tempVert = &tempBuff[0];
         for(int i = 0;i<tempBuff.size();i++)
         {
-            *(tempVert+i) = *(tempVert+i) * ((RANGE_MUL_FACTOR*10.0)/(m_range));
+            *(tempVert+i) = *(tempVert+i) * ((RANGE_MUL_FACTOR*10.0)/m_range);
         }
 
         int vertSize = tempBuff.size();
@@ -75,6 +75,6 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         m_waveShaderID = waveSha->GetProgramID();
         waveSha->SetUniformVec3("fColor", Color(1, 0.5, 0.2));
         waveSha->SetUniformMat4("modal", glm::mat4(1.0));
-        SetExpression("x^5 * (1/x^(x))");
+        SetExpression("x");
     }
 };

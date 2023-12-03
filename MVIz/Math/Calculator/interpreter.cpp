@@ -30,6 +30,10 @@ void Interpreter::Visit(Num* num) {
     result = std::atof(num->token.GetValue().c_str());
 }
 
+void Interpreter::Visit(Var* var) {
+    result = x_var;
+}
+
 void Interpreter::Visit(Function* func) {
     func->children[0]->accept(this);
     double param = result;

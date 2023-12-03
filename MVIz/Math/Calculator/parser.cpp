@@ -23,6 +23,12 @@ std::shared_ptr<Node> Parser::Number() {
         if (token.GetType() == TokenType::NUM) {
             Consume(TokenType::NUM);
             return std::make_shared<Num>(token);
+        } else if (token.GetType() == TokenType::VAR) {
+            Consume(TokenType::VAR);
+            if (current_token.GetType() == TokenType::VAR) {
+                throw std::string("Consider using an operator between two variables.");
+            }
+            return std::make_shared<Var>(token);
         } else if (token.GetType() == TokenType::LPAREN) {
             Consume(TokenType::LPAREN);
             auto root = Expression();
@@ -59,7 +65,7 @@ std::shared_ptr<Node> Parser::Number() {
         }
         else {
             printf("Invalid Syntax: Unexpected Token!");
-            throw std::string("Invalid Token");
+            throw std::string("Invalid Symbol");
         }
     }
     catch(std::string e)

@@ -25,7 +25,7 @@ endif
 
 mviz_clean:	clean mviz
 
-main.obj: ${MVIZ_SRC_OFF}Application.cpp ${MVIZ_SRC_OFF}MVizUI.cpp ${MVIZ_SRC_OFF}MVizGraph.cpp 
+main.obj: ${MVIZ_SRC_OFF}Application.cpp ${MVIZ_SRC_OFF}MVizUI.cpp ${MVIZ_SRC_OFF}MVizGraph.cpp ${MVIZ_SRC_OFF}Math/Calculator/*.cpp
 	${ASSEMBLE_CMD} -o ${OBJ_PATH}/main.obj ${INC_PATH} ${MVIZ_SRC_OFF}Application.cpp
 
 glad.obj: ${MVIZ_SRC_OFF}glad.cpp
