@@ -1,8 +1,8 @@
 #include"../platforms/OpenGL_Base/OpenGL_App.h"
 #include"./MVizUI.cpp"
 
-#define DEFAULT_SCR_WIDTH 1920
-#define DEFAULT_SCR_HEIGHT 1080
+#define DEFAULT_SCR_WIDTH 800
+#define DEFAULT_SCR_HEIGHT 600
 
 // to define wether to have black (0) or white (1) background
 #define MAIN_BG 1

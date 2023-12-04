@@ -90,7 +90,7 @@ namespace OpenGL
                     if(tempEle->GetType()==Abs::BUTTON)
                     {
                         Abs::Button *tempButton = (Abs::Button*)tempEle;
-                        FreetypeText *tempText = new FreetypeText(*tempButton->GetRawText(Abs::UITextType::LABEL), "RaceSport");
+                        FreetypeText *tempText = new FreetypeText(*tempButton->GetRawText(Abs::UITextType::LABEL), "OpenSans");
                         m_textList.insert({tempText, tempButton->GetPos()});
                     }
                     else if(tempEle->GetType()==Abs::INPUTFIELD)

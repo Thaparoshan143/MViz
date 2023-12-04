@@ -354,6 +354,7 @@ namespace Abs
         {
             if(m_panelList.count(id)!=0)
             {
+                std::cout << "Panel found - " << id << std::endl;
                 return m_panelList[id];
             }
             std::cout << "Cannot find the item in the panel list" << std::endl;

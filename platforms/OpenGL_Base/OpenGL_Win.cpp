@@ -10,7 +10,11 @@ namespace OpenGL
 		this->m_winInfo = wi;
 		m_keySubscriber = nullptr;
 		initializeOpenGLWindow(wi.width, wi.height, wi.title);
-		glViewport(0, 0, wi.width, wi.height);
+		#ifdef __APPLE__
+			glViewport(0, 0, wi.width*2.0, wi.height*2.0);
+		#else
+			glViewport(0, 0, wi.width, wi.height);
+		#endif
 	}
 
 	OpenGL_Win::~OpenGL_Win()
@@ -166,8 +170,14 @@ namespace OpenGL
 
 		// for the initialize window the provided size is different that the size later provided by callback so required adjustment..
 		// Screen size has to be halfed for proper functining, once take a look why? for now leave it..
-		win->m_winInfo.width = width;
-		win->m_winInfo.height = height;
-		glViewport(0, 0, width, height);
+		#ifdef __APPLE__
+			win->m_winInfo.width = width/2.0;
+			win->m_winInfo.height = height/2.0;
+			glViewport(0, 0, width, height);
+		#else
+			win->m_winInfo.width = width;
+			win->m_winInfo.height = height;
+			glViewport(0, 0, wi.width, wi.height);
+		#endif
 	}
 }
