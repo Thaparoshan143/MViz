@@ -39,12 +39,6 @@ class MVizGraph : public OpenGL::OpenGL_Graph
         reloadVBO();
     }
 
-    void ScaleWaveBuffer(int range)
-    {
-        SetRange(range);
-        reloadVBO();
-    }
-
     protected:
     std::vector<float> m_waveBuffer;
     uint m_waveShaderID;

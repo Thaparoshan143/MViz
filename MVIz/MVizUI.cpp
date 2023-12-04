@@ -22,7 +22,7 @@ static bool error_status = false;
 
 // quad is made up of 6 vertices i.e two triangle so multiplied by 6
 #define QUAD_PP_RGB_VBO_COUNT 6
-static int side_ele_count = 2;
+static int side_ele_count = 1;
 
 static void static_submit_expression();
 static void static_add_expression();
@@ -56,7 +56,7 @@ class ExpressionFieldWrapper : public OpenGL::OpenGL_Panel
         }
         {
             std::vector<Abs::_InteractableUI*> eleList;
-            _InputFieldProps newFieldProps(fVec2(m_pos.x, m_pos.y + m_dim.y/4.0), fVec2(m_dim.x, m_dim.y/2.0), Color(0.2), "f(x) = Expression here..", nullptr, nullptr);
+            _InputFieldProps newFieldProps(fVec2(m_pos.x, m_pos.y + m_dim.y/4.5), fVec2(m_dim.x - m_dim.x/35.0, m_dim.y/2.0), Color(0.2), "f(x) = Expression here..", nullptr, nullptr);
             MvInputField *expField = new MvInputField(newFieldProps);
             eleList.push_back(expField);
             m_elementList.insert({eleList[0]->GetType(), eleList});
@@ -77,18 +77,13 @@ class MVizUI : public OpenGL::OpenGL_UI
     void initializeUIPaint()
     {
         MvPanel *sidePanel = GetNewPanel(fVec2(-0.6, 0), fVec2(0.8, 2), Color(0.4), "Input Panel", nullptr);
-        // MvInputField *expField = GetNewInputField(fVec2(-0.6, 0.5), fVec2(0.7, 0.2), Color(0.2), "f(x) = Expression here..", nullptr, nullptr);
-        // MvButton *submitBtn = GetNewButton(fVec2(-0.8, -0.5), fVec2(0.25, 0.15), Color(0.05, 0.8, 0.1), "Submit", static_submit_expression);
-        // MvButton *clearBtn = GetNewButton(fVec2(-0.4, -0.5), fVec2(0.25, 0.15), Color(0.95, 0.05, 0.05), "Clear", static_clear_expression);
-        MvButton *clearLast = GetNewButton(fVec2(-0.6, -0.9), fVec2(0.7, 0.15), Color(0.2), "Clear Last", static_expand_inputField);
 
-        ExpressionFieldWrapper *fieldOne = GetExpFieldWrapper(fVec2(-0.6, 0.5), fVec2(0.7, 0.35), Color(0.6), "", nullptr);
-        ExpressionFieldWrapper *fieldTwo = GetExpFieldWrapper(fVec2(-0.6, 0), fVec2(0.7, 0.35), Color(0.6), "", nullptr);
-        ExpressionFieldWrapper *fieldThree = GetExpFieldWrapper(fVec2(-0.6, -0.5), fVec2(0.7, 0.35), Color(0.6), "", nullptr);
+        ExpressionFieldWrapper *fieldOne = GetExpFieldWrapper(fVec2(-0.6, 0.4), fVec2(0.75, 0.35), Color(1), "", nullptr);
+        ExpressionFieldWrapper *fieldTwo = GetExpFieldWrapper(fVec2(-0.6, -0.1), fVec2(0.75, 0.35), Color(1), "", nullptr);
+        ExpressionFieldWrapper *fieldThree = GetExpFieldWrapper(fVec2(-0.6, -0.6), fVec2(0.75, 0.35), Color(1), "", nullptr);
         sidePanel->AttachElement(fieldOne);
         sidePanel->AttachElement(fieldTwo);
         sidePanel->AttachElement(fieldThree);
-        sidePanel->AttachElement(clearLast);
         
         MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.95,0.85), fVec2(0.1, 0.25), Color(1), "", nullptr);
         MvButton *toggleBtn = GetNewButton(fVec2(-0.95,0.91), fVec2(0.08, 0.1), Color(0.2), "=", static_toggle_btn);
@@ -270,7 +265,6 @@ static void static_zoom_in()
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     try 
     {
-        // targetUI->m_graph->ScaleWaveBuffer(zoom_level);
         targetUI->m_graph->SetRange(zoom_level);
         targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
     }
@@ -295,7 +289,6 @@ static void static_zoom_out()
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     try 
     {
-        // targetUI->m_graph->ScaleWaveBuffer(zoom_level);
         targetUI->m_graph->SetRange(zoom_level);
         targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
     }
@@ -311,35 +304,7 @@ static void static_expand_inputField()
 {
     OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
-    // MvPanel *inputPanel = (MvPanel*)targetUI->GetPanel("Input Panel");
-    // try
-    // {
-    //     Abs::_InteractableUI *lastPanel = inputPanel->m_elementList[Abs::UIElementType::PANEL].back();
-    //     std::cout << "I am after last field";
-    
-    // fVec2 newPos;
-    // if(lastPanel)
-    // {
-    //     newPos = lastPanel->GetPos();
-    //     // 0.5 offset for vertical field distance..
-    //     newPos.x += 0.5;
-    //     error_status = "";
-    // }
-    // else
-    // {
-    //     std::cout << "Can't find the last field for reference ! try again" << std::endl;
-    //     error_status = "Unable to add field";
-    // }
-    // _PanelProps newFieldProps(newPos, lastPanel->GetDim(), lastPanel->GetBgCol(), "", nullptr);
-    // ExpressionFieldWrapper *newField = new ExpressionFieldWrapper(newFieldProps);
 
-    // inputPanel->AttachElement(newField);
-    // targetUI->updateBuffer()
-    // }
-    // catch(...)
-    // {
-    //     std::cout << "Error found" << std::endl;
-    // }
 
 }
 
