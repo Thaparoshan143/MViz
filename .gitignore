@@ -3,3 +3,4 @@ builds/Exe/test.exe
 .vscode
 builds/*.obj
 builds/*.txt
+.DS_Store
