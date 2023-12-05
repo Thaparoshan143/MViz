@@ -177,7 +177,7 @@ namespace OpenGL
 		#else
 			win->m_winInfo.width = width;
 			win->m_winInfo.height = height;
-			glViewport(0, 0, wi.width, wi.height);
+			glViewport(0, 0, width, height);
 		#endif
 	}
 }
