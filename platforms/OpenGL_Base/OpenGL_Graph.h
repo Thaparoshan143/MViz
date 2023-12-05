@@ -3,6 +3,7 @@
 #include"../../Core/Base/Graph.h"
 #include"./OpenGL_Text.h"
 #include"./OpenGL_Buff.h"
+#include"./OpenGL_UI.h"
 
 #define RANGE_MUL_FACTOR 5
 #define LABEL_COL 0
@@ -15,10 +16,13 @@ namespace OpenGL
         OpenGL_Graph(OpenGL_Win &target, Abs::NumberingScale numScale);
 
         virtual void Render();
-        virtual void SetExpression(String exp) = 0;
+        virtual void SetExpression(Abs::InputField *field, String exp) = 0;
+        virtual void ReloadExpression() = 0;
         String GetLastExpression() {    return m_lastExpression;    }
         void SetRange(int range) {  m_range = range*RANGE_MUL_FACTOR;    m_numberLabel[1] = std::to_string(-m_range);  m_numberLabel[2] = std::to_string(m_range);  m_numberLabel[3] = std::to_string(m_range);  m_numberLabel[4] = std::to_string(-m_range);   }
 
+        std::map<Abs::InputField*, std::vector<float> > m_waveBuffMap;
+        std::map<Abs::InputField*, String > m_waveExpMap;
         protected:
         OpenGL_VertArrObj m_VAO;
         OpenGL_VertBuffObj m_VBO;

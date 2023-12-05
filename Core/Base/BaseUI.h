@@ -340,6 +340,7 @@ namespace Abs
                         {
                             std::cout << "Subscriber found !" << std::endl;
                             m_keySubscriber = temp;
+                            m_lastKeySubscriber = m_keySubscriber;
                         }
                     }
                 }
@@ -361,9 +362,11 @@ namespace Abs
             return nullptr;
         }
 
+        InputField* GetLastKeySubscriber()  {   return m_lastKeySubscriber; }
+
         // We are currently using directly input field as the subscriber and letting it be manipualted later..
         void *m_targetWindow;
-        InputField *m_keySubscriber;
+        InputField *m_keySubscriber, *m_lastKeySubscriber;
         bool m_isActive;
         std::map<String, Panel*> m_panelList;
     };

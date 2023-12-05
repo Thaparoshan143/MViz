@@ -30,7 +30,6 @@ static void static_clear_expression();
 static void static_toggle_btn();
 static void static_zoom_in();
 static void static_zoom_out();
-static void static_expand_inputField();
 static void static_save_image();
 
 class ExpressionFieldWrapper : public OpenGL::OpenGL_Panel
@@ -46,8 +45,8 @@ class ExpressionFieldWrapper : public OpenGL::OpenGL_Panel
     {
         {       
             std::vector<Abs::_InteractableUI*> eleList;
-            _ButtonProps newBtnProps(fVec2(m_pos.x-m_dim.x/4.0, m_pos.y - m_dim.y/3.50), fVec2(m_dim.x/4.0, m_dim.y/3.0), Color(0.05, 0.8, 0.1), "Add", static_add_expression);
-            _ButtonProps newBtnClearProps(fVec2(m_pos.x+m_dim.x/4.0, m_pos.y - m_dim.y/3.50), fVec2(m_dim.x/4.0, m_dim.y/3.0), Color(0.95, 0.05, 0.05), "Clear", static_clear_expression);
+            _ButtonProps newBtnProps(fVec2(m_pos.x-m_dim.x/4.0, m_pos.y - (m_dim.y/2.0) - 0.1), fVec2(m_dim.x/4.0, 0.15), Color(0), "Add", static_add_expression);
+            _ButtonProps newBtnClearProps(fVec2(m_pos.x+m_dim.x/4.0, m_pos.y - (m_dim.y/2.0) - 0.1), fVec2(m_dim.x/4.0, 0.15), Color(0), "Clear", static_clear_expression);
             MvButton *addBtn = new MvButton(newBtnProps);
             MvButton *clearBtn = new MvButton(newBtnClearProps);
             eleList.push_back(addBtn);
@@ -56,12 +55,18 @@ class ExpressionFieldWrapper : public OpenGL::OpenGL_Panel
         }
         {
             std::vector<Abs::_InteractableUI*> eleList;
-            _InputFieldProps newFieldProps(fVec2(m_pos.x, m_pos.y + m_dim.y/4.5), fVec2(m_dim.x - m_dim.x/35.0, m_dim.y/2.0), Color(0.2), "f(x) = Expression here..", nullptr, nullptr);
-            MvInputField *expField = new MvInputField(newFieldProps);
-            eleList.push_back(expField);
+            _InputFieldProps newFieldProps1(fVec2(m_pos.x, m_pos.y + m_dim.y/3), fVec2(m_dim.x - m_dim.x/35.0, m_dim.y/6.0), Color(0.2), "f(x) = Expression one here..", nullptr, nullptr);
+            _InputFieldProps newFieldProps2(fVec2(m_pos.x, m_pos.y), fVec2(m_dim.x - m_dim.x/35.0, m_dim.y/6.0), Color(0.2), "f(x) = Expression two here..", nullptr, nullptr);
+            _InputFieldProps newFieldProps3(fVec2(m_pos.x, m_pos.y - m_dim.y/3), fVec2(m_dim.x - m_dim.x/35.0, m_dim.y/6.0), Color(0.2), "f(x) = Expression three here..", nullptr, nullptr);
+            MvInputField *expField1 = new MvInputField(newFieldProps1);
+            MvInputField *expField2 = new MvInputField(newFieldProps2);
+            MvInputField *expField3 = new MvInputField(newFieldProps3);
+            eleList.push_back(expField1);
+            eleList.push_back(expField2);
+            eleList.push_back(expField3);
             m_elementList.insert({eleList[0]->GetType(), eleList});
         }
-        side_ele_count += 4;
+        side_ele_count += 6;
     }
 };
 
@@ -78,12 +83,8 @@ class MVizUI : public OpenGL::OpenGL_UI
     {
         MvPanel *sidePanel = GetNewPanel(fVec2(-0.6, 0), fVec2(0.8, 2), Color(0.4), "Input Panel", nullptr);
 
-        ExpressionFieldWrapper *fieldOne = GetExpFieldWrapper(fVec2(-0.6, 0.4), fVec2(0.75, 0.35), Color(1), "", nullptr);
-        ExpressionFieldWrapper *fieldTwo = GetExpFieldWrapper(fVec2(-0.6, -0.1), fVec2(0.75, 0.35), Color(1), "", nullptr);
-        ExpressionFieldWrapper *fieldThree = GetExpFieldWrapper(fVec2(-0.6, -0.6), fVec2(0.75, 0.35), Color(1), "", nullptr);
+        ExpressionFieldWrapper *fieldOne = GetExpFieldWrapper(fVec2(-0.6, 0), fVec2(0.75, 1), Color(0.6), "", nullptr);
         sidePanel->AttachElement(fieldOne);
-        sidePanel->AttachElement(fieldTwo);
-        sidePanel->AttachElement(fieldThree);
         
         MvPanel *toggleWrapper = GetNewPanel(fVec2(-0.95,0.85), fVec2(0.1, 0.25), Color(1), "", nullptr);
         MvButton *toggleBtn = GetNewButton(fVec2(-0.95,0.91), fVec2(0.08, 0.1), Color(0.2), "=", static_toggle_btn);
@@ -125,7 +126,7 @@ class MVizUI : public OpenGL::OpenGL_UI
         OpenGL_UI::Render();
         if(error_status)
         {
-            m_errorText->RenderText(m_textShaderID, -0.6, 0.2, 0.6, Color(1,0,0), false);
+            m_errorText->RenderText(m_textShaderID, -0.6, -0.8, 0.6, Color(1,0,0), false);
         }
     }
 
@@ -185,6 +186,7 @@ class MVizUI : public OpenGL::OpenGL_UI
     String m_errorCode;
 
     friend void static_submit_expression();
+    friend void static_add_expression();
     friend void static_toggle_btn();
     friend void static_zoom_in();
     friend void static_zoom_out();
@@ -199,7 +201,7 @@ static void static_submit_expression()
     MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
     try
     {
-        targetUI->m_graph->SetExpression(targetWindow->m_lastStringScan);
+        targetUI->m_graph->SetExpression(targetUI->GetLastKeySubscriber(), targetWindow->m_lastStringScan);
         targetUI->m_errorCode = "";
         error_status = false;
     }
@@ -221,15 +223,51 @@ static void static_submit_expression()
 
 static void static_add_expression()
 {
-    std::cout << "Adding expression" << std::endl;
+    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    Abs::InputField *activeField = targetUI->GetLastKeySubscriber();
+    if(activeField)
+    {
+        try
+        {
+            targetUI->m_graph->SetExpression(activeField, targetWindow->m_lastStringScan);
+            targetUI->m_errorCode = "";
+            error_status = false;
+        }
+        catch(String err)
+        {
+            if(err=="TokenType Mismatch")
+            {
+                std::cout << err + " !! Try again" << std::endl;
+            }
+            else
+            {
+                std::cout << err + " !! Try again" << std::endl;
+            }
+            std::cout << err << std::endl;
+            targetUI->m_errorCode = err;
+            error_status = true;
+        }
+    }
+    else
+    {
+        std::cout << "No last active subscriber" << std::endl;
+    }
 }
 
 static void static_clear_expression()
 {
     OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
-    if(targetWindow->m_keySubscriber!=nullptr)
+    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
+    Abs::InputField *activeField = targetUI->GetLastKeySubscriber();
+
+    if(activeField)
     {
-        targetWindow->m_keySubscriber->clear();
+        activeField->m_fieldText.clear();
+        MVizGraph *graph = (MVizGraph*)targetUI->m_graph;
+        graph->m_waveBuffMap[activeField].clear();
+        graph->m_waveExpMap[activeField].clear();
+        graph->ReloadExpression();
     }
 }
 
@@ -266,7 +304,8 @@ static void static_zoom_in()
     try 
     {
         targetUI->m_graph->SetRange(zoom_level);
-        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+        // targetUI->m_graph->SetExpression(targetUI->GetLastKeySubscriber(), targetUI->m_graph->GetLastExpression());
+        targetUI->m_graph->ReloadExpression();
     }
     catch(String err)
     {
@@ -290,7 +329,8 @@ static void static_zoom_out()
     try 
     {
         targetUI->m_graph->SetRange(zoom_level);
-        targetUI->m_graph->SetExpression(targetUI->m_graph->GetLastExpression());
+        // targetUI->m_graph->SetExpression(targetUI->GetLastKeySubscriber(), targetUI->m_graph->GetLastExpression());
+        targetUI->m_graph->ReloadExpression();
     }
     catch(String err)
     {
@@ -298,14 +338,6 @@ static void static_zoom_out()
         zoom_level--;
         return;
     }
-}
-
-static void static_expand_inputField()
-{
-    OpenGL::OpenGL_Win *targetWindow = (OpenGL::OpenGL_Win*)glfwGetWindowUserPointer(OpenGL::OpenGL_Win::GetWindow());    
-    MVizUI *targetUI = (MVizUI*)targetWindow->m_targetApp->GetReference(Abs::AppRef::UI);
-
-
 }
 
 static String getCurrentDateTimeString()
