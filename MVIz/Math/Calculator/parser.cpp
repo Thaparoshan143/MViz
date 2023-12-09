@@ -27,6 +27,8 @@ std::shared_ptr<Node> Parser::Number() {
             Consume(TokenType::VAR);
             if (current_token.GetType() == TokenType::VAR) {
                 throw std::string("Consider using an operator between two variables.");
+            } else if (current_token.GetType() == TokenType::NUM) {
+                throw std::string("Consider using an operator after x.");
             }
             return std::make_shared<Var>(token);
         } else if (token.GetType() == TokenType::LPAREN) {
@@ -101,7 +103,8 @@ std::shared_ptr<Node> Parser::Term() {
 
     while (current_token.GetType() == TokenType::MUL
             || current_token.GetType() == TokenType::DIV
-            || current_token.GetType() == TokenType::LPAREN) {
+            || current_token.GetType() == TokenType::LPAREN
+            || current_token.GetType() == TokenType::VAR) {
         auto token = current_token;
 
         if (token.GetType() == TokenType::MUL) {
@@ -110,6 +113,14 @@ std::shared_ptr<Node> Parser::Term() {
             Consume(TokenType::DIV);
         } else if (token.GetType() == TokenType::LPAREN) {
             token = Token(TokenType::MUL, "*");
+        } else if (token.GetType() == TokenType::VAR) {
+            Consume(TokenType::VAR);
+            auto left = root;
+            auto right = std::make_shared<Var>(token);
+            root = std::make_shared<BinOp>(Token(TokenType::MUL, "*"));
+            root->AddChild(left);
+            root->AddChild(right);
+            return root;
         }
 
         auto left = root;
